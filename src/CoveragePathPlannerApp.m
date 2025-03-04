@@ -5,8 +5,12 @@
 %   同时，新增了 dubins 路径规划避障算法相关设置，以及 TCP 设置和数据发送功能。
 %
 % 作者信息：
+%   作者：Chihong（游子昂）
+%   邮箱：you.ziang@hrbeu.edu.cn
 %   作者：dongxingan（董星犴）
 %   邮箱：1443123118@qq.com
+%   作者：陶奥飞
+%   邮箱：taoaofei@gmail.com
 %   单位：哈尔滨工程大学
 %
 % 版本信息：
