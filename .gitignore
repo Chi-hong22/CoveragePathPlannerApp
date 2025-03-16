@@ -2,6 +2,7 @@
 # target/
 # build/
 # bin/
+slprj/
 
 # 忽略特定类型文件
 *.slxc
