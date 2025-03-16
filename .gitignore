@@ -1,0 +1,11 @@
+# 忽略整个文件夹
+# target/
+# build/
+# bin/
+
+# 忽略特定类型文件
+*.slxc
+# *.tmp
+
+# 例外规则（不忽略特定文件）
+# !build/important.txt

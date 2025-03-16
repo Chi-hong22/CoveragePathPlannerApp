@@ -21,9 +21,13 @@
     %   2. 该函数会更新UI界面中的标签。
     %
     % 版本信息：
-    %   版本：v1.1
+    %   版本：v1.2
     %   创建日期：241101
-    %   最后修改：250110
+    %   最后修改：250316
+    % 版本历史：
+    %   v1.0 (241101) - 初始版本
+    %   v1.1 (250110) - 优化代码
+    %   v1.2 (250316) - 修改direction参数无效的情况
     %
     % 作者信息：
     %   作者：游子昂
@@ -31,6 +35,9 @@
     %   单位：哈尔滨工程大学
 
 function waypoints = generateCombPath(app, startPoint, lineSpacing, pathWidth, numLines, direction,radius)
+    % 处理direction参数，删除所有空格
+    direction = strrep(direction, ' ', '');
+    
     % 初始化waypoints数组
     totalPoints = numLines * 2;  % 每条线有起点和终点
     waypoints = zeros(totalPoints, 4);
