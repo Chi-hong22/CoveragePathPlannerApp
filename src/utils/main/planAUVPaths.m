@@ -98,7 +98,7 @@ function planAUVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
         hold on;
     end
 
-    result_no_duplicates = plotTrajCoop(Coop_State,ObsInfo,Property,1,1);            
+    result_no_duplicates = plotTrajCoop(Coop_State,ObsInfo,Property,1);            
 
     app.SendLocalTCPButton.Enable = 'on';
     app.GenerateButton.Enable = 'on';
