@@ -35,7 +35,7 @@
     %   单位：哈尔滨工程大学
 
 function waypoints = generateCombPath(app, startPoint, lineSpacing, pathWidth, numLines, direction,radius)
-    % 处理direction参数，删除所有空格
+    % 删除方向参数中的所有空格
     direction = strrep(direction, ' ', '');
     
     % 初始化waypoints数组
