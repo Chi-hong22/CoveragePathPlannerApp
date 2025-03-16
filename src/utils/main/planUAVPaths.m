@@ -46,7 +46,7 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
         return;
     end
 
-    % 初始化数据
+    %% 初始化数据
     Property.obs_last=0;                                                % 记录当前轨迹规划期间避开的障碍物
     Property.invasion=0;                                                % 记录轨迹规划期间是否有任何侵入障碍物（威胁区域）
     Property.mode=1;                                                    % 设置轨迹生成模式 1: 最短路径; 2: 常规路径
@@ -104,99 +104,10 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
     end
 
 
-    Plot_Traj_Coop(Coop_State,ObsInfo,Property,1,1);                    % 绘制协作路径规划结果
+    result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,1);                    % 绘制协作路径规划结果
     % app.drawPathsButton.Enable = 'on';
     app.SendLocalTCPButton.Enable = 'on';
     app.GenerateButton.Enable = 'on';
-
-    % 路径点简化脚本
-    % 从工作区读取路径点数据
-    path = evalin('base', 'result_no_duplicates');
-
-    % 转换为数值矩阵（如果是表格）
-    if istable(path)
-        path = table2array(path);
-    end
-
-    % 检查输入数据的有效性
-    if isempty(path) || size(path, 1) < 2
-        warning('路径点数据不足，无法简化');
-        return;
-    end
-
-    % 初始化简化后的路径
-    simplified_path = [path(1, :)];
-
-    % 遍历路径点
-    for i = 2 : size(path, 1) - 1
-        % 当前点
-        current_point = path(i, :);
-        % 下一个点
-        next_point = path(i+1, :);
-        % 上一个保留点
-        last_simplified_point = simplified_path(end, :);
-        
-        % 条件1：横坐标相同，纵坐标不同，与上一个点纵坐标相同，横坐标不同
-        condition1 = (current_point(1) == next_point(1)) && ...
-                    (current_point(2) ~= next_point(2)) && ...
-                    (last_simplified_point(2) == current_point(2)) && ...
-                    (last_simplified_point(1) ~= current_point(1));
-        
-        % 条件2：横坐标不同，纵坐标相同，与上一个点纵坐标不同，横坐标相同
-        condition2 = (current_point(1) ~= next_point(1)) && ...
-                    (current_point(2) == next_point(2)) && ...
-                    (last_simplified_point(2) ~= current_point(2)) && ...
-                    (last_simplified_point(1) == current_point(1));
-        
-        % 条件3：横坐标和纵坐标都不同，与上一个点纵坐标不同，横坐标不同
-        condition3 = (current_point(1) ~= next_point(1)) && ...
-                    (current_point(2) ~= next_point(2)) && ...
-                    (last_simplified_point(2) ~= current_point(2)) && ...
-                    (last_simplified_point(1) ~= current_point(1));
-        
-        % 条件4：横坐标相同，纵坐标不同，与上一个点纵坐标不同，横坐标不同
-        condition4 = (current_point(1) == next_point(1)) && ...
-                    (current_point(2) ~= next_point(2)) && ...
-                    (last_simplified_point(2) ~= current_point(2)) && ...
-                    (last_simplified_point(1) ~= current_point(1));
-        
-        % 条件5：横坐标不同，纵坐标相同，与上一个点纵坐标不同，横坐标不同
-        condition5 = (current_point(1) ~= next_point(1)) && ...
-                    (current_point(2) == next_point(2)) && ...
-                    (last_simplified_point(2) ~= current_point(2)) && ...
-                    (last_simplified_point(1) ~= current_point(1));
-        
-        % 条件6：横坐标不同，纵坐标不同，与上一个点纵坐标相同，横坐标不同
-        condition6 = (current_point(1) ~= next_point(1)) && ...
-                    (current_point(2) ~= next_point(2)) && ...
-                    (last_simplified_point(2) == current_point(2)) && ...
-                    (last_simplified_point(1) ~= current_point(1));
-        
-        % 条件7：横坐标不同，纵坐标不同，与上一个点纵坐标不同，横坐标相同
-        condition7 = (current_point(1) ~= next_point(1)) && ...
-                    (current_point(2) ~= next_point(2)) && ...
-                    (last_simplified_point(2) ~= current_point(2)) && ...
-                    (last_simplified_point(1) == current_point(1));
-        
-        % 如果满足任一条件，保留当前点
-        if condition1 || condition2 || condition3 || condition4 || condition5 || condition6 || condition7
-            simplified_path = [simplified_path; current_point];
-        end
-    end
-
-    % 添加终止点
-    simplified_path = [simplified_path; path(end, :)];
-
-    % 将简化后的路径存回工作区
-    assignin('base', 'result_no_duplicates', simplified_path);
-
-    % 从工作区获取路径数据
-    try
-        result_no_duplicates = evalin('base', 'result_no_duplicates');
-    catch
-        errordlg('工作区中未找到路径数据', '错误');
-        return;
-    end
 
     % 假设CSV文件中的数据是多列，每两列代表一条路径的x和y坐标
     numPaths = size(result_no_duplicates, 2) / 2; % 计算路径数量

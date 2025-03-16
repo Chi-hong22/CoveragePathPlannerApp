@@ -22,7 +22,7 @@
 %   邮箱：1443123118@qq.com
 %   单位：哈尔滨工程大学
 
-function Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag,demo)
+function result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag)
     %% 初始化信息 
     [~,n]=size(Coop_State);
     scale=Property.scale;                                               % 设置绘图比例
@@ -92,22 +92,19 @@ function Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag,demo)
     valid_data = temp_data(valid_idx, :);
 
     % 删除重复的行并保持顺序
-    result = unique(valid_data, 'rows', 'stable');
-
-    % 将结果保存到工作区
-    assignin('base', 'result_no_duplicates', result);
+    result_no_duplicates = unique(valid_data, 'rows', 'stable');
 
     %% 设置图形参数
-    set(gca,'FontName','Times New Roman','FontSize',12);
-    xlabel('$X/m$','Interpreter','latex');
-    ylabel('$Y/m$','Interpreter','latex');
-    zlabel('$Y/m$','Interpreter','latex');
-    grid on;
-    box on;
-    L=legend([l1,l2,o1],{'协作路径',...
-        '备选路径','威胁区域'});
-    L.Location='northeast';
-    L.FontSize=12;
+    % set(gca,'FontName','Times New Roman','FontSize',12);
+    % xlabel('$X/m$','Interpreter','latex');
+    % ylabel('$Y/m$','Interpreter','latex');
+    % zlabel('$Y/m$','Interpreter','latex');
+    % grid on;
+    % box on;
+    % L=legend([l1,l2,o1],{'协作路径',...
+    %     '备选路径','威胁区域'});
+    % L.Location='northeast';
+    % L.FontSize=12;
 
 end
 
