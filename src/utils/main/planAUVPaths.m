@@ -14,11 +14,9 @@
 % 版本信息：
 %   当前版本：v1.2
 %   创建日期：241101
-%   最后修改：250110
+%   最后修改：250316
 %
 % 作者信息：
-%   作者：Chihong（游子昂）
-%   邮箱：you.ziang@hrbeu.edu.cn
 %   作者：Chihong（游子昂）
 %   邮箱：you.ziang@hrbeu.edu.cn
 %   作者：董星犴
@@ -100,18 +98,10 @@ function planAUVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
         hold on;
     end
 
-    plotTrajCoop(Coop_State,ObsInfo,Property,1,1);            
+    result_no_duplicates = plotTrajCoop(Coop_State,ObsInfo,Property,1,1);            
 
     app.SendLocalTCPButton.Enable = 'on';
     app.GenerateButton.Enable = 'on';
-    
-    % 从工作区获取路径数据
-    try
-        result_no_duplicates = evalin('base', 'result_no_duplicates');
-    catch
-        errordlg('工作区中未找到路径数据', '错误');
-        return;
-    end
 
     % 假设数据是多列，每两列代表一条路径的x和y坐标
     numPaths = size(result_no_duplicates, 2) / 2; % 计算路径数量

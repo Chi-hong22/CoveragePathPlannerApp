@@ -8,12 +8,14 @@
 %   ObsInfo    - 障碍物信息矩阵
 %   Property   - 路径规划参数结构体
 %   flag       - 绘制备选路径的选项，0: 不绘制；1: 绘制
-%   demo       - 示例索引
+%
+% 输出参数：
+%   result_no_duplicates - 包含所有路径点的无重复矩阵，每行为[x,y]坐标
 %
 % 版本信息：
 %   当前版本：v1.1
 %   创建日期：241101
-%   最后修改：250110
+%   最后修改：250316
 %
 % 作者信息：
 %   作者：Chihong（游子昂）
@@ -22,7 +24,7 @@
 %   邮箱：1443123118@qq.com
 %   单位：哈尔滨工程大学
 
-function plotTrajCoop(Coop_State,ObsInfo,Property,flag,demo)
+function result_no_duplicates = plotTrajCoop(Coop_State,ObsInfo,Property,flag)
     %% 初始化信息 
     [~,n]=size(Coop_State);
     scale=Property.scale;                                               % 设置绘图比例
@@ -92,10 +94,7 @@ function plotTrajCoop(Coop_State,ObsInfo,Property,flag,demo)
     valid_data = temp_data(valid_idx, :);
 
     % 删除重复的行并保持顺序
-    result = unique(valid_data, 'rows', 'stable');
-
-    % 将结果保存到工作区
-    assignin('base', 'result_no_duplicates', result);
+    result_no_duplicates = unique(valid_data, 'rows', 'stable');
 
     %% 设置图形参数
     set(gca,'FontName','Times New Roman','FontSize',12);

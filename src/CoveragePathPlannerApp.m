@@ -314,7 +314,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             
             app.dubinsnlEditField = uieditfield(app.dubinsPanel, 'numeric');
             app.dubinsnlEditField.Position = [165 70 110 22];
-            app.dubinsnlEditField.Value = 2;
+            app.dubinsnlEditField.Value = 50;
             app.dubinsnlEditField.HorizontalAlignment = 'center';
             
             app.dubinsnfLabel = uilabel(app.dubinsPanel);
