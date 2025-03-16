@@ -10,3 +10,6 @@ slprj/
 
 # 例外规则（不忽略特定文件）
 # !build/important.txt
+
+# 忽略文件
+circlesInformation.mat

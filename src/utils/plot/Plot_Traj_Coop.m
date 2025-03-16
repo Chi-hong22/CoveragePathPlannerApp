@@ -22,12 +22,13 @@
 %   邮箱：1443123118@qq.com
 %   单位：哈尔滨工程大学
 
-function result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag)
+function simplified_result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag)
     %% 初始化信息 
     [~,n]=size(Coop_State);
     scale=Property.scale;                                               % 设置绘图比例
     px=zeros(1,2*n);
     py=zeros(1,2*n);
+    clf;                                                               % 清除当前图窗
     figure;
     hold on;
 
@@ -94,6 +95,46 @@ function result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag)
     % 删除重复的行并保持顺序
     result_no_duplicates = unique(valid_data, 'rows', 'stable');
 
+    %% 简化路径
+    % 初始化路径数据矩阵,先放入起点
+    simplified_result_no_duplicates = [result_no_duplicates(1, :)];
+
+
+    % 遍历路径点
+    for i = 2 : size(result_no_duplicates, 1) - 1
+        % 当前点
+        current_point = result_no_duplicates(i, :);
+        % 前一个点
+        prev_point = result_no_duplicates(i-1, :);
+        % 后一个点
+        next_point = result_no_duplicates(i+1, :);
+        
+        % 计算前一条线段的斜率
+        if prev_point(1) ~= current_point(1)
+            prev_slope = (current_point(2) - prev_point(2)) / (current_point(1) - prev_point(1));
+        else
+            prev_slope = Inf;
+        end
+        
+        % 计算后一条线段的斜率
+        if current_point(1) ~= next_point(1)
+            next_slope = (next_point(2) - current_point(2)) / (next_point(1) - current_point(1));
+        else
+            next_slope = Inf;
+        end
+        
+        % 判断斜率是否相同（考虑浮点数比较）
+        slope_condition = abs(prev_slope - next_slope) > 1e-10;
+        
+        % 如果斜率不同，保留当前点
+        if slope_condition
+            simplified_result_no_duplicates = [simplified_result_no_duplicates; current_point];
+        end
+    end
+    
+    % 添加终止点
+    simplified_result_no_duplicates = [simplified_result_no_duplicates; result_no_duplicates(end, :)];
+
     %% 设置图形参数
     % set(gca,'FontName','Times New Roman','FontSize',12);
     % xlabel('$X/m$','Interpreter','latex');
@@ -105,6 +146,5 @@ function result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,flag)
     %     '备选路径','威胁区域'});
     % L.Location='northeast';
     % L.FontSize=12;
-
 end
 

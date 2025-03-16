@@ -13,7 +13,7 @@
     %   dubinsNl - Dubins路径直线段的离散点数
     %   dubinsNf - Dubins路径结束段的离散点数
     %
-    % 输出参数：
+    % 输出参数： 
     %   pathPlanning - 生成的路径规划结果
     %
     % 注意事项：
@@ -108,6 +108,9 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
     % app.drawPathsButton.Enable = 'on';
     app.SendLocalTCPButton.Enable = 'on';
     app.GenerateButton.Enable = 'on';
+
+    % 清除UIAxes2上的所有图形元素
+    cla(app.UIAxes2);
 
     % 假设CSV文件中的数据是多列，每两列代表一条路径的x和y坐标
     numPaths = size(result_no_duplicates, 2) / 2; % 计算路径数量
