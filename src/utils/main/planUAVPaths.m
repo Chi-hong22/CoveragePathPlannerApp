@@ -23,9 +23,11 @@
     % 版本信息：
     %   版本：v1.1
     %   创建日期：241101
-    %   最后修改：250316
+    %   最后修改：250317
     %
     % 作者信息：
+    %   作者：Chihong（游子昂）
+    %   邮箱：you.ziang@hrbeu.edu.cn
     %   作者：董星犴
     %   邮箱：1443123118@qq.com
     %   单位：哈尔滨工程大学
@@ -105,6 +107,8 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
 
 
     result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,1);                    % 绘制协作路径规划结果
+    assignin('base','result_no_duplicates',result_no_duplicates);
+
     % app.drawPathsButton.Enable = 'on';
     app.SendLocalTCPButton.Enable = 'on';
     app.GenerateButton.Enable = 'on';
