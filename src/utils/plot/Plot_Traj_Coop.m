@@ -28,7 +28,7 @@ function simplified_result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Pro
     scale=Property.scale;                                               % 设置绘图比例
     px=zeros(1,2*n);
     py=zeros(1,2*n);
-    clf;                                                               % 清除当前图窗
+    % clf;                                                               % 清除当前图窗
     figure;
     hold on;
 
