@@ -37,17 +37,6 @@ function sendTCPData(app)
         return;
     end
 
-    % % 创建TCP客户端配置
-    % try
-    %     client = tcpclient(serverIP, port);
-    %     app.TotalLengthLabelandTCP.Text = ('TCP连接成功');
-    %     app.TotalLengthLabelandTCP.FontColor = [0 0.5 0];
-    % catch tcpErr
-    %     app.TotalLengthLabelandTCP.Text = ['TCP连接失败: %s\n请检查IP地址和端口设置', tcpErr.message];
-    %     app.TotalLengthLabelandTCP.FontColor  = [0.8 0 0];
-    %     return;
-    % end 
-    % 创建TCP客户端配置
     try
         % 显示连接中状态
         app.TotalLengthLabelandTCP.Text = '正在尝试连接...';
@@ -85,6 +74,10 @@ function sendTCPData(app)
         P0 = [app.P0XEditField.Value, app.P0YEditField.Value, app.P0ZEditField.Value];
         A0 = [app.A0XEditField.Value, app.A0YEditField.Value, app.A0ZEditField.Value];
 
+        % 获取IP
+        hostIP=app.hostIPEditField.Value;
+        hPort=app.hPortEditField.Value;
+
         % 获取Waypoints和添加Z坐标列
         WPNum = size(app.Waypoints, 1);
 
@@ -107,32 +100,43 @@ function sendTCPData(app)
             error('app.Waypoints 的列数必须是 2 或 4');
         end
 
-        up=app.upEditField.Value; ... 上浮点索引
-        down=app.downEditField.Value; ... 下潜点索引
+        % 上浮索引
+        upinputStr = app.upEditField.Value;
+        % 将字符串转换为数值向量
+        try
+            upvector = str2num(upinputStr); % 使用 str2num 将字符串转换为数值
+        catch
+            uialert(app.UIFigure, '输入格式错误，请输入逗号或空格分隔的数字。', '错误');
+
+        end
         
-        % 上浮点索引超出总航程
-        if up > WPNum 
-            app.TotalLengthLabelandTCP.Text = '上浮点索引超出总航程';
-            app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
-        else
-            Waypoints(app.upEditField.Value,3)=app.DupEditField.Value;
+        for i = 1:length(upvector)
+            rowIdx = upvector(i); % 获取行索引
+            if rowIdx <= size(Waypoints, 1) % 检查行索引是否有效
+                Waypoints(rowIdx, 3) = app.DupEditField.Value; % 更新第三列
+            else
+                app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
+            end
         end
-
-        % 下潜点索引超出总航程
-        if down > WPNum
-            app.TotalLengthLabelandTCP.Text = '下潜点索引超出总航程';
-            app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
-        else
-            Waypoints(app.downEditField.Value,3)=app.DdownEditField.Value;
+        up=upvector(1);%初始上浮点索引
+        
+        % 下潜索引
+        downinputStr = app.downEditField.Value;
+        try
+            downvector = str2num(downinputStr); % 使用 str2num 将字符串转换为数值
+        catch
+            uialert(app.UIFigure, '输入格式错误，请输入逗号或空格分隔的数字。', '错误');
         end
-
-        if up > WPNum || down > WPNum
-            app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
-            app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
-        else
-            Waypoints(app.upEditField.Value,3)=app.DupEditField.Value;
-            Waypoints(app.downEditField.Value,3)=app.DdownEditField.Value;
+        
+        for i = 1:length(downvector)
+            rowIdx = downvector(i); % 获取行索引
+            if rowIdx <= size(Waypoints, 1) % 检查行索引是否有效
+                Waypoints(rowIdx, 3) = app.DdownEditField.Value; % 更新第三列
+            else
+                app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
+            end
         end
+        down=downvector(1);%初始下潜点索引
 
         z=app.ZEditField.Value;
 
@@ -161,7 +165,9 @@ function sendTCPData(app)
                                 'Tj',Tj ,...
                                 'up',up ,...
                                 'down',down, ...
-                                'z',z);
+                                'z',z, ...
+                                'hostIP',hostIP, ...
+                                'hPort',hPort);
         
         % 转换为JSON
         jsonData = jsonencode(dataStruct);

@@ -136,15 +136,15 @@ function simplified_result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Pro
     simplified_result_no_duplicates = [simplified_result_no_duplicates; result_no_duplicates(end, :)];
 
     %% 设置图形参数
-    % set(gca,'FontName','Times New Roman','FontSize',12);
-    % xlabel('$X/m$','Interpreter','latex');
-    % ylabel('$Y/m$','Interpreter','latex');
-    % zlabel('$Y/m$','Interpreter','latex');
-    % grid on;
-    % box on;
-    % L=legend([l1,l2,o1],{'协作路径',...
-    %     '备选路径','威胁区域'});
-    % L.Location='northeast';
-    % L.FontSize=12;
+    set(gca,'FontName','Times New Roman','FontSize',12);
+    xlabel('$X/m$','Interpreter','latex');
+    ylabel('$Y/m$','Interpreter','latex');
+    zlabel('$Y/m$','Interpreter','latex');
+    grid on;
+    box on;
+    L=legend([l1,l2,o1],{'协作路径',...
+        '备选路径','威胁区域'});
+    L.Location='northeast';
+    L.FontSize=12;
 end
 

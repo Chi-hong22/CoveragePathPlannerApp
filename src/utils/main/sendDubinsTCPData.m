@@ -84,6 +84,10 @@ function sendDubinsTCPData(app)
         P0 = [app.P0XEditField.Value, app.P0YEditField.Value, app.P0ZEditField.Value];
         A0 = [app.A0XEditField.Value, app.A0YEditField.Value, app.A0ZEditField.Value];
 
+        %获取IP
+        hostIP=app.hostIPEditField.Value;
+        hPort=app.hPortEditField.Value;
+
         % 获取路径点数量和处理Z坐标
         WPNum = size(result_no_duplicates, 1);
         numColumns = size(result_no_duplicates, 2);
@@ -100,36 +104,47 @@ function sendDubinsTCPData(app)
             error('路径数据的列数必须是2或4');
         end
 
-        up=app.upEditField.Value;
-        down=app.downEditField.Value;
 
-        % 上浮点索引超出总航程
-        if up > WPNum 
-            app.TotalLengthLabelandTCP.Text = '上浮点索引超出总航程';
-            app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
-        else
-            result_no_duplicates(app.upEditField.Value,3)=app.DupEditField.Value;
-        end
+        %%上浮索引
+        upinputStr = app.upEditField.Value;
+        % 将字符串转换为数值向量
+        try
+            upvector = str2num(upinputStr); % 使用 str2num 将字符串转换为数值
+        catch
+            uialert(app.UIFigure, '输入格式错误，请输入逗号或空格分隔的数字。', '错误');
 
-        % 下潜点索引超出总航程
-        if down > WPNum
-            app.TotalLengthLabelandTCP.Text = '下潜点索引超出总航程';
-            app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
-        else
-            result_no_duplicates(app.downEditField.Value,3)=app.DdownEditField.Value;
         end
         
-        if up > WPNum || down > WPNum
-            app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
-            app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
-        else
-            result_no_duplicates(app.upEditField.Value,3)=app.DupEditField.Value;
-            result_no_duplicates(app.downEditField.Value,3)=app.DdownEditField.Value;
+        for i = 1:length(upvector)
+            rowIdx = upvector(i); % 获取行索引
+            if rowIdx <= size(result_no_duplicates, 1) % 检查行索引是否有效
+                result_no_duplicates(rowIdx, 3) = app.DupEditField.Value; % 更新第三列
+            else
+                app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
+            end
         end
+        up=upvector(1);%初始上浮点索引
 
-        z=app.ZEditField.Value;
-        hostIP=app.hostIPEditField.Value;
-        hPort=app.hPortEditField.Value;
+        %%下潜索引
+        downinputStr = app.downEditField.Value;
+        try
+            downvector = str2num(downinputStr); % 使用 str2num 将字符串转换为数值
+        catch
+            uialert(app.UIFigure, '输入格式错误，请输入逗号或空格分隔的数字。', '错误');
+        end
+        
+        for i = 1:length(downvector)
+            rowIdx = downvector(i); % 获取行索引
+            if rowIdx <= size(result_no_duplicates, 1) % 检查行索引是否有效
+                result_no_duplicates(rowIdx, 3) = app.DdownEditField.Value; % 更新第三列
+            else
+                app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
+            end
+        end
+        down=downvector(1);%初始下潜点索引
+
+        z=app.ZEditField.Value;%设置深度
+
 
         % 保持原有的assignin语句
         assignin('base','z',z);

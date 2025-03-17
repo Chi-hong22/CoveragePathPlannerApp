@@ -101,10 +101,10 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         ZEditField             matlab.ui.control.NumericEditField
         ZLabel                 matlab.ui.control.Label
         ZEditFieldLabel  matlab.ui.control.Label
-         %新增上浮/下潜设置
-        upEditField             matlab.ui.control.NumericEditField
+        %新增上浮/下潜设置
+        upEditField             matlab.ui.control.EditField
         upEditFieldLabel  matlab.ui.control.Label
-        downEditField             matlab.ui.control.NumericEditField
+        downEditField             matlab.ui.control.EditField
         downEditFieldLabel  matlab.ui.control.Label
         DupEditField             matlab.ui.control.NumericEditField
         DupEditFieldLabel  matlab.ui.control.Label
@@ -438,12 +438,12 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             % 梳状路径下潜路径点
             app.downEditFieldLabel = uilabel(app.PathParametersPanel);
-            app.downEditFieldLabel.Position = [130 35 80 22];
+            app.downEditFieldLabel.Position = [120 35 80 22];
             app.downEditFieldLabel.Text = '下潜点索引:';
             
-            app.downEditField = uieditfield(app.PathParametersPanel, 'numeric');
-            app.downEditField.Position = [200 35 40 22];
-            app.downEditField.Value = 21;
+            app.downEditField = uieditfield(app.PathParametersPanel);
+            app.downEditField.Position = [190 35 50 22];
+            app.downEditField.Value = '21,22';
             app.downEditField.HorizontalAlignment = 'center';
 
             % 梳状路径下潜深度
@@ -458,12 +458,12 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             % 梳状路径上浮路径点
             app.upEditFieldLabel = uilabel(app.PathParametersPanel);
-            app.upEditFieldLabel.Position = [130 5 80 22];
+            app.upEditFieldLabel.Position = [120 5 80 22];
             app.upEditFieldLabel.Text = '上浮点索引:';
             
-            app.upEditField = uieditfield(app.PathParametersPanel, 'numeric');
-            app.upEditField.Position = [200 5 40 22];
-            app.upEditField.Value = 25;
+            app.upEditField = uieditfield(app.PathParametersPanel);
+            app.upEditField.Position = [190 5 50 22];
+            app.upEditField.Value = '25,26';
             app.upEditField.HorizontalAlignment = 'center';
 
             % 梳状路径上浮深度
