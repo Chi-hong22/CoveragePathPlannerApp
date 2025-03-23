@@ -64,6 +64,9 @@ function obstacleMarking(app)
         heightData = loadedData.terrainHeightMap;
         % 将提取的数据保存到工作区
         assignin('base', 'terrainHeightMap', heightData);
+        
+        % 创建用于显示的高度数据（在z轴上整体减5）
+        heightData_display = heightData - 5;
     catch ME
         errordlg(['无法加载或处理数据: ' ME.message], '错误');
         return;
@@ -72,7 +75,7 @@ function obstacleMarking(app)
     % 定义障碍物阈值（根据你的具体需求设定）
     threshold = 3.2; % 你可以调整这个值
 
-    % 创建障碍物地图
+    % 创建障碍物地图 (使用原始heightData进行判断)
     obstacleMap = heightData > threshold;
 
     % 将障碍物地图转换为二值图像
@@ -88,8 +91,8 @@ function obstacleMarking(app)
     % 清除当前图窗
     cla(app.UIAxes3);
     
-    % 绘制高度数据
-    imagesc(app.UIAxes3, heightData);
+    % 绘制高度数据 (使用处理后的heightData_display进行显示)
+    imagesc(app.UIAxes3, heightData_display);
 
     % 保持当前图形，以便在上面添加其他元素
     hold(app.UIAxes3, 'on');
@@ -97,10 +100,14 @@ function obstacleMarking(app)
     % 添加标题
     title(app.UIAxes3, '地形图及障碍物标注');
 
-    % 添加颜色条
-    colorbar(app.UIAxes3);
-    colormap(app.UIAxes3, 'jet'); % 使用 'jet' 色彩映射
-    caxis(app.UIAxes3, [-30 30]);
+    % 添加颜色条并调整位置
+    c = colorbar(app.UIAxes3);
+    c.Position(1) = c.Position(1) + 0.05;  % 向右移动
+    c.Position(3) = 0.008;                 % 设置宽度
+    % c.Limits = [-25 0];                    % 设置颜色条显示范围
+    colormap(app.UIAxes3, 'parula');
+    caxis(app.UIAxes3, [-30 0]);          % 保持数据显示范围
+
     % 设置坐标轴比例为相等
     axis(app.UIAxes3, 'equal');
 

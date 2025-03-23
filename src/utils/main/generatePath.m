@@ -82,4 +82,9 @@ function generatePath(app)
         % 错误处理
         errordlg(['路径生成错误: ' ME.message], '错误');
     end
+
+
+    % app.PlanPathsButton.Enable = 'off';  
+    app.SendLocalTCPButton.Enable = 'off';
+    app.GenerateButton.Enable = 'off';
 end

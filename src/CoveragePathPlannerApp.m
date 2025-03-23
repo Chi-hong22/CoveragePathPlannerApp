@@ -640,7 +640,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 创建AUV全局路径规划显示区域 - 用于展示覆盖路径规划的整体效果
             % 位于界面右上方，显示AUV在整个区域的梳状覆盖路径
             app.UIAxes1 = uiaxes(app.UIFigure);
-            app.UIAxes1.Position = [850 490 390 390];
+            app.UIAxes1.Position = [880 490 390 390];
             title(app.UIAxes1, ' 全局梳状路径规划效果图');
             xlabel(app.UIAxes1, 'X轴 (米)');
             ylabel(app.UIAxes1, 'Y轴 (米)');
@@ -649,7 +649,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 创建Dubins局部路径规划显示区域 - 用于展示基于Dubins曲线的局部路径规划结果
             % 位于界面右下方，显示AUV在障碍物环境中的局部路径规划轨迹
             app.UIAxes2 = uiaxes(app.UIFigure);
-            app.UIAxes2.Position = [850 70 390 390];
+            app.UIAxes2.Position = [880 70 390 390];
             title(app.UIAxes2, '局部 Dubins 路径规划效果图');
             xlabel(app.UIAxes2, 'X轴 (米)');
             ylabel(app.UIAxes2, 'Y轴 (米)');
