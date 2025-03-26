@@ -3,6 +3,7 @@
 # build/
 # bin/
 slprj/
+docs/
 
 # 忽略特定类型文件
 *.slxc

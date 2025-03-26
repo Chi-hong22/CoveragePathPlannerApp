@@ -189,11 +189,11 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             %% 主窗口设置
             app.UIFigure = uifigure;
             app.UIFigure.Position = [100 100 1300 900]; ...[100 100 1300 830]
-            app.UIFigure.Name = 'AUV路径点上位机 (单位:m)';
+            app.UIFigure.Name = 'UUV路径点上位机 (单位:m)';
 
             %% 1. 坐标初始化面板
             app.InitPanel = uipanel(app.UIFigure);
-            app.InitPanel.Title = ' AUV参数(inf-无选择)';
+            app.InitPanel.Title = ' UUV参数(inf-无选择)';
             app.InitPanel.Position = [30 610 370 200]; % 增加面板高度
 
             % 设置期望速度
@@ -267,7 +267,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.P0ZEditField.HorizontalAlignment = 'center';
 
             % AUV 初始姿态角
-            uilabel(app.InitPanel, 'Text', 'AUV 初始姿态角(角度制):', 'Position', [20 35 150 22]);
+            uilabel(app.InitPanel, 'Text', 'UUV 初始姿态角(角度制):', 'Position', [20 35 150 22]);
 
             % Roll
             app.A0XLabel = uilabel(app.InitPanel);
@@ -347,7 +347,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 梳状路径Z坐标
             app.ZEditFieldLabel = uilabel(app.PathParametersPanel);
             app.ZEditFieldLabel.Position = [10 35 80 22];
-            app.ZEditFieldLabel.Text = 'AUV深度:';
+            app.ZEditFieldLabel.Text = 'UUV深度:';
             
             app.ZEditField = uieditfield(app.PathParametersPanel, 'numeric');
             app.ZEditField.Position = [70 35 40 22];
