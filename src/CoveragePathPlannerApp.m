@@ -14,15 +14,16 @@
 %   单位：哈尔滨工程大学
 %
 % 版本信息：
-%   当前版本：v1.3
+%   当前版本：v1.4
 %   创建日期：250110
-%   最后修改：250317
+%   最后修改：250326
 %
 % 版本历史：
 %   v1.0 (241001) - 初始版本，实现基本的路径拐点生成功能
 %   v1.1 (241101) - TCP 设置和数据发送功能
-%   v1.2 (250110) - 新增 dubins 路径规划避障算法设置，相应的TCP 设置和数据发送功能
+%   v1.2 (250110) - 新增 Dubins 路径规划避障算法设置，相应的TCP 设置和数据发送功能
 %   v1.3 (250317) - 新增 AUV 多项路径规划路径点设置
+%   v1.4 (250326) - 重构主体UI,将容错相关工况参数单独展示
 %
 % 输入参数：
 %   无直接输入参数，通过 GUI 界面设置相关参数
@@ -31,7 +32,7 @@
 %   无直接返回值，生成的路径拐点数据可导出为.csv/.mat格式文件
 %
 % 注意事项：
-%   1. 在使用 dubins 路径规划避障算法前，请确保相关参数设置正确。
+%   1. 在使用 Dubins 路径规划避障算法前，请确保相关参数设置正确。
 %   2. TCP 发送功能需要确保服务器 IP 和端口设置正确，且 AUV 设备已连接。
 %   3. 导出路径点文件时，请选择合适的保存路径和文件格式。
 %
@@ -48,129 +49,139 @@
 classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
     properties (Access = public)
-        UIFigure                 matlab.ui.Figure
-        StartPointPanel          matlab.ui.container.Panel
-        XEditField               matlab.ui.control.NumericEditField
-        XEditFieldLabel          matlab.ui.control.Label
-        YEditField               matlab.ui.control.NumericEditField
-        YEditFieldLabel          matlab.ui.control.Label
-        PathParametersPanel      matlab.ui.container.Panel
-        LineSpacingEditField     matlab.ui.control.NumericEditField
-        LineSpacingEditFieldLabel  matlab.ui.control.Label
-        PathWidthEditField       matlab.ui.control.NumericEditField
-        PathWidthEditFieldLabel  matlab.ui.control.Label
-        NumLinesEditField        matlab.ui.control.NumericEditField
-        NumLinesEditFieldLabel   matlab.ui.control.Label
-        DirectionDropDown        matlab.ui.control.DropDown
-        DirectionDropDownLabel   matlab.ui.control.Label
+        %% 主窗口组件
+        UIFigure                 matlab.ui.Figure        % 主应用窗口
         
+        %% 面板容器组件
+        InitPanel                matlab.ui.container.Panel  % AUV参数初始化面板
+        PathParametersPanel      matlab.ui.container.Panel  % 路径参数面板
+        FaultTolerantPanel       matlab.ui.container.Panel  % 容错参数设置面板
+        TCPPanel                 matlab.ui.container.Panel  % TCP设置面板
+        dubinsPanel              matlab.ui.container.Panel  % Dubins路径规划参数面板
         
-        % 新增的初始化面板
-        InitPanel          matlab.ui.container.Panel
-
-        % 新增卡舵序号和卡舵角度
-        Kdelta1EditField             matlab.ui.control.NumericEditField
-        Kdelta1Label                 matlab.ui.control.Label
-        Kdelta2EditField             matlab.ui.control.NumericEditField
-        Kdelta2Label                 matlab.ui.control.Label
-        Kdelta3EditField             matlab.ui.control.NumericEditField
-        Kdelta3Label                 matlab.ui.control.Label
-        Kdelta4EditField             matlab.ui.control.NumericEditField
-        Kdelta4Label                 matlab.ui.control.Label
-
-        Delta1EditField             matlab.ui.control.NumericEditField
-        Delta1Label                 matlab.ui.control.Label
-        Delta2EditField             matlab.ui.control.NumericEditField
-        Delta2Label                 matlab.ui.control.Label
-        Delta3EditField             matlab.ui.control.NumericEditField
-        Delta3Label                 matlab.ui.control.Label
-        Delta4EditField             matlab.ui.control.NumericEditField
-        Delta4Label                 matlab.ui.control.Label
-
-        %新增期望速度设置
-        udEditField             matlab.ui.control.NumericEditField
-        udLabel                 matlab.ui.control.Label
-
-        %新增掉深时间设置
-        TdEditField             matlab.ui.control.NumericEditField
-        TdLabel                 matlab.ui.control.Label
-
-        %新增急停时间设置
-        TjEditField             matlab.ui.control.NumericEditField
-        TjLabel                 matlab.ui.control.Label
-        %新增路径Z坐标设置
-        ZEditField             matlab.ui.control.NumericEditField
-        ZLabel                 matlab.ui.control.Label
-        ZEditFieldLabel  matlab.ui.control.Label
-        %新增上浮/下潜设置
-        upEditField             matlab.ui.control.EditField
-        upEditFieldLabel  matlab.ui.control.Label
-        downEditField             matlab.ui.control.EditField
-        downEditFieldLabel  matlab.ui.control.Label
-        DupEditField             matlab.ui.control.NumericEditField
-        DupEditFieldLabel  matlab.ui.control.Label
-        DdownEditField             matlab.ui.control.NumericEditField
-        DdownEditFieldLabel  matlab.ui.control.Label
+        %% AUV初始参数组件
+        % 速度和时间设置
+        udEditField              matlab.ui.control.NumericEditField  % 最大速度设置
+        udLabel                  matlab.ui.control.Label             % 最大速度标签
+        TjEditField              matlab.ui.control.NumericEditField  % 急停时间设置
+        TjLabel                  matlab.ui.control.Label             % 急停时间标签
         
-        % 新增初始位置和姿态角面板
-        P0XEditField             matlab.ui.control.NumericEditField
-        P0XLabel                 matlab.ui.control.Label
-        P0YEditField             matlab.ui.control.NumericEditField
-        P0YLabel                 matlab.ui.control.Label
-        P0ZEditField             matlab.ui.control.NumericEditField
-        P0ZLabel                 matlab.ui.control.Label
+        % 规划路径起点
+        XEditField               matlab.ui.control.NumericEditField  % X坐标输入框
+        XEditFieldLabel          matlab.ui.control.Label             % X坐标标签
+        YEditField               matlab.ui.control.NumericEditField  % Y坐标输入框
+        YEditFieldLabel          matlab.ui.control.Label             % Y坐标标签
         
-        A0XEditField            matlab.ui.control.NumericEditField
-        A0XLabel                matlab.ui.control.Label
-        A0YEditField            matlab.ui.control.NumericEditField
-        A0YLabel                matlab.ui.control.Label
-        A0ZEditField            matlab.ui.control.NumericEditField
-        A0ZLabel                matlab.ui.control.Label
+        % AUV初始位置设置
+        P0XEditField             matlab.ui.control.NumericEditField  % 初始X坐标
+        P0XLabel                 matlab.ui.control.Label             % 初始X坐标标签
+        P0YEditField             matlab.ui.control.NumericEditField  % 初始Y坐标
+        P0YLabel                 matlab.ui.control.Label             % 初始Y坐标标签
+        P0ZEditField             matlab.ui.control.NumericEditField  % 初始Z坐标
+        P0ZLabel                 matlab.ui.control.Label             % 初始Z坐标标签
         
-        % 新增TCP设置面板
-        TCPPanel                matlab.ui.container.Panel
-        ServerIPEditField       matlab.ui.control.EditField
-        ServerIPLabel           matlab.ui.control.Label
-        PortEditField           matlab.ui.control.NumericEditField
-        PortLabel               matlab.ui.control.Label
-
-        hostIPEditField       matlab.ui.control.EditField
-        hostIPLabel           matlab.ui.control.Label
-        hPortEditField           matlab.ui.control.NumericEditField
-        hPortLabel               matlab.ui.control.Label
+        % AUV初始姿态角设置
+        A0XEditField             matlab.ui.control.NumericEditField  % Roll角
+        A0XLabel                 matlab.ui.control.Label             % Roll角标签
+        A0YEditField             matlab.ui.control.NumericEditField  % Pitch角
+        A0YLabel                 matlab.ui.control.Label             % Pitch角标签
+        A0ZEditField             matlab.ui.control.NumericEditField  % Yaw角
+        A0ZLabel                 matlab.ui.control.Label             % Yaw角标签
         
-        GenerateButton          matlab.ui.control.Button
-        SendTCPButton          matlab.ui.control.Button % 新增TCP发送按钮
-        X1plotTCPButton          matlab.ui.control.Button
-        UIAxes1                  matlab.ui.control.UIAxes
-        UIAxes2                  matlab.ui.control.UIAxes
-        UIAxes3                  matlab.ui.control.UIAxes
-        TotalLengthLabelandTCP  matlab.ui.control.Label
-        StatusLabel            matlab.ui.control.Label % 新增状态显示标签
-        ExportButton           matlab.ui.control.Button
-        Waypoints
+        %% 梳状路径参数设置组件
+        % 路径方向设置
+        DirectionDropDown        matlab.ui.control.DropDown          % 路径方向下拉框
+        DirectionDropDownLabel   matlab.ui.control.Label             % 路径方向标签
         
-        %新增dubins路径规划避障算法
-        dubinsPanel           matlab.ui.container.Panel
-        dubinsnsLabel         matlab.ui.control.Label
-        dubinsnsEditField      matlab.ui.control.NumericEditField
-        dubinsnlLabel         matlab.ui.control.Label
-        dubinsnlEditField      matlab.ui.control.NumericEditField
-        dubinsnfLabel         matlab.ui.control.Label
-        dubinsnfEditField      matlab.ui.control.NumericEditField
-        dubinsradiusLabel     matlab.ui.control.Label
-        dubinsradiusEditField       matlab.ui.control.NumericEditField
+        % 路径参数设置
+        LineSpacingEditField     matlab.ui.control.NumericEditField  % 梳状齿间距输入框
+        LineSpacingEditFieldLabel matlab.ui.control.Label            % 梳状齿间距标签
+        PathWidthEditField       matlab.ui.control.NumericEditField  % 路径总宽输入框
+        PathWidthEditFieldLabel  matlab.ui.control.Label             % 路径总宽标签
+        NumLinesEditField        matlab.ui.control.NumericEditField  % 路径条数输入框
+        NumLinesEditFieldLabel   matlab.ui.control.Label             % 路径条数标签
         
-        PlanPathsButton          matlab.ui.control.Button
-%         drawPathsButton             matlab.ui.control.Button
-        obstacleMarkingButton             matlab.ui.control.Button
-        exportDubinsWaypointsButton          matlab.ui.control.Button
-        SendLocalTCPButton       matlab.ui.control.Button
-        ImportButton       matlab.ui.control.Button
+        % 深度和上下浮设置
+        ZEditField               matlab.ui.control.NumericEditField  % AUV深度设置
+        ZEditFieldLabel          matlab.ui.control.Label             % AUV深度标签
+        downEditField            matlab.ui.control.EditField         % 下潜点索引设置
+        downEditFieldLabel       matlab.ui.control.Label             % 下潜点索引标签
+        DdownEditField           matlab.ui.control.NumericEditField  % 下潜深度设置
+        DdownEditFieldLabel      matlab.ui.control.Label             % 下潜深度标签
+        upEditField              matlab.ui.control.EditField         % 上浮点索引设置
+        upEditFieldLabel         matlab.ui.control.Label             % 上浮点索引标签
+        DupEditField             matlab.ui.control.NumericEditField  % 上浮深度设置
+        DupEditFieldLabel        matlab.ui.control.Label             % 上浮深度标签
+        
+        %% 容错参数设置组件
+        % 掉深时间设置
+        TdEditField              matlab.ui.control.NumericEditField  % 掉深时间设置
+        TdLabel                  matlab.ui.control.Label             % 掉深时间标签
+        
+        % 卡舵时间设置
+        Kdelta1EditField         matlab.ui.control.NumericEditField  % 舵1卡舵时间
+        Kdelta1Label             matlab.ui.control.Label             % 舵1卡舵时间标签
+        Kdelta2EditField         matlab.ui.control.NumericEditField  % 舵2卡舵时间
+        Kdelta2Label             matlab.ui.control.Label             % 舵2卡舵时间标签
+        Kdelta3EditField         matlab.ui.control.NumericEditField  % 舵3卡舵时间
+        Kdelta3Label             matlab.ui.control.Label             % 舵3卡舵时间标签
+        Kdelta4EditField         matlab.ui.control.NumericEditField  % 舵4卡舵时间
+        Kdelta4Label             matlab.ui.control.Label             % 舵4卡舵时间标签
+        
+        % 卡舵角度设置
+        Delta1EditField          matlab.ui.control.NumericEditField  % 舵1卡舵角度
+        Delta1Label              matlab.ui.control.Label             % 舵1卡舵角度标签
+        Delta2EditField          matlab.ui.control.NumericEditField  % 舵2卡舵角度
+        Delta2Label              matlab.ui.control.Label             % 舵2卡舵角度标签
+        Delta3EditField          matlab.ui.control.NumericEditField  % 舵3卡舵角度
+        Delta3Label              matlab.ui.control.Label             % 舵3卡舵角度标签
+        Delta4EditField          matlab.ui.control.NumericEditField  % 舵4卡舵角度
+        Delta4Label              matlab.ui.control.Label             % 舵4卡舵角度标签
+        
+        %% TCP通信设置组件
+        ServerIPEditField        matlab.ui.control.EditField         % 服务器IP地址
+        ServerIPLabel            matlab.ui.control.Label             % 服务器IP标签
+        PortEditField            matlab.ui.control.NumericEditField  % 服务器端口
+        PortLabel                matlab.ui.control.Label             % 服务器端口标签
+        hostIPEditField          matlab.ui.control.EditField         % 本机IP地址
+        hostIPLabel              matlab.ui.control.Label             % 本机IP标签
+        hPortEditField           matlab.ui.control.NumericEditField  % 本机端口
+        hPortLabel               matlab.ui.control.Label             % 本机端口标签
+        
+        %% Dubins路径规划参数组件
+        dubinsnsLabel            matlab.ui.control.Label             % 前段路径点个数标签
+        dubinsnsEditField        matlab.ui.control.NumericEditField  % 前段路径点个数输入框
+        dubinsnlLabel            matlab.ui.control.Label             % 中段路径点个数标签
+        dubinsnlEditField        matlab.ui.control.NumericEditField  % 中段路径点个数输入框
+        dubinsnfLabel            matlab.ui.control.Label             % 后段路径点个数标签
+        dubinsnfEditField        matlab.ui.control.NumericEditField  % 后段路径点个数输入框
+        dubinsradiusLabel        matlab.ui.control.Label             % Dubins转弯半径标签
+        dubinsradiusEditField    matlab.ui.control.NumericEditField  % Dubins转弯半径输入框
+        
+        %% 操作按钮组件
+        GenerateButton           matlab.ui.control.Button            % 导出Dubins路径按钮
+        exportDubinsWaypointsButton matlab.ui.control.Button         % 生成全局梳状路径按钮
+        ExportButton             matlab.ui.control.Button            % 导出全局路径数据按钮
+        SendTCPButton            matlab.ui.control.Button            % 发送全局路径数据按钮
+        PlanPathsButton          matlab.ui.control.Button            % 生成局部Dubins路径按钮
+        SendLocalTCPButton       matlab.ui.control.Button            % 发送Dubins路径数据按钮
+        ImportButton             matlab.ui.control.Button            % 导入地图数据按钮
+        obstacleMarkingButton    matlab.ui.control.Button            % 障碍物标注按钮
+        X1plotTCPButton          matlab.ui.control.Button            % AUV运行仿真图按钮
+        % drawPathsButton          matlab.ui.control.Button            % 绘制路径按钮
+        %% 显示区域组件
+        UIAxes1                  matlab.ui.control.UIAxes            % 全局梳状路径显示区域
+        UIAxes2                  matlab.ui.control.UIAxes            % 局部Dubins路径显示区域
+        UIAxes3                  matlab.ui.control.UIAxes            % 地形及障碍物显示区域
+        TotalLengthLabelandTCP   matlab.ui.control.Label             % 总路径长度及TCP状态显示
+        StatusLabel              matlab.ui.control.Label             % 状态信息显示标签
+        
+        %% 数据存储变量
+        Waypoints                                                    % 存储路径点数据
     end
-
+    
     properties (SetAccess = immutable, GetAccess = public)
-        currentProjectRoot string    % 将属性移到这个新的属性块中
+        currentProjectRoot string                                    % 项目根目录
     end
 
     methods (Access = private)
@@ -182,175 +193,81 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             %% 1. 坐标初始化面板
             app.InitPanel = uipanel(app.UIFigure);
-            app.InitPanel.Title = ' 相关参数初始化(inf-无选择)';
-            app.InitPanel.Position = [30 460 370 350]; % 增加面板高度
-
-            % 容错控制卡舵序号设置
-            uilabel(app.InitPanel, 'Text', '设置卡舵时间(s):', 'Position', [10 310 120 14]);
-
-            % 舵1
-            app.Kdelta1Label = uilabel(app.InitPanel);
-            app.Kdelta1Label.Position = [10 280 25 22];
-            app.Kdelta1Label.Text = '舵1:';
-            app.Kdelta1Label.HorizontalAlignment = 'center';
-            app.Kdelta1EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Kdelta1EditField.Position = [35 280 50 22];
-            app.Kdelta1EditField.Value = inf;
-            app.Kdelta1EditField.HorizontalAlignment = 'center';
-
-            % 舵2
-            app.Kdelta2Label = uilabel(app.InitPanel);
-            app.Kdelta2Label.Position = [100 280 25 22];
-            app.Kdelta2Label.Text = '舵2:';
-            app.Kdelta2Label.HorizontalAlignment = 'center';
-            app.Kdelta2EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Kdelta2EditField.Position = [125 280 50 22];
-            app.Kdelta2EditField.Value = inf;
-            app.Kdelta2EditField.HorizontalAlignment = 'center';
-
-            % 舵3
-            app.Kdelta3Label = uilabel(app.InitPanel);
-            app.Kdelta3Label.Position = [190 280 25 22];
-            app.Kdelta3Label.Text = '舵3:';
-            app.Kdelta3Label.HorizontalAlignment = 'center';
-            app.Kdelta3EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Kdelta3EditField.Position = [215 280 50 22];
-            app.Kdelta3EditField.Value = inf;
-            app.Kdelta3EditField.HorizontalAlignment = 'center';
-
-            % 舵4
-            app.Kdelta4Label = uilabel(app.InitPanel);
-            app.Kdelta4Label.Position = [280 280 25 22];
-            app.Kdelta4Label.Text = '舵4:';
-            app.Kdelta4Label.HorizontalAlignment = 'center';
-            app.Kdelta4EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Kdelta4EditField.Position = [305 280 50 22];
-            app.Kdelta4EditField.Value = inf;
-            app.Kdelta4EditField.HorizontalAlignment = 'center';
-
-            % 容错控制卡舵舵角设置
-            uilabel(app.InitPanel, 'Text', '设置卡舵舵角(°):', 'Position', [10 250 120 22]);
-
-            % 舵1
-            app.Delta1Label = uilabel(app.InitPanel);
-            app.Delta1Label.Position = [10 220 25 22];
-            app.Delta1Label.Text = '舵1:';
-            app.Delta1Label.HorizontalAlignment = 'center';
-            app.Delta1EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Delta1EditField.Position = [35 220 50 22];
-            app.Delta1EditField.Value = 0;
-            app.Delta1EditField.HorizontalAlignment = 'center';
-
-            % 舵2
-            app.Delta2Label = uilabel(app.InitPanel);
-            app.Delta2Label.Position = [100 220 25 22];
-            app.Delta2Label.Text = '舵2:';
-            app.Delta2Label.HorizontalAlignment = 'center';
-            app.Delta2EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Delta2EditField.Position = [125 220 50 22];
-            app.Delta2EditField.Value = 0;
-            app.Delta2EditField.HorizontalAlignment = 'center';
-
-            % 舵3
-            app.Delta3Label = uilabel(app.InitPanel);
-            app.Delta3Label.Position = [190 220 25 22];
-            app.Delta3Label.Text = '舵3:';
-            app.Delta3Label.HorizontalAlignment = 'center';
-            app.Delta3EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Delta3EditField.Position = [215 220 50 22];
-            app.Delta3EditField.Value = 0;
-            app.Delta3EditField.HorizontalAlignment = 'center';
-
-            % 舵4
-            app.Delta4Label = uilabel(app.InitPanel);
-            app.Delta4Label.Position = [280 220 25 22];
-            app.Delta4Label.Text = '舵4:';
-            app.Delta4Label     .HorizontalAlignment = 'center';
-            app.Delta4EditField = uieditfield(app.InitPanel, 'numeric');
-            app.Delta4EditField.Position = [305 220 50 22];
-            app.Delta4EditField.Value = 0;
-            app.Delta4EditField.HorizontalAlignment = 'center';
+            app.InitPanel.Title = ' AUV参数(inf-无选择)';
+            app.InitPanel.Position = [30 610 370 200]; % 增加面板高度
 
             % 设置期望速度
-            uilabel(app.InitPanel, 'Text', '最大速度:', 'Position', [20 175 60 22]);
+            uilabel(app.InitPanel, 'Text', '最大速度:', 'Position', [20 145 60 22]);
             app.udEditField = uieditfield(app.InitPanel, 'numeric');
-            app.udEditField.Position = [75 175 40 22];
-            app.udEditField.Value = 3.0;
+            app.udEditField.Position = [75 145 40 22];
+            app.udEditField.Value = 7.0;
             app.udEditField.HorizontalAlignment = 'center';
 
-
-            % 设置掉深时间
-            uilabel(app.InitPanel, 'Text', '掉深时间:', 'Position', [130 175 60 22]);
-            app.TdEditField = uieditfield(app.InitPanel, 'numeric');
-            app.TdEditField.Position = [185 175 40 22];
-            app.TdEditField.Value = inf;
-            app.TdEditField.HorizontalAlignment = 'center';
-
             % 设置急停时间
-            uilabel(app.InitPanel, 'Text', '急停时间:', 'Position', [240 175 60 22]);
+            uilabel(app.InitPanel, 'Text', '急停时间:', 'Position', [150 145 60 22]);
             app.TjEditField = uieditfield(app.InitPanel, 'numeric');
-            app.TjEditField.Position = [295 175 40 22];
+            app.TjEditField.Position = [205 145 40 22];
             app.TjEditField.Value = inf;
             app.TjEditField.HorizontalAlignment = 'center';
 
             % 规划路径起始点坐标
-            uilabel(app.InitPanel, 'Text', '规划路径起点:', 'Position', [20 130 120 22]);
+            uilabel(app.InitPanel, 'Text', '规划路径起点:', 'Position', [20 115 120 22]);
 
             % X 坐标
             app.XEditFieldLabel = uilabel(app.InitPanel);
-            app.XEditFieldLabel.Position = [130 130 25 22];
+            app.XEditFieldLabel.Position = [130 115 25 22];
             app.XEditFieldLabel.Text = 'X:';
             app.XEditFieldLabel.HorizontalAlignment = 'center';
             app.XEditField = uieditfield(app.InitPanel, 'numeric');
-            app.XEditField.Position = [155 130 50 22];
+            app.XEditField.Position = [155 115 50 22];
             app.XEditField.Value = 160;
             app.XEditField.HorizontalAlignment = 'center';
 
             % Y 坐标
             app.YEditFieldLabel = uilabel(app.InitPanel);
-            app.YEditFieldLabel.Position = [220 130 25 22];
+            app.YEditFieldLabel.Position = [220 115 25 22];
             app.YEditFieldLabel.Text = 'Y:';
             app.YEditFieldLabel.HorizontalAlignment = 'center';
             app.YEditField = uieditfield(app.InitPanel, 'numeric');
-            app.YEditField.Position = [245 130 50 22];
+            app.YEditField.Position = [245 115 50 22];
             app.YEditField.Value = 90;
             app.YEditField.HorizontalAlignment = 'center';
 
             % AUV 初始位置
-            uilabel(app.InitPanel, 'Text', 'AUV 初始位置:', 'Position', [20 100 100 22]);
+            uilabel(app.InitPanel, 'Text', 'AUV 初始位置:', 'Position', [20 90 100 22]);
 
             % X 坐标
             app.P0XLabel = uilabel(app.InitPanel);
-            app.P0XLabel.Position = [25 70 35 22];
+            app.P0XLabel.Position = [25 65 35 22];
             app.P0XLabel.Text = 'X:';
             app.P0XLabel.HorizontalAlignment = 'center';
             app.P0XEditField = uieditfield(app.InitPanel, 'numeric');
-            app.P0XEditField.Position = [65 70 50 22];
+            app.P0XEditField.Position = [65 65 50 22];
             app.P0XEditField.Value = 100;
             app.P0XEditField.HorizontalAlignment = 'center';
 
             % Y 坐标
             app.P0YLabel = uilabel(app.InitPanel);
-            app.P0YLabel.Position = [125 70 35 22];
+            app.P0YLabel.Position = [125 65 35 22];
             app.P0YLabel.Text = 'Y:';
             app.P0YLabel.HorizontalAlignment = 'center';
             app.P0YEditField = uieditfield(app.InitPanel, 'numeric');
-            app.P0YEditField.Position = [165 70 50 22];
+            app.P0YEditField.Position = [165 65 50 22];
             app.P0YEditField.Value = 0;
             app.P0YEditField.HorizontalAlignment = 'center';
 
             % Z 坐标
             app.P0ZLabel = uilabel(app.InitPanel);
-            app.P0ZLabel.Position = [225 70 35 22];
+            app.P0ZLabel.Position = [225 65 35 22];
             app.P0ZLabel.Text = 'Z:';
             app.P0ZLabel.HorizontalAlignment = 'center';
             app.P0ZEditField = uieditfield(app.InitPanel, 'numeric');
-            app.P0ZEditField.Position = [265 70 50 22];
+            app.P0ZEditField.Position = [265 65 50 22];
             app.P0ZEditField.Value = 20;
             app.P0ZEditField.HorizontalAlignment = 'center';
 
             % AUV 初始姿态角
-            uilabel(app.InitPanel, 'Text', 'AUV 初始姿态角(角度制):', 'Position', [20 40 150 22]);
+            uilabel(app.InitPanel, 'Text', 'AUV 初始姿态角(角度制):', 'Position', [20 35 150 22]);
 
             % Roll
             app.A0XLabel = uilabel(app.InitPanel);
@@ -385,7 +302,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             %% 2. 路径参数面板
             app.PathParametersPanel = uipanel(app.UIFigure);
             app.PathParametersPanel.Title = ' 路径参数';
-            app.PathParametersPanel.Position = [30 310 370 140];
+            app.PathParametersPanel.Position = [30 465 370 140];
 
             % 方向选择
             app.DirectionDropDownLabel = uilabel(app.PathParametersPanel);
@@ -476,11 +393,108 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.DupEditField.Position = [310 5 40 22];
             app.DupEditField.Value = 10;
             app.DupEditField.HorizontalAlignment = 'center';
-            
-            %% 3. TCP设置面板
+            %% 3. 容错参数面板
+
+            app.FaultTolerantPanel = uipanel(app.UIFigure);
+            app.FaultTolerantPanel.Title = ' 容错参数设置';
+            app.FaultTolerantPanel.Position = [30 295 370 165]; 
+
+            % 设置掉深时间
+            uilabel(app.FaultTolerantPanel, 'Text', '掉深时间:', 'Position', [10 115 60 22]);
+            app.TdEditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.TdEditField.Position = [70 115 40 22];
+            app.TdEditField.Value = inf;
+            app.TdEditField.HorizontalAlignment = 'center';
+
+            uilabel(app.FaultTolerantPanel, 'Text', '设置卡舵时间(s):', 'Position', [10 95 120 14]);
+
+            % 舵1
+            app.Kdelta1Label = uilabel(app.FaultTolerantPanel);
+            app.Kdelta1Label.Position = [10 65 25 22];
+            app.Kdelta1Label.Text = '舵1:';
+            app.Kdelta1Label.HorizontalAlignment = 'center';
+            app.Kdelta1EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Kdelta1EditField.Position = [35 65 50 22];
+            app.Kdelta1EditField.Value = inf;
+            app.Kdelta1EditField.HorizontalAlignment = 'center';
+
+            % 舵2
+            app.Kdelta2Label = uilabel(app.FaultTolerantPanel);
+            app.Kdelta2Label.Position = [100 65 25 22];
+            app.Kdelta2Label.Text = '舵2:';
+            app.Kdelta2Label.HorizontalAlignment = 'center';
+            app.Kdelta2EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Kdelta2EditField.Position = [125 65 50 22];
+            app.Kdelta2EditField.Value = inf;
+            app.Kdelta2EditField.HorizontalAlignment = 'center';
+
+            % 舵3
+            app.Kdelta3Label = uilabel(app.FaultTolerantPanel);
+            app.Kdelta3Label.Position = [190 65 25 22];
+            app.Kdelta3Label.Text = '舵3:';
+            app.Kdelta3Label.HorizontalAlignment = 'center';
+            app.Kdelta3EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Kdelta3EditField.Position = [215 65 50 22];
+            app.Kdelta3EditField.Value = inf;
+            app.Kdelta3EditField.HorizontalAlignment = 'center';
+
+            % 舵4
+            app.Kdelta4Label = uilabel(app.FaultTolerantPanel);
+            app.Kdelta4Label.Position = [280 65 25 22];
+            app.Kdelta4Label.Text = '舵4:';
+            app.Kdelta4Label.HorizontalAlignment = 'center';
+            app.Kdelta4EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Kdelta4EditField.Position = [305 65 50 22];
+            app.Kdelta4EditField.Value = inf;
+            app.Kdelta4EditField.HorizontalAlignment = 'center';
+
+            % 容错控制卡舵舵角设置
+            uilabel(app.FaultTolerantPanel, 'Text', '设置卡舵舵角(°):', 'Position', [10 35 120 22]);
+
+            % 舵1
+            app.Delta1Label = uilabel(app.FaultTolerantPanel);
+            app.Delta1Label.Position = [10 5 25 22];
+            app.Delta1Label.Text = '舵1:';
+            app.Delta1Label.HorizontalAlignment = 'center';
+            app.Delta1EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Delta1EditField.Position = [35 5 50 22];
+            app.Delta1EditField.Value = 0;
+            app.Delta1EditField.HorizontalAlignment = 'center';
+
+            % 舵2
+            app.Delta2Label = uilabel(app.FaultTolerantPanel);
+            app.Delta2Label.Position = [100 5 25 22];
+            app.Delta2Label.Text = '舵2:';
+            app.Delta2Label.HorizontalAlignment = 'center';
+            app.Delta2EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Delta2EditField.Position = [125 5 50 22];
+            app.Delta2EditField.Value = 0;
+            app.Delta2EditField.HorizontalAlignment = 'center';
+
+            % 舵3
+            app.Delta3Label = uilabel(app.FaultTolerantPanel);
+            app.Delta3Label.Position = [190 5 25 22];
+            app.Delta3Label.Text = '舵3:';
+            app.Delta3Label.HorizontalAlignment = 'center';
+            app.Delta3EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Delta3EditField.Position = [215 5 50 22];
+            app.Delta3EditField.Value = 0;
+            app.Delta3EditField.HorizontalAlignment = 'center';
+
+            % 舵4
+            app.Delta4Label = uilabel(app.FaultTolerantPanel);
+            app.Delta4Label.Position = [280 5 25 22];
+            app.Delta4Label.Text = '舵4:';
+            app.Delta4Label.HorizontalAlignment = 'center';
+            app.Delta4EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
+            app.Delta4EditField.Position = [305 5 50 22];
+            app.Delta4EditField.Value = 0;
+            app.Delta4EditField.HorizontalAlignment = 'center';
+
+            %% 4. TCP设置面板
             app.TCPPanel = uipanel(app.UIFigure);
             app.TCPPanel.Title = ' TCP设置';
-            app.TCPPanel.Position = [30 210 370 90];
+            app.TCPPanel.Position = [30 195 370 90]; 
             
             % TCP控件布局
             app.ServerIPLabel = uilabel(app.TCPPanel);
@@ -517,10 +531,10 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.hPortEditField.Value = 8888;
             app.hPortEditField.HorizontalAlignment = 'center';
 
-            %% 4. Dubins 面板
+            %% 5. Dubins 面板
             app.dubinsPanel = uipanel(app.UIFigure);
             app.dubinsPanel.Title = ' Dubins 路径规划设置(周期:圆弧-直线-圆弧)';
-            app.dubinsPanel.Position = [30 110 370 90];
+            app.dubinsPanel.Position = [30 100 370 90]; % 调整位置
             
             app.dubinsnsLabel = uilabel(app.dubinsPanel);
             app.dubinsnsLabel.Position = [10 40 120 22];
@@ -558,7 +572,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.dubinsradiusEditField.Value = 0;
             app.dubinsradiusEditField.HorizontalAlignment = 'center';
 
-            %% 5. 按钮组
+            %% 6. 按钮组
             
             % 创建梳状路径生成按钮 - 根据区域边界自动计算梳状覆盖路径
             app.exportDubinsWaypointsButton = uibutton(app.UIFigure, 'push');
@@ -621,10 +635,10 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % app.X1plotTCPButton.Text = '绘制 AUV 运行仿真图';
             % app.X1plotTCPButton.Enable = 'off';
 
-            %% 6. 状态标签
+            %% 7. 状态标签
             % 总路径长度及TCP状态版本展示
             app.TotalLengthLabelandTCP = uilabel(app.UIFigure);
-            app.TotalLengthLabelandTCP.Position = [30 70 320 40];
+            app.TotalLengthLabelandTCP.Position = [30 60 320 40];
             app.TotalLengthLabelandTCP.Text = '总路径长度: 0.0 米';
             app.TotalLengthLabelandTCP.HorizontalAlignment = 'center';
             
@@ -635,7 +649,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.StatusLabel.HorizontalAlignment = 'center';
             app.StatusLabel.FontColor = [0.8 0 0];
             
-            %% 7. 绘图区域
+            %% 8. 绘图区域
             
             % 创建AUV全局路径规划显示区域 - 用于展示覆盖路径规划的整体效果
             % 位于界面右上方，显示AUV在整个区域的梳状覆盖路径
