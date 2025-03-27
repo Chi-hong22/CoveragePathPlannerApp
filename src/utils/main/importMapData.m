@@ -39,11 +39,14 @@ function importMapData(app)
     if isequal(filename, 0) || isequal(pathname, 0)
         % 用户取消操作
         app.StatusLabel.Text = '导入操作已取消';
+        app.StatusLabel.FontColor = [0.8 0 0];
         return;
     end
     disp('地图数据导入成功');
 
     app.StatusLabel.Text = ['已选择文件: ' filename];
+    app.StatusLabel.FontColor = [0 0 0.8];
+
     app.obstacleMarkingButton.Enable = 'on';
     
 end

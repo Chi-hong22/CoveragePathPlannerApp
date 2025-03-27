@@ -116,6 +116,7 @@ function sendTCPData(app)
                 Waypoints(rowIdx, 3) = app.DupEditField.Value; % 更新第三列
             else
                 app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
+                app.TotalLengthLabelandTCP.FontColor = [0 0 0.8];
             end
         end
         up=upvector(1);%初始上浮点索引
@@ -134,6 +135,7 @@ function sendTCPData(app)
                 Waypoints(rowIdx, 3) = app.DdownEditField.Value; % 更新第三列
             else
                 app.TotalLengthLabelandTCP.Text = '上浮点/下潜点索引超出总航程';
+                app.TotalLengthLabelandTCP.FontColor = [0 0 0.8];
             end
         end
         down=downvector(1);%初始下潜点索引
@@ -173,7 +175,7 @@ function sendTCPData(app)
         jsonData = jsonencode(dataStruct);
         
     catch dataErr
-        app.TotalLengthLabelandTCP.Text = ['数据准备失败: %s', dataErr.message];   
+        app.TotalLengthLabelandTCP.Text = ['发送数据准备失败: %s', dataErr.message];   
         app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
         app.SendTCPButton.Enable = true;
         return;
