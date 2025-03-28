@@ -8,10 +8,6 @@
     %
     % 输入参数：
     %   app - AUVCoveragePathPlannerApp的实例
-    %   numLines - 路径线条数量
-    %   dubinsNs - Dubins路径起始段的离散点数
-    %   dubinsNl - Dubins路径直线段的离散点数
-    %   dubinsNf - Dubins路径结束段的离散点数
     %
     % 输出参数： 
     %   pathPlanning - 生成的路径规划结果
@@ -23,7 +19,7 @@
     % 版本信息：
     %   版本：v1.1
     %   创建日期：241101
-    %   最后修改：250317
+    %   最后修改：250328
     %
     % 作者信息：
     %   作者：Chihong（游子昂）
@@ -32,7 +28,7 @@
     %   邮箱：1443123118@qq.com
     %   单位：哈尔滨工程大学
 
-function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
+function planUAVPaths(app)
     % 从工作区获取Waypoints变量
     try
         Waypoints = evalin('base', 'Waypoints');
@@ -52,9 +48,9 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
     Property.obs_last=0;                                                % 记录当前轨迹规划期间避开的障碍物
     Property.invasion=0;                                                % 记录轨迹规划期间是否有任何侵入障碍物（威胁区域）
     Property.mode=1;                                                    % 设置轨迹生成模式 1: 最短路径; 2: 常规路径
-    Property.ns=dubinsns;                                               % 设置起始弧段的离散点数
-    Property.nl=dubinsnl;                                               % 设置直线段的离散点数
-    Property.nf=dubinsnf;                                               % 设置结束弧段的离散点数
+    Property.ns=app.dubinsnsEditField.Value;                            % 设置起始弧段的离散点数
+    Property.nl=app.dubinsnlEditField.Value;                            % 设置直线段的离散点数
+    Property.nf=app.dubinsnfEditField.Value;                            % 设置结束弧段的离散点数
     Property.max_obs_num=5;                                             % 设置每次路径规划要检测的最大障碍物数量
     Property.max_info_num=20;                                           % 设置每个规划步骤存储的最大路径段数
     Property.max_step_num=4;                                            % 设置路径的最大规划步骤数
@@ -69,10 +65,10 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
                                                                     % =3: 同时满足1和2
                                                                 
     % 设置起点信息
-    StartInfo=Waypoints(1:2*numLines-1,:);            % 单位（毫米）
+    StartInfo=Waypoints(1:2* app.NumLinesEditField.Value-1,:);            % 单位（毫米）
 
     % 设置终点信息
-    FinishInfo=Waypoints(2:2*numLines,:);               % 单位（毫米）
+    FinishInfo=Waypoints(2:2* app.NumLinesEditField.Value,:);               % 单位（毫米）
 
     % 设置障碍物（威胁圆）信息
     ObsInfo=circlesInfo;
@@ -92,7 +88,7 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
         'TrajSeq_Coop',[]);                                             % 协作路径序列矩阵
 
     %% 按顺序规划每个AUV从起点到终点的路径
-    for uav_index=1:2*numLines-1                                        % 遍历每个AUV
+    for uav_index=1:2* app.NumLinesEditField.Value-1                                        % 遍历每个AUV
         start_info=StartInfo(uav_index,:);                              % 获取AUV的起点信息
         finish_info=FinishInfo(uav_index,:);                            % 获取AUV的终点信息
         Property.radius=start_info(4);                                  % 根据初始信息设置AUV的转弯半径

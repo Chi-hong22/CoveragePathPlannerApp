@@ -5,6 +5,7 @@
 slprj/
 docs/
 .lingma/
+.github/
 
 # 忽略特定类型文件
 *.slxc
