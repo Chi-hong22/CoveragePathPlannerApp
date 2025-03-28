@@ -74,17 +74,14 @@ function generatePath(app)
         hold(app.UIAxes1, 'off');
         
         % 启用按钮
-        app.ExportButton.Enable = 'on';
-        app.SendTCPButton.Enable = 'on';
-        % app.PlanPathsButton.Enable = 'on';
+        app.ExportGlobalWaypointsButton.Enable = 'on';
+        app.SendGlobalPathsButton.Enable = 'on';
         
     catch ME
         % 错误处理
         errordlg(['路径生成错误: ' ME.message], '错误');
     end
-
-
-    % app.PlanPathsButton.Enable = 'off';  
-    app.SendLocalTCPButton.Enable = 'off';
-    app.GenerateButton.Enable = 'off';
+    % app.PlanLocalPathsButton.Enable = 'off';  
+    % app.SendLocalPathsButton.Enable = 'off';
+    % app.GenerateButton.Enable = 'off';
 end

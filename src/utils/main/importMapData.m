@@ -47,6 +47,6 @@ function importMapData(app)
     app.StatusLabel.Text = ['已选择文件: ' filename];
     app.StatusLabel.FontColor = [0 0 0.8];
 
-    app.obstacleMarkingButton.Enable = 'on';
+    app.ObstacleMarkingButton.Enable = 'on';
     
 end

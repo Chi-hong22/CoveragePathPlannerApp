@@ -164,6 +164,6 @@ function obstacleMarking(app)
     % 将circlesInfo变量保存到工作区，供其他函数直接调用
     assignin('base', 'circlesInfo', circlesInfo);
 
-    app.PlanPathsButton.Enable = 'on';  
+    app.PlanLocalPathsButton.Enable = 'on';  
 
 end

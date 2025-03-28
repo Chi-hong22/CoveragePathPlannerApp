@@ -110,8 +110,8 @@ function planUAVPaths(app,numLines,dubinsns,dubinsnl,dubinsnf)
     assignin('base','result_no_duplicates',result_no_duplicates);
 
     % app.drawPathsButton.Enable = 'on';
-    app.SendLocalTCPButton.Enable = 'on';
-    app.GenerateButton.Enable = 'on';
+    app.ExportLocalWaypointsButton.Enable = 'on';
+    app.SendLocalPathsButton.Enable = 'on';
 
     % 清除UIAxes2上的所有图形元素
     cla(app.UIAxes2);

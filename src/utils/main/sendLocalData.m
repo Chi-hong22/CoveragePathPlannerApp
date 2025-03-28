@@ -39,5 +39,5 @@ function sendLocalData(app)
     end
 
     % 调用统一函数发送数据
-    sendPathDataViaTCP(app, result_no_duplicates, 'SendLocalTCPButton');
+    sendPathDataViaTCP(app, result_no_duplicates, 'SendLocalPathsButton');
 end

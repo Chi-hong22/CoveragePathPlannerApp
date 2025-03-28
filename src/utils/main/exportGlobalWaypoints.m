@@ -39,7 +39,7 @@ function exportGlobalWaypoints(app)
             end
             
             % 设置默认文件名
-            defaultFileName = fullfile(defaultPath, 'CSV_waypoints.csv');
+            defaultFileName = fullfile(defaultPath, 'CSV_Global_waypoints.csv');
             
             % 获取保存文件名
             [filename, pathname] = uiputfile({'*.csv', 'CSV文件 (*.csv)'}, ...

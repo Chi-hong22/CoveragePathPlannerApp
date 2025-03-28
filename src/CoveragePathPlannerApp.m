@@ -43,7 +43,7 @@
 %   - MATLAB 自带的 GUI 组件和绘图工具箱
 %
 % 参见函数：
-%   planUAVPaths, drawPaths, obstacleMarking, exportLocalWaypoints, sendLocalData, importMapData, generatePath, exportGlobalWaypoints, sendGlobalData
+%   planUAVPaths, drawPaths, obstacleMarking, exportDubinsWaypoints, sendDubinsTCPData, importMapData, generatePath, exportWaypoints, sendTCPData
 
 
 classdef CoveragePathPlannerApp < matlab.apps.AppBase
@@ -57,7 +57,8 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         PathParametersPanel      matlab.ui.container.Panel  % 路径参数面板
         FaultTolerantPanel       matlab.ui.container.Panel  % 容错参数设置面板
         TCPPanel                 matlab.ui.container.Panel  % TCP设置面板
-        dubinsPanel              matlab.ui.container.Panel  % Dubins路径规划参数面板       
+        dubinsPanel              matlab.ui.container.Panel  % Dubins路径规划参数面板
+        OperabilityPanel         matlab.ui.container.Panel  % UUV操作性设置面板       
 
         %% AUV初始参数组件
         % 速度和时间设置
@@ -159,16 +160,25 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         dubinsradiusLabel        matlab.ui.control.Label             % Dubins转弯半径标签
         dubinsradiusEditField    matlab.ui.control.NumericEditField  % Dubins转弯半径输入框
 
+        %% UUV操作性设置组件
+        DesiredSpeedEditField    matlab.ui.control.NumericEditField  % 期望速度
+        SimulationTimeEditField  matlab.ui.control.NumericEditField  % 仿真时间
+        Rudder1EditField         matlab.ui.control.NumericEditField  % 舵角1
+        Rudder2EditField         matlab.ui.control.NumericEditField  % 舵角2
+        Rudder3EditField         matlab.ui.control.NumericEditField  % 舵角3
+        Rudder4EditField         matlab.ui.control.NumericEditField  % 舵角4
+        StartOperabilitySimulationButton matlab.ui.control.Button    % 开始操作性仿真按钮
+
         %% 操作按钮组件
-        GenerateButton           matlab.ui.control.Button            % 导出Dubins路径按钮
-        exportLocalWaypointsButton matlab.ui.control.Button         % 生成全局梳状路径按钮
-        ExportButton             matlab.ui.control.Button            % 导出全局路径数据按钮
-        SendTCPButton            matlab.ui.control.Button            % 发送全局路径数据按钮
-        PlanPathsButton          matlab.ui.control.Button            % 生成局部Dubins路径按钮
-        SendLocalTCPButton       matlab.ui.control.Button            % 发送Dubins路径数据按钮
+        GenerateButton           matlab.ui.control.Button            % 生成全局梳状路径按钮
+        ExportGlobalWaypointsButton matlab.ui.control.Button         % 导出全局路径数据按钮
+        SendGlobalPathsButton    matlab.ui.control.Button            % 发送全局路径数据按钮
         ImportButton             matlab.ui.control.Button            % 导入地图数据按钮
-        obstacleMarkingButton    matlab.ui.control.Button            % 障碍物标注按钮
-        X1plotTCPButton          matlab.ui.control.Button            % AUV运行仿真图按钮
+        ObstacleMarkingButton    matlab.ui.control.Button            % 障碍物标注按钮
+        PlanLocalPathsButton     matlab.ui.control.Button            % 生成局部Dubins路径按钮
+        ExportLocalWaypointsButton matlab.ui.control.Button          % 导出Dubins路径按钮
+        SendLocalPathsButton     matlab.ui.control.Button            % 发送Dubins路径数据按钮
+        % X1plotTCPButton          matlab.ui.control.Button            % AUV运行仿真图按钮
         % drawPathsButton          matlab.ui.control.Button            % 绘制路径按钮
 
         %% 显示区域组件
@@ -575,66 +585,119 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.dubinsradiusEditField.Value = 0;
             app.dubinsradiusEditField.HorizontalAlignment = 'center';
 
-            %% 6. 按钮组
+            %% 6. UUV操作性设置面板
+            app.OperabilityPanel = uipanel(app.UIFigure);
+            app.OperabilityPanel.Title = ' UUV操作性设置';
+            app.OperabilityPanel.Position = [440 780 320 120]; % 位于按钮组上方
+
+            % 期望速度
+            uilabel(app.OperabilityPanel, 'Text', '期望速度:', 'Position', [10 80 60 22]);
+            app.DesiredSpeedEditField = uieditfield(app.OperabilityPanel, 'numeric');
+            app.DesiredSpeedEditField.Position = [80 80 60 22];
+            app.DesiredSpeedEditField.Value = 0;
+            app.DesiredSpeedEditField.HorizontalAlignment = 'center';
+
+            % 仿真时间
+            uilabel(app.OperabilityPanel, 'Text', '仿真时间:', 'Position', [160 80 60 22]);
+            app.SimulationTimeEditField = uieditfield(app.OperabilityPanel, 'numeric');
+            app.SimulationTimeEditField.Position = [230 80 60 22];
+            app.SimulationTimeEditField.Value = 0;
+            app.SimulationTimeEditField.HorizontalAlignment = 'center';
+
+            % 舵角1
+            uilabel(app.OperabilityPanel, 'Text', '舵角1:', 'Position', [10 50 60 22]);
+            app.Rudder1EditField = uieditfield(app.OperabilityPanel, 'numeric');
+            app.Rudder1EditField.Position = [80 50 60 22];
+            app.Rudder1EditField.Value = 0;
+            app.Rudder1EditField.HorizontalAlignment = 'center';
+
+            % 舵角2
+            uilabel(app.OperabilityPanel, 'Text', '舵角2:', 'Position', [160 50 60 22]);
+            app.Rudder2EditField = uieditfield(app.OperabilityPanel, 'numeric');
+            app.Rudder2EditField.Position = [230 50 60 22];
+            app.Rudder2EditField.Value = 0;
+            app.Rudder2EditField.HorizontalAlignment = 'center';
+
+            % 舵角3
+            uilabel(app.OperabilityPanel, 'Text', '舵角3:', 'Position', [10 20 60 22]);
+            app.Rudder3EditField = uieditfield(app.OperabilityPanel, 'numeric');
+            app.Rudder3EditField.Position = [80 20 60 22];
+            app.Rudder3EditField.Value = 0;
+            app.Rudder3EditField.HorizontalAlignment = 'center';
+
+            % 舵角4
+            uilabel(app.OperabilityPanel, 'Text', '舵角4:', 'Position', [160 20 60 22]);
+            app.Rudder4EditField = uieditfield(app.OperabilityPanel, 'numeric');
+            app.Rudder4EditField.Position = [230 20 60 22];
+            app.Rudder4EditField.Value = 0;
+            app.Rudder4EditField.HorizontalAlignment = 'center';
+
+            % 开始操作性仿真按钮
+            app.StartOperabilitySimulationButton = uibutton(app.OperabilityPanel, 'push');
+            app.StartOperabilitySimulationButton.ButtonPushedFcn = @(~,~) startOperabilitySimulation(app);
+            app.StartOperabilitySimulationButton.Position = [10 5 280 22];
+            app.StartOperabilitySimulationButton.Text = '开始操作性仿真';
+
+            %% 7. 按钮组
             
             % 创建梳状路径生成按钮 - 根据区域边界自动计算梳状覆盖路径
-            app.exportLocalWaypointsButton = uibutton(app.UIFigure, 'push');
-            app.exportLocalWaypointsButton.ButtonPushedFcn = @(~,~) generatePath(app);
-            app.exportLocalWaypointsButton.Position = [440 780 320 30];
-            app.exportLocalWaypointsButton.Text = '生成全局梳状路径';
-            
+            app.GenerateButton = uibutton(app.UIFigure, 'push');
+            app.GenerateButton.ButtonPushedFcn = @(~,~) generatePath(app);
+            app.GenerateButton.Position = [440 740 320 30]; % 下降40像素
+            app.GenerateButton.Text = '生成全局梳状路径';
+
             % 创建梳状路径点导出按钮 - 将生成的梳状路径点以CSV格式保存到本地
-            app.ExportButton = uibutton(app.UIFigure, 'push');
-            app.ExportButton.ButtonPushedFcn = @(~,~) exportGlobalWaypoints(app);
-            app.ExportButton.Position = [440 740 320 30];
-            app.ExportButton.Text = '导出全局梳状路径数据(csv)';
-            app.ExportButton.Enable = 'off';
+            app.ExportGlobalWaypointsButton = uibutton(app.UIFigure, 'push');
+            app.ExportGlobalWaypointsButton.ButtonPushedFcn = @(~,~) exportGlobalWaypoints(app);
+            app.ExportGlobalWaypointsButton.Position = [440 700 320 30]; % 下降40像素
+            app.ExportGlobalWaypointsButton.Text = '导出全局梳状路径数据(csv)';
+            app.ExportGlobalWaypointsButton.Enable = 'off';
 
             % 创建梳状路径点发送按钮 - 通过TCP协议将梳状路径点数据发送至AUV
-            app.SendTCPButton = uibutton(app.UIFigure, 'push');
-            app.SendTCPButton.ButtonPushedFcn = @(~,~) sendGlobalData(app);
-            app.SendTCPButton.Position = [440 700 320 30];
-            app.SendTCPButton.Text = '发送全局梳状路径数据至 AUV ';
-            app.SendTCPButton.Enable = 'off';
+            app.SendGlobalPathsButton = uibutton(app.UIFigure, 'push');
+            app.SendGlobalPathsButton.ButtonPushedFcn = @(~,~) sendGlobalData(app);
+            app.SendGlobalPathsButton.Position = [440 660 320 30]; % 下降40像素
+            app.SendGlobalPathsButton.Text = '发送全局梳状路径数据至 AUV ';
+            app.SendGlobalPathsButton.Enable = 'off';
 
             % 创建地图数据导入按钮 - 从MAT文件中加载预设的地图数据
             app.ImportButton = uibutton(app.UIFigure, 'push');
             app.ImportButton.ButtonPushedFcn = @(~,~) importMapData(app);
-            app.ImportButton.Position = [440 660 320 30];
+            app.ImportButton.Position = [440 620 320 30]; % 下降40像素
             app.ImportButton.Text = '导入地图数据';
-            
+
             % 创建地形图及障碍物标注按钮 - 显示地形并允许用户标注障碍物
-            app.obstacleMarkingButton = uibutton(app.UIFigure, 'push');
-            app.obstacleMarkingButton.ButtonPushedFcn = @(~,~)obstacleMarking(app);
-            app.obstacleMarkingButton.Position = [440 620 320 30];
-            app.obstacleMarkingButton.Text = '地形图及障碍物标注';
-            app.obstacleMarkingButton.Enable = 'off';
+            app.ObstacleMarkingButton = uibutton(app.UIFigure, 'push');
+            app.ObstacleMarkingButton.ButtonPushedFcn = @(~,~)obstacleMarking(app);
+            app.ObstacleMarkingButton.Position = [440 580 320 30]; % 下降40像素
+            app.ObstacleMarkingButton.Text = '地形图及障碍物标注';
+            app.ObstacleMarkingButton.Enable = 'off';
 
             % 创建Dubins路径规划按钮
-            app.PlanPathsButton = uibutton(app.UIFigure, 'push');
-            app.PlanPathsButton.ButtonPushedFcn = @(~,~) planUAVPaths(app, app.NumLinesEditField.Value,app.dubinsnsEditField.Value,app.dubinsnlEditField.Value,app.dubinsnfEditField.Value);
-            app.PlanPathsButton.Position =[440 580 320 30];
-            app.PlanPathsButton.Text = '生成局部 Dubins 路径规划';
-            app.PlanPathsButton.Enable = 'off';
-            
+            app.PlanLocalPathsButton = uibutton(app.UIFigure, 'push');
+            app.PlanLocalPathsButton.ButtonPushedFcn = @(~,~) planUAVPaths(app, app.NumLinesEditField.Value,app.dubinsnsEditField.Value,app.dubinsnlEditField.Value,app.dubinsnfEditField.Value);
+            app.PlanLocalPathsButton.Position =[440 540 320 30]; % 下降40像素
+            app.PlanLocalPathsButton.Text = '生成局部 Dubins 路径规划';
+            app.PlanLocalPathsButton.Enable = 'off';
+
             % 创建Dubins路径点导出按钮 - 将计算的路径点以CSV格式保存到本地文件
-            app.GenerateButton = uibutton(app.UIFigure, 'push');
-            app.GenerateButton.ButtonPushedFcn = @(~,~) exportLocalWaypoints(app);
-            app.GenerateButton.Position = [440 540 320 30];
-            app.GenerateButton.Text = '导出 Dubins 路径规划数据(csv)';
-            app.GenerateButton.Enable = 'off';
-            
+            app.ExportLocalWaypointsButton = uibutton(app.UIFigure, 'push');
+            app.ExportLocalWaypointsButton.ButtonPushedFcn = @(~,~) exportLocalWaypoints(app);
+            app.ExportLocalWaypointsButton.Position = [440 500 320 30]; % 下降40像素
+            app.ExportLocalWaypointsButton.Text = '导出 Dubins 路径规划数据(csv)';
+            app.ExportLocalWaypointsButton.Enable = 'off';
+
             % 创建Dubins路径点发送按钮 - 通过TCP协议将路径点数据发送至AUV
-            app.SendLocalTCPButton = uibutton(app.UIFigure, 'push');
-            app.SendLocalTCPButton.ButtonPushedFcn = @(~,~) sendLocalData(app);
-            app.SendLocalTCPButton.Position = [440 500 320 30];
-            app.SendLocalTCPButton.Text = '发送 Dubins 路径规划数据至 AUV ';
-            app.SendLocalTCPButton.Enable = 'off';
+            app.SendLocalPathsButton = uibutton(app.UIFigure, 'push');
+            app.SendLocalPathsButton.ButtonPushedFcn = @(~,~) sendLocalData(app);
+            app.SendLocalPathsButton.Position = [440 460 320 30]; % 下降40像素
+            app.SendLocalPathsButton.Text = '发送 Dubins 路径规划数据至 AUV ';
+            app.SendLocalPathsButton.Enable = 'off';
 
             % % 创建仿真图绘制按钮 - 可视化显示当前路径规划及环境的仿真效果
             % app.X1plotTCPButton = uibutton(app.UIFigure, 'push');
             % app.X1plotTCPButton.ButtonPushedFcn = @(~,~) X1plotTCP(app);
-            % app.X1plotTCPButton.Position = [440 460 320 30];
+            % app.X1plotTCPButton.Position = [440 420 320 30];
             % app.X1plotTCPButton.Text = '绘制 AUV 运行仿真图';
             % app.X1plotTCPButton.Enable = 'off';
 

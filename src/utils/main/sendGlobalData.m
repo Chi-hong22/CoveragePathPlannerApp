@@ -26,5 +26,5 @@
 
 function sendGlobalData(app)
     % 调用统一函数发送数据
-    sendPathDataViaTCP(app, app.Waypoints, 'SendTCPButton');
+    sendPathDataViaTCP(app, app.Waypoints, 'SendGlobalPathsButton');
 end
