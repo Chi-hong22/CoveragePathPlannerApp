@@ -43,7 +43,7 @@
 %   - MATLAB 自带的 GUI 组件和绘图工具箱
 %
 % 参见函数：
-%   planUAVPaths, drawPaths, obstacleMarking, exportDubinsWaypoints, sendDubinsTCPData, importMapData, generatePath, exportWaypoints, sendTCPData
+%   planUAVPaths, drawPaths, obstacleMarking, exportLocalWaypoints, sendLocalData, importMapData, generatePath, exportGlobalWaypoints, sendGlobalData
 
 
 classdef CoveragePathPlannerApp < matlab.apps.AppBase
@@ -57,8 +57,8 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         PathParametersPanel      matlab.ui.container.Panel  % 路径参数面板
         FaultTolerantPanel       matlab.ui.container.Panel  % 容错参数设置面板
         TCPPanel                 matlab.ui.container.Panel  % TCP设置面板
-        dubinsPanel              matlab.ui.container.Panel  % Dubins路径规划参数面板
-        
+        dubinsPanel              matlab.ui.container.Panel  % Dubins路径规划参数面板       
+
         %% AUV初始参数组件
         % 速度和时间设置
         udEditField              matlab.ui.control.NumericEditField  % 最大速度设置
@@ -112,9 +112,10 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         upEditFieldLabel         matlab.ui.control.Label             % 上浮点索引标签
         DupEditField             matlab.ui.control.NumericEditField  % 上浮深度设置
         DupEditFieldLabel        matlab.ui.control.Label             % 上浮深度标签
-        
+
         %% 容错参数设置组件
         % 掉深时间设置
+
         TdEditField              matlab.ui.control.NumericEditField  % 掉深时间设置
         TdLabel                  matlab.ui.control.Label             % 掉深时间标签
         
@@ -137,7 +138,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         Delta3Label              matlab.ui.control.Label             % 舵3卡舵角度标签
         Delta4EditField          matlab.ui.control.NumericEditField  % 舵4卡舵角度
         Delta4Label              matlab.ui.control.Label             % 舵4卡舵角度标签
-        
+
         %% TCP通信设置组件
         ServerIPEditField        matlab.ui.control.EditField         % 服务器IP地址
         ServerIPLabel            matlab.ui.control.Label             % 服务器IP标签
@@ -157,10 +158,10 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         dubinsnfEditField        matlab.ui.control.NumericEditField  % 后段路径点个数输入框
         dubinsradiusLabel        matlab.ui.control.Label             % Dubins转弯半径标签
         dubinsradiusEditField    matlab.ui.control.NumericEditField  % Dubins转弯半径输入框
-        
+
         %% 操作按钮组件
         GenerateButton           matlab.ui.control.Button            % 导出Dubins路径按钮
-        exportDubinsWaypointsButton matlab.ui.control.Button         % 生成全局梳状路径按钮
+        exportLocalWaypointsButton matlab.ui.control.Button         % 生成全局梳状路径按钮
         ExportButton             matlab.ui.control.Button            % 导出全局路径数据按钮
         SendTCPButton            matlab.ui.control.Button            % 发送全局路径数据按钮
         PlanPathsButton          matlab.ui.control.Button            % 生成局部Dubins路径按钮
@@ -169,6 +170,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         obstacleMarkingButton    matlab.ui.control.Button            % 障碍物标注按钮
         X1plotTCPButton          matlab.ui.control.Button            % AUV运行仿真图按钮
         % drawPathsButton          matlab.ui.control.Button            % 绘制路径按钮
+
         %% 显示区域组件
         UIAxes1                  matlab.ui.control.UIAxes            % 全局梳状路径显示区域
         UIAxes2                  matlab.ui.control.UIAxes            % 局部Dubins路径显示区域
@@ -178,8 +180,9 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         
         %% 数据存储变量
         Waypoints                                                    % 存储路径点数据
+
     end
-    
+
     properties (SetAccess = immutable, GetAccess = public)
         currentProjectRoot string                                    % 项目根目录
     end
@@ -575,21 +578,21 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             %% 6. 按钮组
             
             % 创建梳状路径生成按钮 - 根据区域边界自动计算梳状覆盖路径
-            app.exportDubinsWaypointsButton = uibutton(app.UIFigure, 'push');
-            app.exportDubinsWaypointsButton.ButtonPushedFcn = @(~,~) generatePath(app);
-            app.exportDubinsWaypointsButton.Position = [440 780 320 30];
-            app.exportDubinsWaypointsButton.Text = '生成全局梳状路径';
+            app.exportLocalWaypointsButton = uibutton(app.UIFigure, 'push');
+            app.exportLocalWaypointsButton.ButtonPushedFcn = @(~,~) generatePath(app);
+            app.exportLocalWaypointsButton.Position = [440 780 320 30];
+            app.exportLocalWaypointsButton.Text = '生成全局梳状路径';
             
             % 创建梳状路径点导出按钮 - 将生成的梳状路径点以CSV格式保存到本地
             app.ExportButton = uibutton(app.UIFigure, 'push');
-            app.ExportButton.ButtonPushedFcn = @(~,~) exportWaypoints(app);
+            app.ExportButton.ButtonPushedFcn = @(~,~) exportGlobalWaypoints(app);
             app.ExportButton.Position = [440 740 320 30];
             app.ExportButton.Text = '导出全局梳状路径数据(csv)';
             app.ExportButton.Enable = 'off';
 
             % 创建梳状路径点发送按钮 - 通过TCP协议将梳状路径点数据发送至AUV
             app.SendTCPButton = uibutton(app.UIFigure, 'push');
-            app.SendTCPButton.ButtonPushedFcn = @(~,~) sendTCPData(app);
+            app.SendTCPButton.ButtonPushedFcn = @(~,~) sendGlobalData(app);
             app.SendTCPButton.Position = [440 700 320 30];
             app.SendTCPButton.Text = '发送全局梳状路径数据至 AUV ';
             app.SendTCPButton.Enable = 'off';
@@ -616,14 +619,14 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             
             % 创建Dubins路径点导出按钮 - 将计算的路径点以CSV格式保存到本地文件
             app.GenerateButton = uibutton(app.UIFigure, 'push');
-            app.GenerateButton.ButtonPushedFcn = @(~,~) exportDubinsWaypoints(app);
+            app.GenerateButton.ButtonPushedFcn = @(~,~) exportLocalWaypoints(app);
             app.GenerateButton.Position = [440 540 320 30];
             app.GenerateButton.Text = '导出 Dubins 路径规划数据(csv)';
             app.GenerateButton.Enable = 'off';
             
             % 创建Dubins路径点发送按钮 - 通过TCP协议将路径点数据发送至AUV
             app.SendLocalTCPButton = uibutton(app.UIFigure, 'push');
-            app.SendLocalTCPButton.ButtonPushedFcn = @(~,~) sendDubinsTCPData(app);
+            app.SendLocalTCPButton.ButtonPushedFcn = @(~,~) sendLocalData(app);
             app.SendLocalTCPButton.Position = [440 500 320 30];
             app.SendLocalTCPButton.Text = '发送 Dubins 路径规划数据至 AUV ';
             app.SendLocalTCPButton.Enable = 'off';

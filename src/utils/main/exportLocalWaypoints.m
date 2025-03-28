@@ -25,7 +25,7 @@
 %   单位：哈尔滨工程大学
 
 
-function exportDubinsWaypoints(app)
+function exportLocalWaypoints(app)
 
     try
         % 从工作区读取数据

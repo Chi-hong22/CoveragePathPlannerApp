@@ -4,6 +4,7 @@
 # bin/
 slprj/
 docs/
+.lingma/
 
 # 忽略特定类型文件
 *.slxc
