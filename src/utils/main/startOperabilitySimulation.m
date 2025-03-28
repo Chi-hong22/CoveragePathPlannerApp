@@ -37,7 +37,7 @@
 %   无直接返回值，仿真结果将通过图形界面显示或保存到指定文件中。
 %
 % 注意事项：
-%   1. 
+%   1. 调用sendPathDataViaTCP函数发送路径数据
 %   2. 
 %   3. 
 %
@@ -49,4 +49,8 @@
 %   - Simulink 仿真工具箱（可选）
 %
 % 参见函数：
-%   simulateAUV, plotSimulationResults, saveSimulationData
+%   sendPathDataViaTCP
+
+function startOperabilitySimulation(app)
+
+end
