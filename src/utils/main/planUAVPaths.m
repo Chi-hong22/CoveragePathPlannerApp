@@ -88,7 +88,7 @@ function planUAVPaths(app)
         'TrajSeq_Coop',[]);                                             % 协作路径序列矩阵
 
     %% 按顺序规划每个AUV从起点到终点的路径
-    for uav_index=1:2* app.NumLinesEditField.Value-1                                        % 遍历每个AUV
+    for uav_index=1:2*app.NumLinesEditField.Value-1                                        % 遍历每个AUV
         start_info=StartInfo(uav_index,:);                              % 获取AUV的起点信息
         finish_info=FinishInfo(uav_index,:);                            % 获取AUV的终点信息
         Property.radius=start_info(4);                                  % 根据初始信息设置AUV的转弯半径
