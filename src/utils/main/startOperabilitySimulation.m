@@ -57,6 +57,8 @@ function startOperabilitySimulation(app)
     sendPathDataViaTCP(app, pathData, 'StartOperabilitySimulationButton');
 
     % 或者数据处理和TCP发送分开调用
+    app.StartOperabilitySimulationButton.Enable = false;
+
     [jsonData, statusData, ~] = processPathData(app, pathData);
     if ~statusData
         app.StartOperabilitySimulationButton.Enable = true;
