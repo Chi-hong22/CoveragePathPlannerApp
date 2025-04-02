@@ -203,7 +203,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         function createComponents(app)
             %% 主窗口设置
             app.UIFigure = uifigure;
-            app.UIFigure.Position = [100 100 1300 900]; ...[100 100 1300 830]
+            app.UIFigure.Position = [100 100 1300 830]; ...[100 100 1300 830]
             app.UIFigure.Name = 'UUV路径点上位机 (单位:m)';
 
             %% 1. 坐标初始化面板
@@ -590,7 +590,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             %% 6. UUV操作性设置面板
             app.OperabilityPanel = uipanel(app.UIFigure);
             app.OperabilityPanel.Title = ' UUV操作性设置';
-            app.OperabilityPanel.Position = [440 720 320 90]; % 位于按钮组上方
+            app.OperabilityPanel.Position = [480 720 340 90]; % 位于按钮组上方
 
             % 舵角1
             uilabel(app.OperabilityPanel, 'Text', '舵角1:', 'Position', [10 40 40 22]); % 标签
@@ -645,61 +645,61 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 创建梳状路径生成按钮 - 根据区域边界自动计算梳状覆盖路径
             app.GenerateButton = uibutton(app.UIFigure, 'push');
             app.GenerateButton.ButtonPushedFcn = @(~,~) generatePath(app);
-            app.GenerateButton.Position = [440 680 320 30]; % 新位置
+            app.GenerateButton.Position = [480 680 340 30]; % 新位置
             app.GenerateButton.Text = '生成全局梳状路径';
 
             % 创建梳状路径点导出按钮 - 将生成的梳状路径点以CSV格式保存到本地
             app.ExportGlobalWaypointsButton = uibutton(app.UIFigure, 'push');
             app.ExportGlobalWaypointsButton.ButtonPushedFcn = @(~,~) exportGlobalWaypoints(app);
-            app.ExportGlobalWaypointsButton.Position = [440 645 320 30]; % 新位置
+            app.ExportGlobalWaypointsButton.Position = [480 645 340 30]; % 新位置
             app.ExportGlobalWaypointsButton.Text = '导出全局梳状路径数据(csv)';
             app.ExportGlobalWaypointsButton.Enable = 'off';
 
             % 创建梳状路径点发送按钮 - 通过TCP协议将梳状路径点数据发送至AUV
             app.SendGlobalPathsButton = uibutton(app.UIFigure, 'push');
             app.SendGlobalPathsButton.ButtonPushedFcn = @(~,~) sendGlobalData(app);
-            app.SendGlobalPathsButton.Position = [440 610 320 30]; % 新位置
+            app.SendGlobalPathsButton.Position = [480 610 340 30]; % 新位置
             app.SendGlobalPathsButton.Text = '发送全局梳状路径数据至 AUV ';
             app.SendGlobalPathsButton.Enable = 'off';
 
             % 创建地图数据导入按钮 - 从MAT文件中加载预设的地图数据
             app.ImportButton = uibutton(app.UIFigure, 'push');
             app.ImportButton.ButtonPushedFcn = @(~,~) importMapData(app);
-            app.ImportButton.Position = [440 575 320 30]; % 新位置
+            app.ImportButton.Position = [480 575 340 30]; % 新位置
             app.ImportButton.Text = '导入地图数据';
 
             % 创建地形图及障碍物标注按钮 - 显示地形并允许用户标注障碍物
             app.ObstacleMarkingButton = uibutton(app.UIFigure, 'push');
             app.ObstacleMarkingButton.ButtonPushedFcn = @(~,~)obstacleMarking(app);
-            app.ObstacleMarkingButton.Position = [440 540 320 30]; % 新位置
+            app.ObstacleMarkingButton.Position = [480 540 340 30]; % 新位置
             app.ObstacleMarkingButton.Text = '地形图及障碍物标注';
             app.ObstacleMarkingButton.Enable = 'off';
 
             % 创建Dubins路径规划按钮
             app.PlanLocalPathsButton = uibutton(app.UIFigure, 'push');
             app.PlanLocalPathsButton.ButtonPushedFcn = @(~,~) planUAVPaths(app);
-            app.PlanLocalPathsButton.Position =[440 505 320 30]; % 新位置
+            app.PlanLocalPathsButton.Position =[480 505 340 30]; % 新位置
             app.PlanLocalPathsButton.Text = '生成局部 Dubins 路径规划';
             app.PlanLocalPathsButton.Enable = 'off';
 
             % 创建Dubins路径点导出按钮 - 将计算的路径点以CSV格式保存到本地文件
             app.ExportLocalWaypointsButton = uibutton(app.UIFigure, 'push');
             app.ExportLocalWaypointsButton.ButtonPushedFcn = @(~,~) exportLocalWaypoints(app);
-            app.ExportLocalWaypointsButton.Position = [440 470 320 30]; % 新位置
+            app.ExportLocalWaypointsButton.Position = [480 470 340 30]; % 新位置
             app.ExportLocalWaypointsButton.Text = '导出 Dubins 路径规划数据(csv)';
             app.ExportLocalWaypointsButton.Enable = 'off';
 
             % 创建Dubins路径点发送按钮 - 通过TCP协议将路径点数据发送至AUV
             app.SendLocalPathsButton = uibutton(app.UIFigure, 'push');
             app.SendLocalPathsButton.ButtonPushedFcn = @(~,~) sendLocalData(app);
-            app.SendLocalPathsButton.Position = [440 435 320 30]; % 最下方按钮位置保持不变
+            app.SendLocalPathsButton.Position = [480 435 340 30]; % 最下方按钮位置保持不变
             app.SendLocalPathsButton.Text = '发送 Dubins 路径规划数据至 AUV ';
             app.SendLocalPathsButton.Enable = 'off';
 
             % % 创建仿真图绘制按钮 - 可视化显示当前路径规划及环境的仿真效果
             % app.X1plotTCPButton = uibutton(app.UIFigure, 'push');
             % app.X1plotTCPButton.ButtonPushedFcn = @(~,~) X1plotTCP(app);
-            % app.X1plotTCPButton.Position = [440 390 320 30];
+            % app.X1plotTCPButton.Position = [480 390 340 30];
             % app.X1plotTCPButton.Text = '绘制 AUV 运行仿真图';
             % app.X1plotTCPButton.Enable = 'off';
 
@@ -722,7 +722,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 创建AUV全局路径规划显示区域 - 用于展示覆盖路径规划的整体效果
             % 位于界面右上方，显示AUV在整个区域的梳状覆盖路径
             app.UIAxes1 = uiaxes(app.UIFigure);
-            app.UIAxes1.Position = [880 470 390 390];
+            app.UIAxes1.Position = [860 430 390 390];
             title(app.UIAxes1, ' 全局梳状路径规划效果图');
             xlabel(app.UIAxes1, 'X轴 (米)');
             ylabel(app.UIAxes1, 'Y轴 (米)');
@@ -731,7 +731,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 创建Dubins局部路径规划显示区域 - 用于展示基于Dubins曲线的局部路径规划结果
             % 位于界面右下方，显示AUV在障碍物环境中的局部路径规划轨迹
             app.UIAxes2 = uiaxes(app.UIFigure);
-            app.UIAxes2.Position = [880 50 390 390];
+            app.UIAxes2.Position = [860 40 390 390];
             title(app.UIAxes2, '局部 Dubins 路径规划效果图');
             xlabel(app.UIAxes2, 'X轴 (米)');
             ylabel(app.UIAxes2, 'Y轴 (米)');
@@ -740,7 +740,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             % 创建地形与障碍物显示区域 - 用于显示环境地形和用户标注的障碍物
             % 位于界面中下方，允许用户交互式地标注和查看地形障碍物信息
             app.UIAxes3 = uiaxes(app.UIFigure);
-            app.UIAxes3.Position = [450 50 390 390];
+            app.UIAxes3.Position = [440 40 390 390];
             title(app.UIAxes3, '地形及障碍物标注图');
             xlabel(app.UIAxes3, 'X轴 (米)');
             ylabel(app.UIAxes3, 'Y轴 (米)');
@@ -779,11 +779,11 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             
             % 定义需要添加的核心文件夹路径
             pathsToAdd = {
-                fullfile(currentDir, 'utils'),            ... 工具函数主目录
-                fullfile(currentDir, 'utils', 'dubins'),  ... Dubins路径规划
-                fullfile(currentDir, 'utils', 'main'),    ... 主要功能函数
-                fullfile(currentDir, 'utils', 'plot'),    ... 绘图相关函数
-                fullfile(currentDir, 'utils', 'trajectory'), ... 轨迹生成函数
+%                 fullfile(currentDir, 'utils'),            ... 工具函数主目录
+%                 fullfile(currentDir, 'utils', 'dubins'),  ... Dubins路径规划
+%                 fullfile(currentDir, 'utils', 'main'),    ... 主要功能函数
+%                 fullfile(currentDir, 'utils', 'plot'),    ... 绘图相关函数
+%                 fullfile(currentDir, 'utils', 'trajectory'), ... 轨迹生成函数
                 fullfile(projectRoot, 'data'),            ... 数据文件夹
                 fullfile(projectRoot, 'picture')          ... 图片文件夹
             };

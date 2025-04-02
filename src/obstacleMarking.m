@@ -102,8 +102,8 @@ function obstacleMarking(app)
 
     % 添加颜色条并调整位置
     c = colorbar(app.UIAxes3);
-    c.Position(1) = c.Position(1) + 0.05;  % 向右移动
-    c.Position(3) = 0.008;                 % 设置宽度
+    c.Position(1) = c.Position(1) + 0.08;  % 向右移动
+    c.Position(3) = 0.02;                 % 设置宽度
     % c.Limits = [-25 0];                    % 设置颜色条显示范围
     colormap(app.UIAxes3, 'parula');
     caxis(app.UIAxes3, [-30 0]);          % 保持数据显示范围
