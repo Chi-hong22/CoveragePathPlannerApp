@@ -1,29 +1,29 @@
 function generatePath(app)
-    % ç”Ÿæˆè·¯å¾„
+    % Éú³ÉÂ·¾¶
     %
-    % åŠŸèƒ½æè¿°ï¼š
-    %   æ­¤å‡½æ•°ç”¨äºä»GUIä¸­æ”¶é›†å‚æ•°ï¼Œå¹¶è°ƒç”¨è·¯å¾„ç”Ÿæˆå‡½æ•°ç”ŸæˆAUVçš„æ¢³çŠ¶è¦†ç›–è·¯å¾„ã€‚
-    %   ç”Ÿæˆçš„è·¯å¾„å°†åœ¨UIç•Œé¢ä¸­æ˜¾ç¤ºï¼Œå¹¶è®¡ç®—æ€»è·¯å¾„é•¿åº¦ã€‚
+    % ¹¦ÄÜÃèÊö£º
+    %   ´Ëº¯ÊıÓÃÓÚ´ÓGUIÖĞÊÕ¼¯²ÎÊı£¬²¢µ÷ÓÃÂ·¾¶Éú³Éº¯ÊıÉú³ÉAUVµÄÊá×´¸²¸ÇÂ·¾¶¡£
+    %   Éú³ÉµÄÂ·¾¶½«ÔÚUI½çÃæÖĞÏÔÊ¾£¬²¢¼ÆËã×ÜÂ·¾¶³¤¶È¡£
     %
-    % è¾“å…¥å‚æ•°ï¼š
-    %   app - AUVCoveragePathPlannerAppçš„å®ä¾‹
+    % ÊäÈë²ÎÊı£º
+    %   app - AUVCoveragePathPlannerAppµÄÊµÀı
     %
-    % è¾“å‡ºå‚æ•°ï¼š
-    %   æ— ç›´æ¥è¾“å‡ºï¼Œç»“æœé€šè¿‡UIç•Œé¢æ˜¾ç¤º
+    % Êä³ö²ÎÊı£º
+    %   ÎŞÖ±½ÓÊä³ö£¬½á¹ûÍ¨¹ıUI½çÃæÏÔÊ¾
     %
-    % æ³¨æ„äº‹é¡¹ï¼š
-    %   1. ç¡®ä¿æ‰€æœ‰è¾“å…¥å‚æ•°æœ‰æ•ˆä¸”æ ¼å¼æ­£ç¡®ã€‚
-    %   2. è¯¥å‡½æ•°ä¼šæ›´æ–°UIç•Œé¢ä¸­çš„æŒ‰é’®çŠ¶æ€å’Œæ ‡ç­¾ã€‚
+    % ×¢ÒâÊÂÏî£º
+    %   1. È·±£ËùÓĞÊäÈë²ÎÊıÓĞĞ§ÇÒ¸ñÊ½ÕıÈ·¡£
+    %   2. ¸Ãº¯Êı»á¸üĞÂUI½çÃæÖĞµÄ°´Å¥×´Ì¬ºÍ±êÇ©¡£
     %
-    % ç‰ˆæœ¬ä¿¡æ¯ï¼š
-    %   ç‰ˆæœ¬ï¼šv1.1
-    %   åˆ›å»ºæ—¥æœŸï¼š241101
-    %   æœ€åä¿®æ”¹ï¼š250110
+    % °æ±¾ĞÅÏ¢£º
+    %   °æ±¾£ºv1.1
+    %   ´´½¨ÈÕÆÚ£º241101
+    %   ×îºóĞŞ¸Ä£º250110
     %
-    % ä½œè€…ä¿¡æ¯ï¼š
-    %   ä½œè€…ï¼šæ¸¸å­æ˜‚
-    %   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
-    %   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
+    % ×÷ÕßĞÅÏ¢£º
+    %   ×÷Õß£ºÓÎ×Ó°º
+    %   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
+    %   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
     startPoint = [app.XEditField.Value, app.YEditField.Value];
     lineSpacing = app.LineSpacingEditField.Value;
     pathWidth = app.PathWidthEditField.Value;
@@ -31,55 +31,55 @@ function generatePath(app)
     radius= app.dubinsradiusEditField.Value;
     direction = lower(app.DirectionDropDown.Value);
     
-    % è°ƒç”¨è·¯å¾„ç”Ÿæˆå‡½æ•°
+    % µ÷ÓÃÂ·¾¶Éú³Éº¯Êı
     try
-        % æ¸…é™¤å½“å‰axes
+        % Çå³ıµ±Ç°axes
         cla(app.UIAxes1);
         
-        % ç”Ÿæˆè·¯å¾„
+        % Éú³ÉÂ·¾¶
         app.Waypoints = generateCombPath(app, startPoint, lineSpacing, pathWidth, numLines, direction,radius);
         
-        % å°†è·¯å¾„ç‚¹ä¿å­˜åˆ°åŸºç¡€å·¥ä½œåŒº
+        % ½«Â·¾¶µã±£´æµ½»ù´¡¹¤×÷Çø
         assignin('base', 'Waypoints', app.Waypoints);
         
-        % æ‰‹åŠ¨ç»˜åˆ¶è·¯å¾„
+        % ÊÖ¶¯»æÖÆÂ·¾¶
         plot(app.UIAxes1, app.Waypoints(:,1), app.Waypoints(:,2), 'b-', 'LineWidth', 2);
         hold(app.UIAxes1, 'on');
         
-        % ç»˜åˆ¶è·¯å¾„ç‚¹
+        % »æÖÆÂ·¾¶µã
         plot(app.UIAxes1, app.Waypoints(:,1), app.Waypoints(:,2), 'bo', 'MarkerSize', 6);
         
-        % ç»˜åˆ¶èµ·ç‚¹ï¼ˆç»¿è‰²æ–¹å—ï¼‰
+        % »æÖÆÆğµã£¨ÂÌÉ«·½¿é£©
         plot(app.UIAxes1, app.Waypoints(1,1), app.Waypoints(1,2), 'gs', 'MarkerSize', 10, 'LineWidth', 2);
         
-        % ç»˜åˆ¶ç»ˆç‚¹ï¼ˆçº¢è‰²æ–¹å—ï¼‰
+        % »æÖÆÖÕµã£¨ºìÉ«·½¿é£©
         plot(app.UIAxes1, app.Waypoints(end,1), app.Waypoints(end,2), 'rs', 'MarkerSize', 10, 'LineWidth', 2);
         
-        % è®¡ç®—æ€»é•¿åº¦
+        % ¼ÆËã×Ü³¤¶È
         totalLength = 0;
         for i = 1:size(app.Waypoints,1)-1
             totalLength = totalLength + norm(app.Waypoints(i+1,:) - app.Waypoints(i,:));
         end
         
-        % æ›´æ–°æ€»é•¿åº¦æ ‡ç­¾
-        app.TotalLengthLabelandTCP.Text = sprintf('æ€»è·¯å¾„é•¿åº¦: %.1f ç±³', totalLength);
+        % ¸üĞÂ×Ü³¤¶È±êÇ©
+        app.TotalLengthLabelandTCP.Text = sprintf('×ÜÂ·¾¶³¤¶È: %.1f Ã×', totalLength);
         
-        % è®¾ç½®å›¾å½¢å±æ€§
+        % ÉèÖÃÍ¼ĞÎÊôĞÔ
         grid(app.UIAxes1, 'on');
-        xlabel(app.UIAxes1, 'Xè½´ (ç±³)');
-        ylabel(app.UIAxes1, 'Yè½´ (ç±³)');
-        title(app.UIAxes1, sprintf('AUVæ¢³çŠ¶è¦†ç›–è·¯å¾„è§„åˆ’å›¾ (%sæ–¹å‘)', upper(direction)));
-        legend(app.UIAxes1, 'è·¯å¾„', 'è·¯å¾„ç‚¹', 'èµ·ç‚¹', 'ç»ˆç‚¹');
+        xlabel(app.UIAxes1, 'XÖá (Ã×)');
+        ylabel(app.UIAxes1, 'YÖá (Ã×)');
+        title(app.UIAxes1, sprintf('AUVÊá×´¸²¸ÇÂ·¾¶¹æ»®Í¼ (%s·½Ïò)', upper(direction)));
+        legend(app.UIAxes1, 'Â·¾¶', 'Â·¾¶µã', 'Æğµã', 'ÖÕµã');
         axis(app.UIAxes1, 'equal');
         hold(app.UIAxes1, 'off');
         
-        % å¯ç”¨æŒ‰é’®
+        % ÆôÓÃ°´Å¥
         app.ExportGlobalWaypointsButton.Enable = 'on';
         app.SendGlobalPathsButton.Enable = 'on';
         
     catch ME
-        % é”™è¯¯å¤„ç†
-        errordlg(['è·¯å¾„ç”Ÿæˆé”™è¯¯: ' ME.message], 'é”™è¯¯');
+        % ´íÎó´¦Àí
+        errordlg(['Â·¾¶Éú³É´íÎó: ' ME.message], '´íÎó');
     end
     % app.PlanLocalPathsButton.Enable = 'off';  
     % app.SendLocalPathsButton.Enable = 'off';

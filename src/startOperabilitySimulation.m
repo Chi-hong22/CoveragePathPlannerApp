@@ -1,62 +1,62 @@
-%% startOperabilitySimulation - AUV æ“ä½œæ€§ä»¿çœŸå¯åŠ¨å‡½æ•°
+%% startOperabilitySimulation - AUV ²Ù×÷ÐÔ·ÂÕæÆô¶¯º¯Êý
 %
-% åŠŸèƒ½æè¿°ï¼š
-%   è¯¥å‡½æ•°ç”¨äºŽå¯åŠ¨ AUV çš„æ“ä½œæ€§ä»¿çœŸï¼Œæ ¹æ®ç”¨æˆ·è¾“å…¥çš„èˆµè§’ã€æœŸæœ›é€Ÿåº¦å’Œä»¿çœŸæ—¶é—´ï¼Œ
-%   æ¨¡æ‹Ÿ AUV åœ¨ä¸åŒæ“ä½œæ¡ä»¶ä¸‹çš„è¿åŠ¨è¡Œä¸ºã€‚ä»¿çœŸç»“æžœå¯ç”¨äºŽè¯„ä¼° AUV çš„æ“çºµæ€§èƒ½å’Œ
-%   æŽ§åˆ¶ç³»ç»Ÿçš„å“åº”ç‰¹æ€§ã€‚
+% ¹¦ÄÜÃèÊö£º
+%   ¸Ãº¯ÊýÓÃÓÚÆô¶¯ AUV µÄ²Ù×÷ÐÔ·ÂÕæ£¬¸ù¾ÝÓÃ»§ÊäÈëµÄ¶æ½Ç¡¢ÆÚÍûËÙ¶ÈºÍ·ÂÕæÊ±¼ä£¬
+%   Ä£Äâ AUV ÔÚ²»Í¬²Ù×÷Ìõ¼þÏÂµÄÔË¶¯ÐÐÎª¡£·ÂÕæ½á¹û¿ÉÓÃÓÚÆÀ¹À AUV µÄ²Ù×ÝÐÔÄÜºÍ
+%   ¿ØÖÆÏµÍ³µÄÏìÓ¦ÌØÐÔ¡£
 %
-% ä½œè€…ä¿¡æ¯ï¼š
-%   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
-%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
-%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
-%   ä½œè€…ï¼šé™¶å¥¥é£ž
-%   é‚®ç®±ï¼štaoaofei@gmail.com
-%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
+% ×÷ÕßÐÅÏ¢£º
+%   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
+%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
+%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
+%   ×÷Õß£ºÌÕ°Â·É
+%   ÓÊÏä£ºtaoaofei@gmail.com
+%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
 %
-% ç‰ˆæœ¬ä¿¡æ¯ï¼š
-%   å½“å‰ç‰ˆæœ¬ï¼šv1.0
-%   åˆ›å»ºæ—¥æœŸï¼š250328
+% °æ±¾ÐÅÏ¢£º
+%   µ±Ç°°æ±¾£ºv1.0
+%   ´´½¨ÈÕÆÚ£º250328
 %
-% ç‰ˆæœ¬åŽ†å²ï¼š
-%   v1.0 (250328) - åˆå§‹ç‰ˆæœ¬ï¼Œå®žçŽ°åŸºæœ¬ä»¿çœŸåŠŸèƒ½
+% °æ±¾ÀúÊ·£º
+%   v1.0 (250328) - ³õÊ¼°æ±¾£¬ÊµÏÖ»ù±¾·ÂÕæ¹¦ÄÜ
 %
-% è¾“å…¥å‚æ•°ï¼š
-%   app - [object] åº”ç”¨å¯¹è±¡
-%       é€šè¿‡GUIç•Œé¢ä¼ é€’ï¼ŒåŒ…å«ä»¥ä¸‹å¯è°ƒç”¨æŽ¥å£ï¼š
-%       1. å››ä¸ªèˆµè§’çš„å€¼
+% ÊäÈë²ÎÊý£º
+%   app - [object] Ó¦ÓÃ¶ÔÏó
+%       Í¨¹ýGUI½çÃæ´«µÝ£¬°üº¬ÒÔÏÂ¿Éµ÷ÓÃ½Ó¿Ú£º
+%       1. ËÄ¸ö¶æ½ÇµÄÖµ
 %          app.Rudder1EditField.Value
 %          app.Rudder2EditField.Value
 %          app.Rudder3EditField.Value
 %          app.Rudder4EditField.Value
-%       2. æœŸæœ›é€Ÿåº¦
+%       2. ÆÚÍûËÙ¶È
 %          app.DesiredSpeedEditField.Value
-%       3. ä»¿çœŸæ—¶é—´
+%       3. ·ÂÕæÊ±¼ä
 %          app.SimulationTimeEditField.Value
 %
-% è¾“å‡ºå‚æ•°ï¼š
-%   æ— ç›´æŽ¥è¿”å›žå€¼ï¼Œä»¿çœŸç»“æžœå°†é€šè¿‡å›¾å½¢ç•Œé¢æ˜¾ç¤ºæˆ–ä¿å­˜åˆ°æŒ‡å®šæ–‡ä»¶ä¸­ã€‚
+% Êä³ö²ÎÊý£º
+%   ÎÞÖ±½Ó·µ»ØÖµ£¬·ÂÕæ½á¹û½«Í¨¹ýÍ¼ÐÎ½çÃæÏÔÊ¾»ò±£´æµ½Ö¸¶¨ÎÄ¼þÖÐ¡£
 %
-% æ³¨æ„äº‹é¡¹ï¼š
-%   1. æ•°æ®å¤„ç†ä¸ŽTCPå‘é€çš„è°ƒç”¨æ–¹å¼åœ¨ä»£ç æ­£æ–‡ä¸­æœ‰è¯´æ˜Žã€‚
-%   2. æ³¨æ„pathDataçš„æ ¼å¼ä¸Žå†…å®¹ï¼Œå¿…é¡»ä¸ºä¸€ä¸ªäºŒç»´çŸ©é˜µï¼Œè¡Œæ•°ä¸ºè·¯å¾„ç‚¹æ•°é‡ï¼Œåˆ—æ•°ä¸º2æˆ–4ã€‚
+% ×¢ÒâÊÂÏî£º
+%   1. Êý¾Ý´¦ÀíÓëTCP·¢ËÍµÄµ÷ÓÃ·½Ê½ÔÚ´úÂëÕýÎÄÖÐÓÐËµÃ÷¡£
+%   2. ×¢ÒâpathDataµÄ¸ñÊ½ÓëÄÚÈÝ£¬±ØÐëÎªÒ»¸ö¶þÎ¬¾ØÕó£¬ÐÐÊýÎªÂ·¾¶µãÊýÁ¿£¬ÁÐÊýÎª2»ò4¡£
 %   3. 
 %
-% è°ƒç”¨æ–¹æ³•ï¼š
+% µ÷ÓÃ·½·¨£º
 %   app.StartOperabilitySimulationButton.ButtonPushedFcn = @(~,~) startOperabilitySimulation(app);
 %
-% ä¾èµ–å·¥å…·ç®±ï¼š
-%   - MATLAB åŸºç¡€å·¥å…·ç®±
-%   - Simulink ä»¿çœŸå·¥å…·ç®±ï¼ˆå¯é€‰ï¼‰
+% ÒÀÀµ¹¤¾ßÏä£º
+%   - MATLAB »ù´¡¹¤¾ßÏä
+%   - Simulink ·ÂÕæ¹¤¾ßÏä£¨¿ÉÑ¡£©
 %
-% å‚è§å‡½æ•°ï¼š
+% ²Î¼ûº¯Êý£º
 %   sendPathDataViaTCP,processPathData,processTCP
 
 function startOperabilitySimulation(app)
 
-    % è°ƒç”¨ç»Ÿä¸€å‡½æ•°å‘é€æ•°æ®
+    % µ÷ÓÃÍ³Ò»º¯Êý·¢ËÍÊý¾Ý
     sendPathDataViaTCP(app, pathData, 'StartOperabilitySimulationButton');
 
-    % æˆ–è€…æ•°æ®å¤„ç†å’ŒTCPå‘é€åˆ†å¼€è°ƒç”¨
+    % »òÕßÊý¾Ý´¦ÀíºÍTCP·¢ËÍ·Ö¿ªµ÷ÓÃ
     app.StartOperabilitySimulationButton.Enable = false;
 
     [jsonData, statusData, ~] = processPathData(app, pathData);

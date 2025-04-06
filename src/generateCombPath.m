@@ -1,88 +1,88 @@
-    %% generateCombPath - ç”Ÿæˆæ¢³çŠ¶è·¯å¾„
+    %% generateCombPath - Éú³ÉÊá×´Â·¾¶
     %
-    % åŠŸèƒ½æè¿°ï¼š
-    %   æ­¤å‡½æ•°ç”¨äºç”ŸæˆAUVçš„æ¢³çŠ¶è¦†ç›–è·¯å¾„ã€‚æ ¹æ®ç»™å®šçš„èµ·å§‹ç‚¹ã€çº¿é—´è·ã€è·¯å¾„å®½åº¦ã€çº¿æ¡æ•°é‡ã€æ–¹å‘å’Œè½¬å¼¯åŠå¾„ï¼Œ
-    %   ç”Ÿæˆè·¯å¾„ç‚¹å¹¶è®¡ç®—æ€»è·¯å¾„é•¿åº¦ã€‚
+    % ¹¦ÄÜÃèÊö£º
+    %   ´Ëº¯ÊıÓÃÓÚÉú³ÉAUVµÄÊá×´¸²¸ÇÂ·¾¶¡£¸ù¾İ¸ø¶¨µÄÆğÊ¼µã¡¢Ïß¼ä¾à¡¢Â·¾¶¿í¶È¡¢ÏßÌõÊıÁ¿¡¢·½ÏòºÍ×ªÍä°ë¾¶£¬
+    %   Éú³ÉÂ·¾¶µã²¢¼ÆËã×ÜÂ·¾¶³¤¶È¡£
     %
-    % è¾“å…¥å‚æ•°ï¼š
-    %   app - AUVCoveragePathPlannerAppçš„å®ä¾‹
-    %   start_point - èµ·å§‹ç‚¹åæ ‡ [x, y]
-    %   line_spacing - æ¢³çŠ¶é½¿é—´è·
-    %   path_width - è·¯å¾„å®½åº¦
-    %   num_lines - æ¢³çŠ¶è·¯å¾„æ•°é‡
-    %   direction - è·¯å¾„æ–¹å‘ ('x' æˆ– 'y')
-    %   radius - è½¬å¼¯åŠå¾„
+    % ÊäÈë²ÎÊı£º
+    %   app - AUVCoveragePathPlannerAppµÄÊµÀı
+    %   start_point - ÆğÊ¼µã×ø±ê [x, y]
+    %   line_spacing - Êá×´³İ¼ä¾à
+    %   path_width - Â·¾¶¿í¶È
+    %   num_lines - Êá×´Â·¾¶ÊıÁ¿
+    %   direction - Â·¾¶·½Ïò ('x' »ò 'y')
+    %   radius - ×ªÍä°ë¾¶
     %
-    % è¾“å‡ºå‚æ•°ï¼š
-    %   waypoints - ç”Ÿæˆçš„è·¯å¾„ç‚¹æ•°ç»„
+    % Êä³ö²ÎÊı£º
+    %   waypoints - Éú³ÉµÄÂ·¾¶µãÊı×é
     %
-    % æ³¨æ„äº‹é¡¹ï¼š
-    %   1. ç¡®ä¿æ‰€æœ‰è¾“å…¥å‚æ•°æœ‰æ•ˆä¸”æ ¼å¼æ­£ç¡®ã€‚
-    %   2. è¯¥å‡½æ•°ä¼šæ›´æ–°UIç•Œé¢ä¸­çš„æ ‡ç­¾ã€‚
+    % ×¢ÒâÊÂÏî£º
+    %   1. È·±£ËùÓĞÊäÈë²ÎÊıÓĞĞ§ÇÒ¸ñÊ½ÕıÈ·¡£
+    %   2. ¸Ãº¯Êı»á¸üĞÂUI½çÃæÖĞµÄ±êÇ©¡£
     %
-    % ç‰ˆæœ¬ä¿¡æ¯ï¼š
-    %   ç‰ˆæœ¬ï¼šv1.2
-    %   åˆ›å»ºæ—¥æœŸï¼š241101
-    %   æœ€åä¿®æ”¹ï¼š250316
-    % ç‰ˆæœ¬å†å²ï¼š
-    %   v1.0 (241101) - åˆå§‹ç‰ˆæœ¬
-    %   v1.1 (250110) - ä¼˜åŒ–ä»£ç 
-    %   v1.2 (250316) - ä¿®æ”¹directionå‚æ•°æ— æ•ˆçš„æƒ…å†µ
+    % °æ±¾ĞÅÏ¢£º
+    %   °æ±¾£ºv1.2
+    %   ´´½¨ÈÕÆÚ£º241101
+    %   ×îºóĞŞ¸Ä£º250316
+    % °æ±¾ÀúÊ·£º
+    %   v1.0 (241101) - ³õÊ¼°æ±¾
+    %   v1.1 (250110) - ÓÅ»¯´úÂë
+    %   v1.2 (250316) - ĞŞ¸Ädirection²ÎÊıÎŞĞ§µÄÇé¿ö
     %
-    % ä½œè€…ä¿¡æ¯ï¼š
-    %   ä½œè€…ï¼šæ¸¸å­æ˜‚
-    %   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
-    %   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
+    % ×÷ÕßĞÅÏ¢£º
+    %   ×÷Õß£ºÓÎ×Ó°º
+    %   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
+    %   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
 
 function waypoints = generateCombPath(app, startPoint, lineSpacing, pathWidth, numLines, direction,radius)
-    % åˆ é™¤æ–¹å‘å‚æ•°ä¸­çš„æ‰€æœ‰ç©ºæ ¼
+    % É¾³ı·½Ïò²ÎÊıÖĞµÄËùÓĞ¿Õ¸ñ
     direction = strrep(direction, ' ', '');
     
-    % åˆå§‹åŒ–waypointsæ•°ç»„
-    totalPoints = numLines * 2;  % æ¯æ¡çº¿æœ‰èµ·ç‚¹å’Œç»ˆç‚¹
+    % ³õÊ¼»¯waypointsÊı×é
+    totalPoints = numLines * 2;  % Ã¿ÌõÏßÓĞÆğµãºÍÖÕµã
     waypoints = zeros(totalPoints, 4);
 
-    % æ ¹æ®æ–¹å‘ç”Ÿæˆæ¢³çŠ¶è·¯å¾„
+    % ¸ù¾İ·½ÏòÉú³ÉÊá×´Â·¾¶
     if strcmp(direction, 'x')
-        % Xæ–¹å‘æ¢³çŠ¶è·¯å¾„ï¼ˆå‚ç›´äºYè½´ï¼‰
+        % X·½ÏòÊá×´Â·¾¶£¨´¹Ö±ÓÚYÖá£©
         for i = 1:numLines
-            if mod(i,2) == 1  % å¥‡æ•°çº¿ï¼Œä»å·¦åˆ°å³
-                % å·¦ç«¯ç‚¹
+            if mod(i,2) == 1  % ÆæÊıÏß£¬´Ó×óµ½ÓÒ
+                % ×ó¶Ëµã
                 waypoints(2*i-1,:) = [startPoint(1), startPoint(2) + (i-1)*lineSpacing,0,radius];
-                % å³ç«¯ç‚¹
+                % ÓÒ¶Ëµã
                 waypoints(2*i,:) = [startPoint(1) + pathWidth, startPoint(2) + (i-1)*lineSpacing,0,radius];
-            else  % å¶æ•°çº¿ï¼Œä»å³åˆ°å·¦
-                % å³ç«¯ç‚¹
+            else  % Å¼ÊıÏß£¬´ÓÓÒµ½×ó
+                % ÓÒ¶Ëµã
                 waypoints(2*i-1,:) = [startPoint(1) + pathWidth, startPoint(2) + (i-1)*lineSpacing,pi,radius];
-                % å·¦ç«¯ç‚¹
+                % ×ó¶Ëµã
                 waypoints(2*i,:) = [startPoint(1), startPoint(2) + (i-1)*lineSpacing,pi,radius];
             end
         end
     else
-        % Yæ–¹å‘æ¢³çŠ¶è·¯å¾„ï¼ˆå‚ç›´äºXè½´ï¼‰
+        % Y·½ÏòÊá×´Â·¾¶£¨´¹Ö±ÓÚXÖá£©
         for i = 1:numLines
-            if mod(i,2) == 1  % å¥‡æ•°çº¿ï¼Œä»ä¸‹åˆ°ä¸Š
-                % ä¸‹ç«¯ç‚¹
+            if mod(i,2) == 1  % ÆæÊıÏß£¬´ÓÏÂµ½ÉÏ
+                % ÏÂ¶Ëµã
                 waypoints(2*i-1,:) = [startPoint(1) + (i-1)*lineSpacing, startPoint(2),pi/2,radius];
-                % ä¸Šç«¯ç‚¹
+                % ÉÏ¶Ëµã
                 waypoints(2*i,:) = [startPoint(1) + (i-1)*lineSpacing, startPoint(2) + pathWidth,pi/2,radius];
-            else  % å¶æ•°çº¿ï¼Œä»ä¸Šåˆ°ä¸‹
-                % ä¸Šç«¯ç‚¹
+            else  % Å¼ÊıÏß£¬´ÓÉÏµ½ÏÂ
+                % ÉÏ¶Ëµã
                 waypoints(2*i-1,:) = [startPoint(1) + (i-1)*lineSpacing, startPoint(2) + pathWidth,-pi/2,radius];
-                % ä¸‹ç«¯ç‚¹
+                % ÏÂ¶Ëµã
                 waypoints(2*i,:) = [startPoint(1) + (i-1)*lineSpacing, startPoint(2),-pi/2,radius];
             end
         end
     end
     
-    % è®¡ç®—è·¯å¾„æ€»é•¿åº¦
+    % ¼ÆËãÂ·¾¶×Ü³¤¶È
     totalLength = 0;
     for i = 1:size(waypoints,1)-1
         totalLength = totalLength + norm(waypoints(i+1,:) - waypoints(i,:));
     end
     
-    % æ›´æ–°çŠ¶æ€ï¼ˆä¿®æ”¹è¿™é‡Œï¼Œä½¿ç”¨æ­£ç¡®çš„å±æ€§åï¼‰
-    app.TotalLengthLabelandTCP.Text = sprintf('æ€»è·¯å¾„é•¿åº¦: %.1f ç±³', totalLength);
-    app.StatusLabel.Text = 'å·²ç”Ÿæˆè§„åˆ’è·¯å¾„æ•°æ®ï¼';
+    % ¸üĞÂ×´Ì¬£¨ĞŞ¸ÄÕâÀï£¬Ê¹ÓÃÕıÈ·µÄÊôĞÔÃû£©
+    app.TotalLengthLabelandTCP.Text = sprintf('×ÜÂ·¾¶³¤¶È: %.1f Ã×', totalLength);
+    app.StatusLabel.Text = 'ÒÑÉú³É¹æ»®Â·¾¶Êı¾İ£¡';
     app.StatusLabel.FontColor = [0 0.5 0];
 end

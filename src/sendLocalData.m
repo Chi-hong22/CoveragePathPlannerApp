@@ -1,43 +1,43 @@
-%% sendLocalData - å‘é€å±€éƒ¨è·¯å¾„è§„åˆ’æ•°æ®åˆ°AUV
+%% sendLocalData - ·¢ËÍ¾Ö²¿Â·¾¶¹æ»®Êý¾Ýµ½AUV
 %
-% åŠŸèƒ½æè¿°ï¼š
-%   æ ¹æ®è®¾ç½®çš„æœåŠ¡å™¨IPå’Œç«¯å£ï¼Œå°†å±€éƒ¨è·¯å¾„è§„åˆ’æ•°æ®å‘é€åˆ°AUVè®¾å¤‡ã€‚
-%   æœ¬å‡½æ•°é€šè¿‡è°ƒç”¨sendPathDataViaTCPå‡½æ•°å®žçŽ°æ ¸å¿ƒåŠŸèƒ½ï¼Œä¼˜åŒ–äº†ä»£ç ç»“æž„ã€‚
+% ¹¦ÄÜÃèÊö£º
+%   ¸ù¾ÝÉèÖÃµÄ·þÎñÆ÷IPºÍ¶Ë¿Ú£¬½«¾Ö²¿Â·¾¶¹æ»®Êý¾Ý·¢ËÍµ½AUVÉè±¸¡£
+%   ±¾º¯ÊýÍ¨¹ýµ÷ÓÃsendPathDataViaTCPº¯ÊýÊµÏÖºËÐÄ¹¦ÄÜ£¬ÓÅ»¯ÁË´úÂë½á¹¹¡£
 %
-% è¾“å…¥å‚æ•°ï¼š
-%   app - AUVCoveragePathPlannerAppå®žä¾‹
+% ÊäÈë²ÎÊý£º
+%   app - AUVCoveragePathPlannerAppÊµÀý
 %
-% è¾“å‡ºå‚æ•°ï¼š
-%   æ— ç›´æŽ¥è¿”å›žå€¼ï¼Œå‘é€ç»“æžœé€šè¿‡UIç•Œé¢æ˜¾ç¤º
+% Êä³ö²ÎÊý£º
+%   ÎÞÖ±½Ó·µ»ØÖµ£¬·¢ËÍ½á¹ûÍ¨¹ýUI½çÃæÏÔÊ¾
 %
-% æ³¨æ„äº‹é¡¹ï¼š
-%   1. è¯·ç¡®ä¿æœåŠ¡å™¨IPå’Œç«¯å£è®¾ç½®æ­£ç¡®ï¼Œä¸”AUVè®¾å¤‡å·²è¿žæŽ¥ã€‚
-%   2. å‘é€è¿‡ç¨‹ä¸­ï¼ŒæŒ‰é’®å°†è¢«ç¦ç”¨ï¼Œå‘é€å®ŒæˆåŽæ¢å¤å¯ç”¨çŠ¶æ€ã€‚
-%   3. æœ¬å‡½æ•°è¯»å–æœ¬åœ°CSVæ–‡ä»¶ï¼Œæ–‡ä»¶åå›ºå®šä¸º'result_no_duplicates.csv'ã€‚
+% ×¢ÒâÊÂÏî£º
+%   1. ÇëÈ·±£·þÎñÆ÷IPºÍ¶Ë¿ÚÉèÖÃÕýÈ·£¬ÇÒAUVÉè±¸ÒÑÁ¬½Ó¡£
+%   2. ·¢ËÍ¹ý³ÌÖÐ£¬°´Å¥½«±»½ûÓÃ£¬·¢ËÍÍê³Éºó»Ö¸´¿ÉÓÃ×´Ì¬¡£
+%   3. ±¾º¯Êý¶ÁÈ¡±¾µØCSVÎÄ¼þ£¬ÎÄ¼þÃû¹Ì¶¨Îª'result_no_duplicates.csv'¡£
 %
-% ç‰ˆæœ¬ä¿¡æ¯ï¼š
-%   å½“å‰ç‰ˆæœ¬ï¼šv1.2
-%   åˆ›å»ºæ—¥æœŸï¼š20241101
-%   æœ€åŽä¿®æ”¹ï¼š250328
+% °æ±¾ÐÅÏ¢£º
+%   µ±Ç°°æ±¾£ºv1.2
+%   ´´½¨ÈÕÆÚ£º20241101
+%   ×îºóÐÞ¸Ä£º250328
 %
-% ä½œè€…ä¿¡æ¯ï¼š
-%   ä½œè€…ï¼šæ¸¸å­æ˜‚
-%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
-%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
-%   ä½œè€…ï¼šè‘£æ˜ŸçŠ´
-%   é‚®ç®±ï¼š1443123118@qq.com
-%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
+% ×÷ÕßÐÅÏ¢£º
+%   ×÷Õß£ºÓÎ×Ó°º
+%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
+%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
+%   ×÷Õß£º¶­ÐÇáí
+%   ÓÊÏä£º1443123118@qq.com
+%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
 
 function sendLocalData(app)
-    % èŽ·å–å·¥ä½œåŒºä¸­çš„è·¯å¾„æ•°æ®
+    % »ñÈ¡¹¤×÷ÇøÖÐµÄÂ·¾¶Êý¾Ý
     try
         result_no_duplicates = evalin('base', 'result_no_duplicates');
     catch
-        app.TotalLengthLabelandTCP.Text = 'èŽ·å–result_no_duplicatesè·¯å¾„æ•°æ®å¤±è´¥';
+        app.TotalLengthLabelandTCP.Text = '»ñÈ¡result_no_duplicatesÂ·¾¶Êý¾ÝÊ§°Ü';
         app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
         return;
     end
 
-    % è°ƒç”¨ç»Ÿä¸€å‡½æ•°å‘é€æ•°æ®
+    % µ÷ÓÃÍ³Ò»º¯Êý·¢ËÍÊý¾Ý
     sendPathDataViaTCP(app, result_no_duplicates, 'SendLocalPathsButton');
 end
