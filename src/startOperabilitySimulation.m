@@ -53,22 +53,42 @@
 
 function startOperabilitySimulation(app)
 
-    % 调用统一函数发送数据
-    sendPathDataViaTCP(app, pathData, 'StartOperabilitySimulationButton');
-
     % 或者数据处理和TCP发送分开调用
     app.StartOperabilitySimulationButton.Enable = false;
-
-    [jsonData, statusData, ~] = processPathData(app, pathData);
-    if ~statusData
-        app.StartOperabilitySimulationButton.Enable = true;
-        return;
-    end
-    [statusTCP, ~] = processTCP(app, jsonData);
+    
+    
+    
+    hostIP = app.hostIPEditField.Value;
+    hPort = app.hPortEditField.Value;
+    Rudder=[app.Rudder1EditField.Value,app.Rudder2EditField.Value,app.Rudder3EditField.Value,app.Rudder4EditField.Value];
+    Time=app.SimulationTimeEditField.Value;
+    ue=app.DesiredSpeedEditField.Value;
+    P0 = [app.P0XEditField.Value, app.P0YEditField.Value, app.P0ZEditField.Value];
+    A0 = [app.A0XEditField.Value, app.A0YEditField.Value, app.A0ZEditField.Value];
+    
+    assignin('base','Rudder',Rudder);
+    assignin('base','Time',Time);
+    assignin('base',"ue",ue);
+    assignin('base', 'P0', P0);
+            assignin('base', 'A0', A0);
+    
+    
+    dataStruct = struct( 'hostIP', hostIP, ...
+        'hPort', hPort, ...
+        'Rudder',Rudder, ...
+        'Time',Time, ...
+        'ue',ue, ...
+        'P0', P0, ...
+        'A0', A0);
+       
+    manoeuvreData = jsonencode(dataStruct);
+    
+    
+    [statusTCP, ~] = processTCP(app, manoeuvreData);
     if ~statusTCP
         app.StartOperabilitySimulationButton.Enable = true;
         return;
     end
-
-
-end
+    
+    
+    end

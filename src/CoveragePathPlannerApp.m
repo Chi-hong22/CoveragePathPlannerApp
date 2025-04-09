@@ -1,49 +1,49 @@
-%% CoveragePathPlannerApp - AUV æµ·åº•æŽ¢æµ‹æ¢³çŠ¶å…¨è¦†ç›–è·¯å¾„æ‹ç‚¹ç”Ÿæˆå·¥å…·
+%% CoveragePathPlannerApp - AUV º£µ×Ì½²âÊá×´È«¸²¸ÇÂ·¾¶¹ÕµãÉú³É¹¤¾ß
 %
-% åŠŸèƒ½æè¿°ï¼š
-%   ç”Ÿæˆ AUV æµ·åº•æŽ¢æµ‹æ¢³çŠ¶å…¨è¦†ç›–è·¯å¾„æ‹ç‚¹ï¼Œå¹¶æ”¯æŒå¯¼å‡ºä¸º.csv/.matæ ¼å¼æ–‡ä»¶ã€‚
-%   åŒæ—¶ï¼Œæ–°å¢žäº† dubins è·¯å¾„è§„åˆ’é¿éšœç®—æ³•ç›¸å…³è®¾ç½®ï¼Œä»¥åŠ TCP è®¾ç½®å’Œæ•°æ®å‘é€åŠŸèƒ½ã€‚
-%   æ–°å¢žäº† AUV æ“çºµæ€§åˆ†æžåŠŸèƒ½ï¼Œæ”¯æŒä»¿çœŸ AUV åœ¨ä¸åŒæ“ä½œæ¡ä»¶ä¸‹çš„è¿åŠ¨è¡Œä¸ºã€‚
+% ¹¦ÄÜÃèÊö£º
+%   Éú³É AUV º£µ×Ì½²âÊá×´È«¸²¸ÇÂ·¾¶¹Õµã£¬²¢Ö§³Öµ¼³öÎª.csv/.mat¸ñÊ½ÎÄ¼þ¡£
+%   Í¬Ê±£¬ÐÂÔöÁË dubins Â·¾¶¹æ»®±ÜÕÏËã·¨Ïà¹ØÉèÖÃ£¬ÒÔ¼° TCP ÉèÖÃºÍÊý¾Ý·¢ËÍ¹¦ÄÜ¡£
+%   ÐÂÔöÁË AUV ²Ù×ÝÐÔ·ÖÎö¹¦ÄÜ£¬Ö§³Ö·ÂÕæ AUV ÔÚ²»Í¬²Ù×÷Ìõ¼þÏÂµÄÔË¶¯ÐÐÎª¡£
 %
-% ä½œè€…ä¿¡æ¯ï¼š
-%   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
-%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
-%   ä½œè€…ï¼šdongxinganï¼ˆè‘£æ˜ŸçŠ´ï¼‰
-%   é‚®ç®±ï¼š1443123118@qq.com
-%   ä½œè€…ï¼šé™¶å¥¥é£ž
-%   é‚®ç®±ï¼štaoaofei@gmail.com
-%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
+% ×÷ÕßÐÅÏ¢£º
+%   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
+%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
+%   ×÷Õß£ºdongxingan£¨¶­ÐÇáí£©
+%   ÓÊÏä£º1443123118@qq.com
+%   ×÷Õß£ºÌÕ°Â·É
+%   ÓÊÏä£ºtaoaofei@gmail.com
+%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
 %
-% ç‰ˆæœ¬ä¿¡æ¯ï¼š
-%   å½“å‰ç‰ˆæœ¬ï¼šv1.5
-%   åˆ›å»ºæ—¥æœŸï¼š250110
-%   æœ€åŽä¿®æ”¹ï¼š250328
+% °æ±¾ÐÅÏ¢£º
+%   µ±Ç°°æ±¾£ºv1.5
+%   ´´½¨ÈÕÆÚ£º250110
+%   ×îºóÐÞ¸Ä£º250328
 %
-% ç‰ˆæœ¬åŽ†å²ï¼š
-%   v1.0 (241001) - åˆå§‹ç‰ˆæœ¬ï¼Œå®žçŽ°åŸºæœ¬çš„è·¯å¾„æ‹ç‚¹ç”ŸæˆåŠŸèƒ½
-%   v1.1 (241101) - TCP è®¾ç½®å’Œæ•°æ®å‘é€åŠŸèƒ½
-%   v1.2 (250110) - æ–°å¢ž Dubins è·¯å¾„è§„åˆ’é¿éšœç®—æ³•è®¾ç½®ï¼Œç›¸åº”çš„TCP è®¾ç½®å’Œæ•°æ®å‘é€åŠŸèƒ½
-%   v1.3 (250317) - æ–°å¢ž AUV å¤šé¡¹è·¯å¾„è§„åˆ’è·¯å¾„ç‚¹è®¾ç½®
-%   v1.4 (250326) - é‡æž„ä¸»ä½“UI,å°†å®¹é”™ç›¸å…³å·¥å†µå‚æ•°å•ç‹¬å±•ç¤º
-%   v1.5 (250328) - æ–°å¢ž AUV æ“çºµæ€§åˆ†æžåŠŸèƒ½
+% °æ±¾ÀúÊ·£º
+%   v1.0 (241001) - ³õÊ¼°æ±¾£¬ÊµÏÖ»ù±¾µÄÂ·¾¶¹ÕµãÉú³É¹¦ÄÜ
+%   v1.1 (241101) - TCP ÉèÖÃºÍÊý¾Ý·¢ËÍ¹¦ÄÜ
+%   v1.2 (250110) - ÐÂÔö Dubins Â·¾¶¹æ»®±ÜÕÏËã·¨ÉèÖÃ£¬ÏàÓ¦µÄTCP ÉèÖÃºÍÊý¾Ý·¢ËÍ¹¦ÄÜ
+%   v1.3 (250317) - ÐÂÔö AUV ¶àÏîÂ·¾¶¹æ»®Â·¾¶µãÉèÖÃ
+%   v1.4 (250326) - ÖØ¹¹Ö÷ÌåUI,½«ÈÝ´íÏà¹Ø¹¤¿ö²ÎÊýµ¥¶ÀÕ¹Ê¾
+%   v1.5 (250328) - ÐÂÔö AUV ²Ù×ÝÐÔ·ÖÎö¹¦ÄÜ
 %
-%   æ— ç›´æŽ¥è¾“å…¥å‚æ•°ï¼Œé€šè¿‡ GUI ç•Œé¢è®¾ç½®ç›¸å…³å‚æ•°
+%   ÎÞÖ±½ÓÊäÈë²ÎÊý£¬Í¨¹ý GUI ½çÃæÉèÖÃÏà¹Ø²ÎÊý
 %
-% è¾“å‡ºå‚æ•°ï¼š
-%   æ— ç›´æŽ¥è¿”å›žå€¼ï¼Œç”Ÿæˆçš„è·¯å¾„æ‹ç‚¹æ•°æ®å¯å¯¼å‡ºä¸º.csv/.matæ ¼å¼æ–‡ä»¶
+% Êä³ö²ÎÊý£º
+%   ÎÞÖ±½Ó·µ»ØÖµ£¬Éú³ÉµÄÂ·¾¶¹ÕµãÊý¾Ý¿Éµ¼³öÎª.csv/.mat¸ñÊ½ÎÄ¼þ
 %
-% æ³¨æ„äº‹é¡¹ï¼š
-%   1. åœ¨ä½¿ç”¨ Dubins è·¯å¾„è§„åˆ’é¿éšœç®—æ³•å‰ï¼Œè¯·ç¡®ä¿ç›¸å…³å‚æ•°è®¾ç½®æ­£ç¡®ã€‚
-%   2. TCP å‘é€åŠŸèƒ½éœ€è¦ç¡®ä¿æœåŠ¡å™¨ IP å’Œç«¯å£è®¾ç½®æ­£ç¡®ï¼Œä¸” AUV è®¾å¤‡å·²è¿žæŽ¥ã€‚
-%   3. å¯¼å‡ºè·¯å¾„ç‚¹æ–‡ä»¶æ—¶ï¼Œè¯·é€‰æ‹©åˆé€‚çš„ä¿å­˜è·¯å¾„å’Œæ–‡ä»¶æ ¼å¼ã€‚
+% ×¢ÒâÊÂÏî£º
+%   1. ÔÚÊ¹ÓÃ Dubins Â·¾¶¹æ»®±ÜÕÏËã·¨Ç°£¬ÇëÈ·±£Ïà¹Ø²ÎÊýÉèÖÃÕýÈ·¡£
+%   2. TCP ·¢ËÍ¹¦ÄÜÐèÒªÈ·±£·þÎñÆ÷ IP ºÍ¶Ë¿ÚÉèÖÃÕýÈ·£¬ÇÒ AUV Éè±¸ÒÑÁ¬½Ó¡£
+%   3. µ¼³öÂ·¾¶µãÎÄ¼þÊ±£¬ÇëÑ¡ÔñºÏÊÊµÄ±£´æÂ·¾¶ºÍÎÄ¼þ¸ñÊ½¡£
 %
-% è°ƒç”¨ç¤ºä¾‹ï¼š
-%   æ— ç›´æŽ¥è°ƒç”¨ç¤ºä¾‹ï¼Œé€šè¿‡è¿è¡Œ GUI ç•Œé¢è¿›è¡Œæ“ä½œ
+% µ÷ÓÃÊ¾Àý£º
+%   ÎÞÖ±½Óµ÷ÓÃÊ¾Àý£¬Í¨¹ýÔËÐÐ GUI ½çÃæ½øÐÐ²Ù×÷
 %
-% ä¾èµ–å·¥å…·ç®±ï¼š
-%   - MATLAB è‡ªå¸¦çš„ GUI ç»„ä»¶å’Œç»˜å›¾å·¥å…·ç®±
+% ÒÀÀµ¹¤¾ßÏä£º
+%   - MATLAB ×Ô´øµÄ GUI ×é¼þºÍ»æÍ¼¹¤¾ßÏä
 %
-% å‚è§å‡½æ•°ï¼š
+% ²Î¼ûº¯Êý£º
 %   planUAVPaths, drawPaths, obstacleMarking, exportDubinsWaypoints, sendDubinsTCPData, importMapData, generatePath, exportWaypoints, sendTCPData
 
 
@@ -51,470 +51,494 @@
 classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
     properties (Access = public)
-        %% ä¸»çª—å£ç»„ä»¶
-        UIFigure                 matlab.ui.Figure        % ä¸»åº”ç”¨çª—å£
+        %% Ö÷´°¿Ú×é¼þ
+        UIFigure                 matlab.ui.Figure        % Ö÷Ó¦ÓÃ´°¿Ú
         
-        %% é¢æ¿å®¹å™¨ç»„ä»¶
-        InitPanel                matlab.ui.container.Panel  % AUVå‚æ•°åˆå§‹åŒ–é¢æ¿
-        PathParametersPanel      matlab.ui.container.Panel  % è·¯å¾„å‚æ•°é¢æ¿
-        FaultTolerantPanel       matlab.ui.container.Panel  % å®¹é”™å‚æ•°è®¾ç½®é¢æ¿
-        TCPPanel                 matlab.ui.container.Panel  % TCPè®¾ç½®é¢æ¿
-        dubinsPanel              matlab.ui.container.Panel  % Dubinsè·¯å¾„è§„åˆ’å‚æ•°é¢æ¿
-        OperabilityPanel         matlab.ui.container.Panel  % UUVæ“ä½œæ€§è®¾ç½®é¢æ¿       
+        %% Ãæ°åÈÝÆ÷×é¼þ
+        InitPanel                matlab.ui.container.Panel  % AUV²ÎÊý³õÊ¼»¯Ãæ°å
+        PathParametersPanel      matlab.ui.container.Panel  % Â·¾¶²ÎÊýÃæ°å
+        FaultTolerantPanel       matlab.ui.container.Panel  % ÈÝ´í²ÎÊýÉèÖÃÃæ°å
+        TCPPanel                 matlab.ui.container.Panel  % TCPÉèÖÃÃæ°å
+        dubinsPanel              matlab.ui.container.Panel  % DubinsÂ·¾¶¹æ»®²ÎÊýÃæ°å
+        OperabilityPanel         matlab.ui.container.Panel  % UUV²Ù×÷ÐÔÉèÖÃÃæ°å       
 
-        %% AUVåˆå§‹å‚æ•°ç»„ä»¶
-        % é€Ÿåº¦å’Œæ—¶é—´è®¾ç½®
-        udEditField              matlab.ui.control.NumericEditField  % æœ€å¤§é€Ÿåº¦è®¾ç½®
-        udLabel                  matlab.ui.control.Label             % æœ€å¤§é€Ÿåº¦æ ‡ç­¾
-        TjEditField              matlab.ui.control.NumericEditField  % æ€¥åœæ—¶é—´è®¾ç½®
-        TjLabel                  matlab.ui.control.Label             % æ€¥åœæ—¶é—´æ ‡ç­¾
+        %% AUV³õÊ¼²ÎÊý×é¼þ
+        % ËÙ¶ÈºÍÊ±¼äÉèÖÃ
+        udEditField              matlab.ui.control.NumericEditField  % ×î´óËÙ¶ÈÉèÖÃ
+        udLabel                  matlab.ui.control.Label             % ×î´óËÙ¶È±êÇ©
+        TjEditField              matlab.ui.control.NumericEditField  % ¼±Í£Ê±¼äÉèÖÃ
+        TjLabel                  matlab.ui.control.Label             % ¼±Í£Ê±¼ä±êÇ©
         
-        % è§„åˆ’è·¯å¾„èµ·ç‚¹
-        XEditField               matlab.ui.control.NumericEditField  % Xåæ ‡è¾“å…¥æ¡†
-        XEditFieldLabel          matlab.ui.control.Label             % Xåæ ‡æ ‡ç­¾
-        YEditField               matlab.ui.control.NumericEditField  % Yåæ ‡è¾“å…¥æ¡†
-        YEditFieldLabel          matlab.ui.control.Label             % Yåæ ‡æ ‡ç­¾
+        % ¹æ»®Â·¾¶Æðµã
+        XEditField               matlab.ui.control.NumericEditField  % X×ø±êÊäÈë¿ò
+        XEditFieldLabel          matlab.ui.control.Label             % X×ø±ê±êÇ©
+        YEditField               matlab.ui.control.NumericEditField  % Y×ø±êÊäÈë¿ò
+        YEditFieldLabel          matlab.ui.control.Label             % Y×ø±ê±êÇ©
+        ZEditField               matlab.ui.control.NumericEditField  % Z×ø±êÊäÈë¿ò
+        ZEditFieldLabel          matlab.ui.control.Label             % Z×ø±ê±êÇ©
         
-        % AUVåˆå§‹ä½ç½®è®¾ç½®
-        P0XEditField             matlab.ui.control.NumericEditField  % åˆå§‹Xåæ ‡
-        P0XLabel                 matlab.ui.control.Label             % åˆå§‹Xåæ ‡æ ‡ç­¾
-        P0YEditField             matlab.ui.control.NumericEditField  % åˆå§‹Yåæ ‡
-        P0YLabel                 matlab.ui.control.Label             % åˆå§‹Yåæ ‡æ ‡ç­¾
-        P0ZEditField             matlab.ui.control.NumericEditField  % åˆå§‹Zåæ ‡
-        P0ZLabel                 matlab.ui.control.Label             % åˆå§‹Zåæ ‡æ ‡ç­¾
+        % AUV³õÊ¼Î»ÖÃÉèÖÃ
+        P0XEditField             matlab.ui.control.NumericEditField  % ³õÊ¼X×ø±ê
+        P0XLabel                 matlab.ui.control.Label             % ³õÊ¼X×ø±ê±êÇ©
+        P0YEditField             matlab.ui.control.NumericEditField  % ³õÊ¼Y×ø±ê
+        P0YLabel                 matlab.ui.control.Label             % ³õÊ¼Y×ø±ê±êÇ©
+        P0ZEditField             matlab.ui.control.NumericEditField  % ³õÊ¼Z×ø±ê
+        P0ZLabel                 matlab.ui.control.Label             % ³õÊ¼Z×ø±ê±êÇ©
         
-        % AUVåˆå§‹å§¿æ€è§’è®¾ç½®
-        A0XEditField             matlab.ui.control.NumericEditField  % Rollè§’
-        A0XLabel                 matlab.ui.control.Label             % Rollè§’æ ‡ç­¾
-        A0YEditField             matlab.ui.control.NumericEditField  % Pitchè§’
-        A0YLabel                 matlab.ui.control.Label             % Pitchè§’æ ‡ç­¾
-        A0ZEditField             matlab.ui.control.NumericEditField  % Yawè§’
-        A0ZLabel                 matlab.ui.control.Label             % Yawè§’æ ‡ç­¾
+        % AUV³õÊ¼×ËÌ¬½ÇÉèÖÃ
+        A0XEditField             matlab.ui.control.NumericEditField  % Roll½Ç
+        A0XLabel                 matlab.ui.control.Label             % Roll½Ç±êÇ©
+        A0YEditField             matlab.ui.control.NumericEditField  % Pitch½Ç
+        A0YLabel                 matlab.ui.control.Label             % Pitch½Ç±êÇ©
+        A0ZEditField             matlab.ui.control.NumericEditField  % Yaw½Ç
+        A0ZLabel                 matlab.ui.control.Label             % Yaw½Ç±êÇ©
         
-        %% æ¢³çŠ¶è·¯å¾„å‚æ•°è®¾ç½®ç»„ä»¶
-        % è·¯å¾„æ–¹å‘è®¾ç½®
-        DirectionDropDown        matlab.ui.control.DropDown          % è·¯å¾„æ–¹å‘ä¸‹æ‹‰æ¡†
-        DirectionDropDownLabel   matlab.ui.control.Label             % è·¯å¾„æ–¹å‘æ ‡ç­¾
+        %% Êá×´Â·¾¶²ÎÊýÉèÖÃ×é¼þ
+        % Â·¾¶·½ÏòÉèÖÃ
+        DirectionDropDown        matlab.ui.control.DropDown          % Â·¾¶·½ÏòÏÂÀ­¿ò
+        DirectionDropDownLabel   matlab.ui.control.Label             % Â·¾¶·½Ïò±êÇ©
         
-        % è·¯å¾„å‚æ•°è®¾ç½®
-        LineSpacingEditField     matlab.ui.control.NumericEditField  % æ¢³çŠ¶é½¿é—´è·è¾“å…¥æ¡†
-        LineSpacingEditFieldLabel matlab.ui.control.Label            % æ¢³çŠ¶é½¿é—´è·æ ‡ç­¾
-        PathWidthEditField       matlab.ui.control.NumericEditField  % è·¯å¾„æ€»å®½è¾“å…¥æ¡†
-        PathWidthEditFieldLabel  matlab.ui.control.Label             % è·¯å¾„æ€»å®½æ ‡ç­¾
-        NumLinesEditField        matlab.ui.control.NumericEditField  % è·¯å¾„æ¡æ•°è¾“å…¥æ¡†
-        NumLinesEditFieldLabel   matlab.ui.control.Label             % è·¯å¾„æ¡æ•°æ ‡ç­¾
+        % Â·¾¶²ÎÊýÉèÖÃ
+        LineSpacingEditField     matlab.ui.control.NumericEditField  % Êá×´³Ý¼ä¾àÊäÈë¿ò
+        LineSpacingEditFieldLabel matlab.ui.control.Label            % Êá×´³Ý¼ä¾à±êÇ©
+        PathWidthEditField       matlab.ui.control.NumericEditField  % Â·¾¶×Ü¿íÊäÈë¿ò
+        PathWidthEditFieldLabel  matlab.ui.control.Label             % Â·¾¶×Ü¿í±êÇ©
+        NumLinesEditField        matlab.ui.control.NumericEditField  % Â·¾¶ÌõÊýÊäÈë¿ò
+        NumLinesEditFieldLabel   matlab.ui.control.Label             % Â·¾¶ÌõÊý±êÇ©
         
-        % æ·±åº¦å’Œä¸Šä¸‹æµ®è®¾ç½®
-        ZEditField               matlab.ui.control.NumericEditField  % AUVæ·±åº¦è®¾ç½®
-        ZEditFieldLabel          matlab.ui.control.Label             % AUVæ·±åº¦æ ‡ç­¾
-        downEditField            matlab.ui.control.EditField         % ä¸‹æ½œç‚¹ç´¢å¼•è®¾ç½®
-        downEditFieldLabel       matlab.ui.control.Label             % ä¸‹æ½œç‚¹ç´¢å¼•æ ‡ç­¾
-        DdownEditField           matlab.ui.control.NumericEditField  % ä¸‹æ½œæ·±åº¦è®¾ç½®
-        DdownEditFieldLabel      matlab.ui.control.Label             % ä¸‹æ½œæ·±åº¦æ ‡ç­¾
-        upEditField              matlab.ui.control.EditField         % ä¸Šæµ®ç‚¹ç´¢å¼•è®¾ç½®
-        upEditFieldLabel         matlab.ui.control.Label             % ä¸Šæµ®ç‚¹ç´¢å¼•æ ‡ç­¾
-        DupEditField             matlab.ui.control.NumericEditField  % ä¸Šæµ®æ·±åº¦è®¾ç½®
-        DupEditFieldLabel        matlab.ui.control.Label             % ä¸Šæµ®æ·±åº¦æ ‡ç­¾
+        % Ãª¶¨ºÍÉÏÏÂ¸¡ÉèÖÃ
+        anchorEditField          matlab.ui.control.EditField         % Ãª¶¨µãË÷ÒýÉèÖÃ
+        anchorEditFieldLabel     matlab.ui.control.Label             % Ãª¶¨µãË÷Òý±êÇ©
+        TanchorEditField         matlab.ui.control.NumericEditField  % Ãª¶¨Ê±³¤ÉèÖÃ
+        TanchorEditFieldLabel    matlab.ui.control.Label             % Ãª¶¨Ê±³¤±êÇ©
+        downEditField            matlab.ui.control.EditField         % ÏÂÇ±µãË÷ÒýÉèÖÃ
+        downEditFieldLabel       matlab.ui.control.Label             % ÏÂÇ±µãË÷Òý±êÇ©
+        DdownEditField           matlab.ui.control.NumericEditField  % ÏÂÇ±Éî¶ÈÉèÖÃ
+        DdownEditFieldLabel      matlab.ui.control.Label             % ÏÂÇ±Éî¶È±êÇ©
+        upEditField              matlab.ui.control.EditField         % ÉÏ¸¡µãË÷ÒýÉèÖÃ
+        upEditFieldLabel         matlab.ui.control.Label             % ÉÏ¸¡µãË÷Òý±êÇ©
+        DupEditField             matlab.ui.control.NumericEditField  % ÉÏ¸¡Éî¶ÈÉèÖÃ
+        DupEditFieldLabel        matlab.ui.control.Label             % ÉÏ¸¡Éî¶È±êÇ©
 
-        %% å®¹é”™å‚æ•°è®¾ç½®ç»„ä»¶
-        % æŽ‰æ·±æ—¶é—´è®¾ç½®
+        %% ÈÝ´í²ÎÊýÉèÖÃ×é¼þ
+        % µôÉîÊ±¼äÉèÖÃ
 
-        TdEditField              matlab.ui.control.NumericEditField  % æŽ‰æ·±æ—¶é—´è®¾ç½®
-        TdLabel                  matlab.ui.control.Label             % æŽ‰æ·±æ—¶é—´æ ‡ç­¾
+        TdEditField              matlab.ui.control.NumericEditField  % µôÉîÊ±¼äÉèÖÃ
+        TdLabel                  matlab.ui.control.Label             % µôÉîÊ±¼ä±êÇ©
         
-        % å¡èˆµæ—¶é—´è®¾ç½®
-        Kdelta1EditField         matlab.ui.control.NumericEditField  % èˆµ1å¡èˆµæ—¶é—´
-        Kdelta1Label             matlab.ui.control.Label             % èˆµ1å¡èˆµæ—¶é—´æ ‡ç­¾
-        Kdelta2EditField         matlab.ui.control.NumericEditField  % èˆµ2å¡èˆµæ—¶é—´
-        Kdelta2Label             matlab.ui.control.Label             % èˆµ2å¡èˆµæ—¶é—´æ ‡ç­¾
-        Kdelta3EditField         matlab.ui.control.NumericEditField  % èˆµ3å¡èˆµæ—¶é—´
-        Kdelta3Label             matlab.ui.control.Label             % èˆµ3å¡èˆµæ—¶é—´æ ‡ç­¾
-        Kdelta4EditField         matlab.ui.control.NumericEditField  % èˆµ4å¡èˆµæ—¶é—´
-        Kdelta4Label             matlab.ui.control.Label             % èˆµ4å¡èˆµæ—¶é—´æ ‡ç­¾
+        % ¿¨¶æÊ±¼äÉèÖÃ
+        Kdelta1EditField         matlab.ui.control.NumericEditField  % ¶æ1¿¨¶æÊ±¼ä
+        Kdelta1Label             matlab.ui.control.Label             % ¶æ1¿¨¶æÊ±¼ä±êÇ©
+        Kdelta2EditField         matlab.ui.control.NumericEditField  % ¶æ2¿¨¶æÊ±¼ä
+        Kdelta2Label             matlab.ui.control.Label             % ¶æ2¿¨¶æÊ±¼ä±êÇ©
+        Kdelta3EditField         matlab.ui.control.NumericEditField  % ¶æ3¿¨¶æÊ±¼ä
+        Kdelta3Label             matlab.ui.control.Label             % ¶æ3¿¨¶æÊ±¼ä±êÇ©
+        Kdelta4EditField         matlab.ui.control.NumericEditField  % ¶æ4¿¨¶æÊ±¼ä
+        Kdelta4Label             matlab.ui.control.Label             % ¶æ4¿¨¶æÊ±¼ä±êÇ©
         
-        % å¡èˆµè§’åº¦è®¾ç½®
-        Delta1EditField          matlab.ui.control.NumericEditField  % èˆµ1å¡èˆµè§’åº¦
-        Delta1Label              matlab.ui.control.Label             % èˆµ1å¡èˆµè§’åº¦æ ‡ç­¾
-        Delta2EditField          matlab.ui.control.NumericEditField  % èˆµ2å¡èˆµè§’åº¦
-        Delta2Label              matlab.ui.control.Label             % èˆµ2å¡èˆµè§’åº¦æ ‡ç­¾
-        Delta3EditField          matlab.ui.control.NumericEditField  % èˆµ3å¡èˆµè§’åº¦
-        Delta3Label              matlab.ui.control.Label             % èˆµ3å¡èˆµè§’åº¦æ ‡ç­¾
-        Delta4EditField          matlab.ui.control.NumericEditField  % èˆµ4å¡èˆµè§’åº¦
-        Delta4Label              matlab.ui.control.Label             % èˆµ4å¡èˆµè§’åº¦æ ‡ç­¾
+        % ¿¨¶æ½Ç¶ÈÉèÖÃ
+        Delta1EditField          matlab.ui.control.NumericEditField  % ¶æ1¿¨¶æ½Ç¶È
+        Delta1Label              matlab.ui.control.Label             % ¶æ1¿¨¶æ½Ç¶È±êÇ©
+        Delta2EditField          matlab.ui.control.NumericEditField  % ¶æ2¿¨¶æ½Ç¶È
+        Delta2Label              matlab.ui.control.Label             % ¶æ2¿¨¶æ½Ç¶È±êÇ©
+        Delta3EditField          matlab.ui.control.NumericEditField  % ¶æ3¿¨¶æ½Ç¶È
+        Delta3Label              matlab.ui.control.Label             % ¶æ3¿¨¶æ½Ç¶È±êÇ©
+        Delta4EditField          matlab.ui.control.NumericEditField  % ¶æ4¿¨¶æ½Ç¶È
+        Delta4Label              matlab.ui.control.Label             % ¶æ4¿¨¶æ½Ç¶È±êÇ©
 
-        %% TCPé€šä¿¡è®¾ç½®ç»„ä»¶
-        ServerIPEditField        matlab.ui.control.EditField         % æœåŠ¡å™¨IPåœ°å€
-        ServerIPLabel            matlab.ui.control.Label             % æœåŠ¡å™¨IPæ ‡ç­¾
-        PortEditField            matlab.ui.control.NumericEditField  % æœåŠ¡å™¨ç«¯å£
-        PortLabel                matlab.ui.control.Label             % æœåŠ¡å™¨ç«¯å£æ ‡ç­¾
-        hostIPEditField          matlab.ui.control.EditField         % æœ¬æœºIPåœ°å€
-        hostIPLabel              matlab.ui.control.Label             % æœ¬æœºIPæ ‡ç­¾
-        hPortEditField           matlab.ui.control.NumericEditField  % æœ¬æœºç«¯å£
-        hPortLabel               matlab.ui.control.Label             % æœ¬æœºç«¯å£æ ‡ç­¾
+        %% TCPÍ¨ÐÅÉèÖÃ×é¼þ
+        ServerIPEditField        matlab.ui.control.EditField         % ·þÎñÆ÷IPµØÖ·
+        ServerIPLabel            matlab.ui.control.Label             % ·þÎñÆ÷IP±êÇ©
+        PortEditField            matlab.ui.control.NumericEditField  % ·þÎñÆ÷¶Ë¿Ú
+        PortLabel                matlab.ui.control.Label             % ·þÎñÆ÷¶Ë¿Ú±êÇ©
+        hostIPEditField          matlab.ui.control.EditField         % ±¾»úIPµØÖ·
+        hostIPLabel              matlab.ui.control.Label             % ±¾»úIP±êÇ©
+        hPortEditField           matlab.ui.control.NumericEditField  % ±¾»ú¶Ë¿Ú
+        hPortLabel               matlab.ui.control.Label             % ±¾»ú¶Ë¿Ú±êÇ©
         
-        %% Dubinsè·¯å¾„è§„åˆ’å‚æ•°ç»„ä»¶
-        dubinsnsLabel            matlab.ui.control.Label             % å‰æ®µè·¯å¾„ç‚¹ä¸ªæ•°æ ‡ç­¾
-        dubinsnsEditField        matlab.ui.control.NumericEditField  % å‰æ®µè·¯å¾„ç‚¹ä¸ªæ•°è¾“å…¥æ¡†
-        dubinsnlLabel            matlab.ui.control.Label             % ä¸­æ®µè·¯å¾„ç‚¹ä¸ªæ•°æ ‡ç­¾
-        dubinsnlEditField        matlab.ui.control.NumericEditField  % ä¸­æ®µè·¯å¾„ç‚¹ä¸ªæ•°è¾“å…¥æ¡†
-        dubinsnfLabel            matlab.ui.control.Label             % åŽæ®µè·¯å¾„ç‚¹ä¸ªæ•°æ ‡ç­¾
-        dubinsnfEditField        matlab.ui.control.NumericEditField  % åŽæ®µè·¯å¾„ç‚¹ä¸ªæ•°è¾“å…¥æ¡†
-        dubinsradiusLabel        matlab.ui.control.Label             % Dubinsè½¬å¼¯åŠå¾„æ ‡ç­¾
-        dubinsradiusEditField    matlab.ui.control.NumericEditField  % Dubinsè½¬å¼¯åŠå¾„è¾“å…¥æ¡†
+        %% DubinsÂ·¾¶¹æ»®²ÎÊý×é¼þ
+        dubinsnsLabel            matlab.ui.control.Label             % Ç°¶ÎÂ·¾¶µã¸öÊý±êÇ©
+        dubinsnsEditField        matlab.ui.control.NumericEditField  % Ç°¶ÎÂ·¾¶µã¸öÊýÊäÈë¿ò
+        dubinsnlLabel            matlab.ui.control.Label             % ÖÐ¶ÎÂ·¾¶µã¸öÊý±êÇ©
+        dubinsnlEditField        matlab.ui.control.NumericEditField  % ÖÐ¶ÎÂ·¾¶µã¸öÊýÊäÈë¿ò
+        dubinsnfLabel            matlab.ui.control.Label             % ºó¶ÎÂ·¾¶µã¸öÊý±êÇ©
+        dubinsnfEditField        matlab.ui.control.NumericEditField  % ºó¶ÎÂ·¾¶µã¸öÊýÊäÈë¿ò
+        dubinsradiusLabel        matlab.ui.control.Label             % Dubins×ªÍä°ë¾¶±êÇ©
+        dubinsradiusEditField    matlab.ui.control.NumericEditField  % Dubins×ªÍä°ë¾¶ÊäÈë¿ò
 
-        %% UUVæ“ä½œæ€§è®¾ç½®ç»„ä»¶
-        DesiredSpeedEditField    matlab.ui.control.NumericEditField  % æœŸæœ›é€Ÿåº¦
-        SimulationTimeEditField  matlab.ui.control.NumericEditField  % ä»¿çœŸæ—¶é—´
-        Rudder1EditField         matlab.ui.control.NumericEditField  % èˆµè§’1
-        Rudder2EditField         matlab.ui.control.NumericEditField  % èˆµè§’2
-        Rudder3EditField         matlab.ui.control.NumericEditField  % èˆµè§’3
-        Rudder4EditField         matlab.ui.control.NumericEditField  % èˆµè§’4
-        StartOperabilitySimulationButton matlab.ui.control.Button    % å¼€å§‹æ“ä½œæ€§ä»¿çœŸæŒ‰é’®
+        %% UUV²Ù×÷ÐÔÉèÖÃ×é¼þ
+        DesiredSpeedEditField    matlab.ui.control.NumericEditField  % ÆÚÍûËÙ¶È
+        SimulationTimeEditField  matlab.ui.control.NumericEditField  % ·ÂÕæÊ±¼ä
+        Rudder1EditField         matlab.ui.control.NumericEditField  % ¶æ½Ç1
+        Rudder2EditField         matlab.ui.control.NumericEditField  % ¶æ½Ç2
+        Rudder3EditField         matlab.ui.control.NumericEditField  % ¶æ½Ç3
+        Rudder4EditField         matlab.ui.control.NumericEditField  % ¶æ½Ç4
+        StartOperabilitySimulationButton matlab.ui.control.Button    % ¿ªÊ¼²Ù×÷ÐÔ·ÂÕæ°´Å¥
 
-        %% æ“ä½œæŒ‰é’®ç»„ä»¶
-        GenerateButton           matlab.ui.control.Button            % ç”Ÿæˆå…¨å±€æ¢³çŠ¶è·¯å¾„æŒ‰é’®
-        ExportGlobalWaypointsButton matlab.ui.control.Button         % å¯¼å‡ºå…¨å±€è·¯å¾„æ•°æ®æŒ‰é’®
-        SendGlobalPathsButton    matlab.ui.control.Button            % å‘é€å…¨å±€è·¯å¾„æ•°æ®æŒ‰é’®
-        ImportButton             matlab.ui.control.Button            % å¯¼å…¥åœ°å›¾æ•°æ®æŒ‰é’®
-        ObstacleMarkingButton    matlab.ui.control.Button            % éšœç¢ç‰©æ ‡æ³¨æŒ‰é’®
-        PlanLocalPathsButton     matlab.ui.control.Button            % ç”Ÿæˆå±€éƒ¨Dubinsè·¯å¾„æŒ‰é’®
-        ExportLocalWaypointsButton matlab.ui.control.Button          % å¯¼å‡ºDubinsè·¯å¾„æŒ‰é’®
-        SendLocalPathsButton     matlab.ui.control.Button            % å‘é€Dubinsè·¯å¾„æ•°æ®æŒ‰é’®
-        % X1plotTCPButton          matlab.ui.control.Button            % AUVè¿è¡Œä»¿çœŸå›¾æŒ‰é’®
-        % drawPathsButton          matlab.ui.control.Button            % ç»˜åˆ¶è·¯å¾„æŒ‰é’®
+        %% ²Ù×÷°´Å¥×é¼þ
+        GenerateButton           matlab.ui.control.Button            % Éú³ÉÈ«¾ÖÊá×´Â·¾¶°´Å¥
+        ExportGlobalWaypointsButton matlab.ui.control.Button         % µ¼³öÈ«¾ÖÂ·¾¶Êý¾Ý°´Å¥
+        SendGlobalPathsButton    matlab.ui.control.Button            % ·¢ËÍÈ«¾ÖÂ·¾¶Êý¾Ý°´Å¥
+        ImportButton             matlab.ui.control.Button            % µ¼ÈëµØÍ¼Êý¾Ý°´Å¥
+        ObstacleMarkingButton    matlab.ui.control.Button            % ÕÏ°­Îï±ê×¢°´Å¥
+        PlanLocalPathsButton     matlab.ui.control.Button            % Éú³É¾Ö²¿DubinsÂ·¾¶°´Å¥
+        ExportLocalWaypointsButton matlab.ui.control.Button          % µ¼³öDubinsÂ·¾¶°´Å¥
+        SendLocalPathsButton     matlab.ui.control.Button            % ·¢ËÍDubinsÂ·¾¶Êý¾Ý°´Å¥
+        % X1plotTCPButton          matlab.ui.control.Button            % AUVÔËÐÐ·ÂÕæÍ¼°´Å¥
+        % drawPathsButton          matlab.ui.control.Button            % »æÖÆÂ·¾¶°´Å¥
 
-        %% æ˜¾ç¤ºåŒºåŸŸç»„ä»¶
-        UIAxes1                  matlab.ui.control.UIAxes            % å…¨å±€æ¢³çŠ¶è·¯å¾„æ˜¾ç¤ºåŒºåŸŸ
-        UIAxes2                  matlab.ui.control.UIAxes            % å±€éƒ¨Dubinsè·¯å¾„æ˜¾ç¤ºåŒºåŸŸ
-        UIAxes3                  matlab.ui.control.UIAxes            % åœ°å½¢åŠéšœç¢ç‰©æ˜¾ç¤ºåŒºåŸŸ
-        TotalLengthLabelandTCP   matlab.ui.control.Label             % æ€»è·¯å¾„é•¿åº¦åŠTCPçŠ¶æ€æ˜¾ç¤º
-        StatusLabel              matlab.ui.control.Label             % çŠ¶æ€ä¿¡æ¯æ˜¾ç¤ºæ ‡ç­¾
+        %% ÏÔÊ¾ÇøÓò×é¼þ
+        UIAxes1                  matlab.ui.control.UIAxes            % È«¾ÖÊá×´Â·¾¶ÏÔÊ¾ÇøÓò
+        UIAxes2                  matlab.ui.control.UIAxes            % ¾Ö²¿DubinsÂ·¾¶ÏÔÊ¾ÇøÓò
+        UIAxes3                  matlab.ui.control.UIAxes            % µØÐÎ¼°ÕÏ°­ÎïÏÔÊ¾ÇøÓò
+        TotalLengthLabelandTCP   matlab.ui.control.Label             % ×ÜÂ·¾¶³¤¶È¼°TCP×´Ì¬ÏÔÊ¾
+        StatusLabel              matlab.ui.control.Label             % ×´Ì¬ÐÅÏ¢ÏÔÊ¾±êÇ©
         
-        %% æ•°æ®å­˜å‚¨å˜é‡
-        Waypoints                                                    % å­˜å‚¨è·¯å¾„ç‚¹æ•°æ®
+        %% Êý¾Ý´æ´¢±äÁ¿
+        Waypoints                                                    % ´æ´¢Â·¾¶µãÊý¾Ý
 
     end
 
     properties (SetAccess = immutable, GetAccess = public)
-        currentProjectRoot string                                    % é¡¹ç›®æ ¹ç›®å½•
+        currentProjectRoot string                                    % ÏîÄ¿¸ùÄ¿Â¼
     end
 
     methods (Access = private)
         function createComponents(app)
-            %% ä¸»çª—å£è®¾ç½®
+            %% Ö÷´°¿ÚÉèÖÃ
             app.UIFigure = uifigure;
             app.UIFigure.Position = [100 100 1300 830]; ...[100 100 1300 830]
-            app.UIFigure.Name = 'UUVè·¯å¾„ç‚¹ä¸Šä½æœº (å•ä½:m)';
+            app.UIFigure.Name = 'UUVÂ·¾¶µãÉÏÎ»»ú (µ¥Î»:m)';
 
-            %% 1. åæ ‡åˆå§‹åŒ–é¢æ¿
+            %% 1. ×ø±ê³õÊ¼»¯Ãæ°å
             app.InitPanel = uipanel(app.UIFigure);
-            app.InitPanel.Title = ' UUVå‚æ•°(inf-æ— é€‰æ‹©)';
-            app.InitPanel.Position = [30 610 370 200]; % å¢žåŠ é¢æ¿é«˜åº¦
+            app.InitPanel.Title = ' UUV²ÎÊý(inf-ÎÞÑ¡Ôñ)';
+            app.InitPanel.Position = [30 610 370 200]; % Ôö¼ÓÃæ°å¸ß¶È
 
-            % è®¾ç½®æœŸæœ›é€Ÿåº¦
-            uilabel(app.InitPanel, 'Text', 'æœ€å¤§é€Ÿåº¦:', 'Position', [20 145 60 22]);
+            % ÉèÖÃÆÚÍûËÙ¶È
+            uilabel(app.InitPanel, 'Text', '×î´óËÙ¶È:', 'Position', [20 155 60 22]);
             app.udEditField = uieditfield(app.InitPanel, 'numeric');
-            app.udEditField.Position = [75 145 40 22];
+            app.udEditField.Position = [75 155 40 22];
             app.udEditField.Value = 7.0;
             app.udEditField.HorizontalAlignment = 'center';
 
-            % è®¾ç½®æ€¥åœæ—¶é—´
-            uilabel(app.InitPanel, 'Text', 'æ€¥åœæ—¶é—´:', 'Position', [150 145 60 22]);
+            % ÉèÖÃ¼±Í£Ê±¼ä
+            uilabel(app.InitPanel, 'Text', '¼±Í£Ê±¼ä:', 'Position', [150 155 60 22]);
             app.TjEditField = uieditfield(app.InitPanel, 'numeric');
-            app.TjEditField.Position = [205 145 40 22];
+            app.TjEditField.Position = [205 155 40 22];
             app.TjEditField.Value = inf;
             app.TjEditField.HorizontalAlignment = 'center';
 
-            % è§„åˆ’è·¯å¾„èµ·å§‹ç‚¹åæ ‡
-            uilabel(app.InitPanel, 'Text', 'è§„åˆ’è·¯å¾„èµ·ç‚¹:', 'Position', [20 115 120 22]);
+            % ¹æ»®Â·¾¶ÆðÊ¼µã×ø±ê
+            uilabel(app.InitPanel, 'Text', '¹æ»®Â·¾¶Æðµã:', 'Position', [20 130 120 22]);
 
-            % X åæ ‡
+            % X ×ø±ê
             app.XEditFieldLabel = uilabel(app.InitPanel);
-            app.XEditFieldLabel.Position = [130 115 25 22];
+            app.XEditFieldLabel.Position = [25 105 35 22];
             app.XEditFieldLabel.Text = 'X:';
             app.XEditFieldLabel.HorizontalAlignment = 'center';
             app.XEditField = uieditfield(app.InitPanel, 'numeric');
-            app.XEditField.Position = [155 115 50 22];
+            app.XEditField.Position = [65 105 50 22];
             app.XEditField.Value = 160;
             app.XEditField.HorizontalAlignment = 'center';
 
-            % Y åæ ‡
+            % Y ×ø±ê
             app.YEditFieldLabel = uilabel(app.InitPanel);
-            app.YEditFieldLabel.Position = [220 115 25 22];
+            app.YEditFieldLabel.Position = [125 105 35 22];
             app.YEditFieldLabel.Text = 'Y:';
             app.YEditFieldLabel.HorizontalAlignment = 'center';
             app.YEditField = uieditfield(app.InitPanel, 'numeric');
-            app.YEditField.Position = [245 115 50 22];
+            app.YEditField.Position = [165 105 50 22];
             app.YEditField.Value = 90;
             app.YEditField.HorizontalAlignment = 'center';
 
-            % AUV åˆå§‹ä½ç½®
-            uilabel(app.InitPanel, 'Text', 'AUV åˆå§‹ä½ç½®:', 'Position', [20 90 100 22]);
+            % Z ×ø±ê
+            app.ZEditFieldLabel = uilabel(app.InitPanel);
+            app.ZEditFieldLabel.Position = [225 105 35 22];
+            app.ZEditFieldLabel.Text = 'Z:';
+            app.ZEditField = uieditfield(app.InitPanel, 'numeric');
+            app.ZEditField.Position = [265 105 50 22];
+            app.ZEditField.Value = 20;
+            app.ZEditField.HorizontalAlignment = 'center';
 
-            % X åæ ‡
+            % AUV ³õÊ¼Î»ÖÃ
+            uilabel(app.InitPanel, 'Text', 'AUV ³õÊ¼Î»ÖÃ:', 'Position', [20 80 100 22]);
+
+            % X ×ø±ê
             app.P0XLabel = uilabel(app.InitPanel);
-            app.P0XLabel.Position = [25 65 35 22];
+            app.P0XLabel.Position = [25 55 35 22];
             app.P0XLabel.Text = 'X:';
             app.P0XLabel.HorizontalAlignment = 'center';
             app.P0XEditField = uieditfield(app.InitPanel, 'numeric');
-            app.P0XEditField.Position = [65 65 50 22];
+            app.P0XEditField.Position = [65 55 50 22];
             app.P0XEditField.Value = 100;
             app.P0XEditField.HorizontalAlignment = 'center';
 
-            % Y åæ ‡
+            % Y ×ø±ê
             app.P0YLabel = uilabel(app.InitPanel);
-            app.P0YLabel.Position = [125 65 35 22];
+            app.P0YLabel.Position = [125 55 35 22];
             app.P0YLabel.Text = 'Y:';
             app.P0YLabel.HorizontalAlignment = 'center';
             app.P0YEditField = uieditfield(app.InitPanel, 'numeric');
-            app.P0YEditField.Position = [165 65 50 22];
+            app.P0YEditField.Position = [165 55 50 22];
             app.P0YEditField.Value = 0;
             app.P0YEditField.HorizontalAlignment = 'center';
 
-            % Z åæ ‡
+            % Z ×ø±ê
             app.P0ZLabel = uilabel(app.InitPanel);
-            app.P0ZLabel.Position = [225 65 35 22];
+            app.P0ZLabel.Position = [225 55 35 22];
             app.P0ZLabel.Text = 'Z:';
             app.P0ZLabel.HorizontalAlignment = 'center';
             app.P0ZEditField = uieditfield(app.InitPanel, 'numeric');
-            app.P0ZEditField.Position = [265 65 50 22];
+            app.P0ZEditField.Position = [265 55 50 22];
             app.P0ZEditField.Value = 20;
             app.P0ZEditField.HorizontalAlignment = 'center';
 
-            % AUV åˆå§‹å§¿æ€è§’
-            uilabel(app.InitPanel, 'Text', 'UUV åˆå§‹å§¿æ€è§’(è§’åº¦åˆ¶):', 'Position', [20 35 150 22]);
+            % AUV ³õÊ¼×ËÌ¬½Ç
+            uilabel(app.InitPanel, 'Text', 'UUV ³õÊ¼×ËÌ¬½Ç(½Ç¶ÈÖÆ):', 'Position', [20 30 150 22]);
 
             % Roll
             app.A0XLabel = uilabel(app.InitPanel);
-            app.A0XLabel.Position = [25 10 35 22];
+            app.A0XLabel.Position = [25 5 35 22];
             app.A0XLabel.Text = 'Roll:';
             app.A0XLabel.HorizontalAlignment = 'center';
             app.A0XEditField = uieditfield(app.InitPanel, 'numeric');
-            app.A0XEditField.Position = [65 10 50 22];
+            app.A0XEditField.Position = [65 5 50 22];
             app.A0XEditField.Value = 0;
             app.A0XEditField.HorizontalAlignment = 'center';
 
             % Pitch
             app.A0YLabel = uilabel(app.InitPanel);
-            app.A0YLabel.Position = [125 10 35 22];
+            app.A0YLabel.Position = [125 5 35 22];
             app.A0YLabel.Text = 'Pitch:';
             app.A0YLabel.HorizontalAlignment = 'center';
             app.A0YEditField = uieditfield(app.InitPanel, 'numeric');
-            app.A0YEditField.Position = [165 10 50 22];
+            app.A0YEditField.Position = [165 5 50 22];
             app.A0YEditField.Value = 0;
             app.A0YEditField.HorizontalAlignment = 'center';
 
             % Yaw
             app.A0ZLabel = uilabel(app.InitPanel);
-            app.A0ZLabel.Position = [225 10 35 22];
+            app.A0ZLabel.Position = [225 5 35 22];
             app.A0ZLabel.Text = 'Yaw:';
             app.A0ZLabel.HorizontalAlignment = 'center';
             app.A0ZEditField = uieditfield(app.InitPanel, 'numeric');
-            app.A0ZEditField.Position = [265 10 50 22];
+            app.A0ZEditField.Position = [265 5 50 22];
             app.A0ZEditField.Value = 0;
             app.A0ZEditField.HorizontalAlignment = 'center';
 
-            %% 2. è·¯å¾„å‚æ•°é¢æ¿
+            %% 2. Â·¾¶²ÎÊýÃæ°å
             app.PathParametersPanel = uipanel(app.UIFigure);
-            app.PathParametersPanel.Title = ' è·¯å¾„å‚æ•°';
+            app.PathParametersPanel.Title = ' Â·¾¶²ÎÊý';
             app.PathParametersPanel.Position = [30 465 370 140];
 
-            % æ–¹å‘é€‰æ‹©
+            % ·½ÏòÑ¡Ôñ
             app.DirectionDropDownLabel = uilabel(app.PathParametersPanel);
             app.DirectionDropDownLabel.Position = [10 95 80 22];
-            app.DirectionDropDownLabel.Text = 'è·¯å¾„æ–¹å‘:';
+            app.DirectionDropDownLabel.Text = 'Â·¾¶·½Ïò:';
 
             app.DirectionDropDown = uidropdown(app.PathParametersPanel);
-            app.DirectionDropDown.Items = {'   X ', '   Y '};  % é€šè¿‡æ·»åŠ ç©ºæ ¼å®žçŽ°è§†è§‰å±…ä¸­
+            app.DirectionDropDown.Items = {'   X ', '   Y '};  % Í¨¹ýÌí¼Ó¿Õ¸ñÊµÏÖÊÓ¾õ¾ÓÖÐ
             app.DirectionDropDown.Position = [70 95 80 22];
-            app.DirectionDropDown.Value = '   Y ';  % éœ€è¦åŒ¹é…Itemsä¸­çš„å®Œæ•´å­—ç¬¦ä¸²
+            app.DirectionDropDown.Value = '   Y ';  % ÐèÒªÆ¥ÅäItemsÖÐµÄÍêÕû×Ö·û´®
             
-            % æ¢³çŠ¶é½¿é—´è·
+            % Êá×´³Ý¼ä¾à
             app.LineSpacingEditFieldLabel = uilabel(app.PathParametersPanel);
             app.LineSpacingEditFieldLabel.Position = [200 95 80 22];
-            app.LineSpacingEditFieldLabel.Text = 'æ¢³çŠ¶é½¿é—´è·:';
+            app.LineSpacingEditFieldLabel.Text = 'Êá×´³Ý¼ä¾à:';
             
             app.LineSpacingEditField = uieditfield(app.PathParametersPanel, 'numeric');
             app.LineSpacingEditField.Position = [270 95 80 22];
             app.LineSpacingEditField.Value = 200;
             app.LineSpacingEditField.HorizontalAlignment = 'center';   
             
-            % è·¯å¾„å®½åº¦
+            % Â·¾¶¿í¶È
             app.PathWidthEditFieldLabel = uilabel(app.PathParametersPanel);
             app.PathWidthEditFieldLabel.Position = [10 65 80 22];
-            app.PathWidthEditFieldLabel.Text = 'è·¯å¾„æ€»å®½:';
+            app.PathWidthEditFieldLabel.Text = 'Â·¾¶×Ü¿í:';
             
             app.PathWidthEditField = uieditfield(app.PathParametersPanel, 'numeric');
             app.PathWidthEditField.Position = [70 65 80 22];
             app.PathWidthEditField.Value = 1730;
             app.PathWidthEditField.HorizontalAlignment = 'center';
             
-            % æ¢³çŠ¶è·¯å¾„æ•°é‡
+            % Êá×´Â·¾¶ÊýÁ¿
             app.NumLinesEditFieldLabel = uilabel(app.PathParametersPanel);
             app.NumLinesEditFieldLabel.Position = [200 65 80 22];
-            app.NumLinesEditFieldLabel.Text = 'è·¯å¾„æ¡æ•°:';
+            app.NumLinesEditFieldLabel.Text = 'Â·¾¶ÌõÊý:';
             
             app.NumLinesEditField = uieditfield(app.PathParametersPanel, 'numeric');
             app.NumLinesEditField.Position = [270 65 80 22];
             app.NumLinesEditField.Value = 10;
             app.NumLinesEditField.HorizontalAlignment = 'center';
 
-            % æ¢³çŠ¶è·¯å¾„Zåæ ‡
-            app.ZEditFieldLabel = uilabel(app.PathParametersPanel);
-            app.ZEditFieldLabel.Position = [10 35 80 22];
-            app.ZEditFieldLabel.Text = 'UUVæ·±åº¦:';
+            % Êá×´Â·¾¶Ãª¶¨µã
+            app.anchorEditFieldLabel = uilabel(app.PathParametersPanel);
+            app.anchorEditFieldLabel.Position = [10 35 80 22];
+            app.anchorEditFieldLabel.Text = 'Ãª¶¨µãË÷Òý:';
             
-            app.ZEditField = uieditfield(app.PathParametersPanel, 'numeric');
-            app.ZEditField.Position = [70 35 40 22];
-            app.ZEditField.Value = 20;
-            app.ZEditField.HorizontalAlignment = 'center';
+            app.anchorEditField = uieditfield(app.PathParametersPanel);
+            app.anchorEditField.Position = [80 35 40 22];
+            app.anchorEditField.Value = '1';
+            app.anchorEditField.HorizontalAlignment = 'center';
 
-            % æ¢³çŠ¶è·¯å¾„ä¸‹æ½œè·¯å¾„ç‚¹
+            % Êá×´Â·¾¶Ãª¶¨µãÊ±¼ä
+            app.TanchorEditFieldLabel = uilabel(app.PathParametersPanel);
+            app.TanchorEditFieldLabel.Position = [10 5 80 22];
+            app.TanchorEditFieldLabel.Text = 'Ãª¶¨Ê±³¤:';
+            
+            app.TanchorEditField = uieditfield(app.PathParametersPanel, 'numeric');
+            app.TanchorEditField.Position = [80 5 40 22];
+            app.TanchorEditField.Value = 0;
+            app.TanchorEditField.HorizontalAlignment = 'center';
+
+            % Êá×´Â·¾¶ÏÂÇ±Â·¾¶µã
             app.downEditFieldLabel = uilabel(app.PathParametersPanel);
-            app.downEditFieldLabel.Position = [120 35 80 22];
-            app.downEditFieldLabel.Text = 'ä¸‹æ½œç‚¹ç´¢å¼•:';
+            app.downEditFieldLabel.Position = [125 35 80 22];
+            app.downEditFieldLabel.Text = 'ÏÂÇ±µãË÷Òý:';
             
             app.downEditField = uieditfield(app.PathParametersPanel);
-            app.downEditField.Position = [190 35 50 22];
+            app.downEditField.Position = [195 35 50 22];
             app.downEditField.Value = '21,22';
             app.downEditField.HorizontalAlignment = 'center';
 
-            % æ¢³çŠ¶è·¯å¾„ä¸‹æ½œæ·±åº¦
+            % Êá×´Â·¾¶ÏÂÇ±Éî¶È
             app.DdownEditFieldLabel = uilabel(app.PathParametersPanel);
             app.DdownEditFieldLabel.Position = [250 35 80 22];
-            app.DdownEditFieldLabel.Text = 'ä¸‹æ½œæ·±åº¦:';
+            app.DdownEditFieldLabel.Text = 'ÏÂÇ±Éî¶È:';
             
             app.DdownEditField = uieditfield(app.PathParametersPanel, 'numeric');
             app.DdownEditField.Position = [310 35 40 22];
             app.DdownEditField.Value = 30;
             app.DdownEditField.HorizontalAlignment = 'center';
 
-            % æ¢³çŠ¶è·¯å¾„ä¸Šæµ®è·¯å¾„ç‚¹
+            % Êá×´Â·¾¶ÉÏ¸¡Â·¾¶µã
             app.upEditFieldLabel = uilabel(app.PathParametersPanel);
-            app.upEditFieldLabel.Position = [120 5 80 22];
-            app.upEditFieldLabel.Text = 'ä¸Šæµ®ç‚¹ç´¢å¼•:';
+            app.upEditFieldLabel.Position = [125 5 80 22];
+            app.upEditFieldLabel.Text = 'ÉÏ¸¡µãË÷Òý:';
             
             app.upEditField = uieditfield(app.PathParametersPanel);
-            app.upEditField.Position = [190 5 50 22];
+            app.upEditField.Position = [195 5 50 22];
             app.upEditField.Value = '25,26';
             app.upEditField.HorizontalAlignment = 'center';
 
-            % æ¢³çŠ¶è·¯å¾„ä¸Šæµ®æ·±åº¦
+            % Êá×´Â·¾¶ÉÏ¸¡Éî¶È
             app.DupEditFieldLabel = uilabel(app.PathParametersPanel);
             app.DupEditFieldLabel.Position = [250 5 80 22];
-            app.DupEditFieldLabel.Text = 'ä¸Šæµ®æ·±åº¦:';
+            app.DupEditFieldLabel.Text = 'ÉÏ¸¡Éî¶È:';
             
             app.DupEditField = uieditfield(app.PathParametersPanel, 'numeric');
             app.DupEditField.Position = [310 5 40 22];
             app.DupEditField.Value = 10;
             app.DupEditField.HorizontalAlignment = 'center';
-            %% 3. å®¹é”™å‚æ•°é¢æ¿
+
+            %% 3. ÈÝ´í²ÎÊýÃæ°å
 
             app.FaultTolerantPanel = uipanel(app.UIFigure);
-            app.FaultTolerantPanel.Title = ' å®¹é”™å‚æ•°è®¾ç½®';
+            app.FaultTolerantPanel.Title = ' ÈÝ´í²ÎÊýÉèÖÃ';
             app.FaultTolerantPanel.Position = [30 295 370 165]; 
 
-            % è®¾ç½®æŽ‰æ·±æ—¶é—´
-            uilabel(app.FaultTolerantPanel, 'Text', 'æŽ‰æ·±æ—¶é—´:', 'Position', [10 115 60 22]);
+            % ÉèÖÃµôÉîÊ±¼ä
+            uilabel(app.FaultTolerantPanel, 'Text', 'µôÉîÊ±¼ä:', 'Position', [10 115 60 22]);
             app.TdEditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.TdEditField.Position = [70 115 40 22];
             app.TdEditField.Value = inf;
             app.TdEditField.HorizontalAlignment = 'center';
 
-            uilabel(app.FaultTolerantPanel, 'Text', 'è®¾ç½®å¡èˆµæ—¶é—´(s):', 'Position', [10 95 120 14]);
+            uilabel(app.FaultTolerantPanel, 'Text', 'ÉèÖÃ¿¨¶æÊ±¼ä(s):', 'Position', [10 95 120 14]);
 
-            % èˆµ1
+            % ¶æ1
             app.Kdelta1Label = uilabel(app.FaultTolerantPanel);
             app.Kdelta1Label.Position = [10 65 25 22];
-            app.Kdelta1Label.Text = 'èˆµ1:';
+            app.Kdelta1Label.Text = '¶æ1:';
             app.Kdelta1Label.HorizontalAlignment = 'center';
             app.Kdelta1EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Kdelta1EditField.Position = [35 65 50 22];
             app.Kdelta1EditField.Value = inf;
             app.Kdelta1EditField.HorizontalAlignment = 'center';
 
-            % èˆµ2
+            % ¶æ2
             app.Kdelta2Label = uilabel(app.FaultTolerantPanel);
             app.Kdelta2Label.Position = [100 65 25 22];
-            app.Kdelta2Label.Text = 'èˆµ2:';
+            app.Kdelta2Label.Text = '¶æ2:';
             app.Kdelta2Label.HorizontalAlignment = 'center';
             app.Kdelta2EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Kdelta2EditField.Position = [125 65 50 22];
             app.Kdelta2EditField.Value = inf;
             app.Kdelta2EditField.HorizontalAlignment = 'center';
 
-            % èˆµ3
+            % ¶æ3
             app.Kdelta3Label = uilabel(app.FaultTolerantPanel);
             app.Kdelta3Label.Position = [190 65 25 22];
-            app.Kdelta3Label.Text = 'èˆµ3:';
+            app.Kdelta3Label.Text = '¶æ3:';
             app.Kdelta3Label.HorizontalAlignment = 'center';
             app.Kdelta3EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Kdelta3EditField.Position = [215 65 50 22];
             app.Kdelta3EditField.Value = inf;
             app.Kdelta3EditField.HorizontalAlignment = 'center';
 
-            % èˆµ4
+            % ¶æ4
             app.Kdelta4Label = uilabel(app.FaultTolerantPanel);
             app.Kdelta4Label.Position = [280 65 25 22];
-            app.Kdelta4Label.Text = 'èˆµ4:';
+            app.Kdelta4Label.Text = '¶æ4:';
             app.Kdelta4Label.HorizontalAlignment = 'center';
             app.Kdelta4EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Kdelta4EditField.Position = [305 65 50 22];
             app.Kdelta4EditField.Value = inf;
             app.Kdelta4EditField.HorizontalAlignment = 'center';
 
-            % å®¹é”™æŽ§åˆ¶å¡èˆµèˆµè§’è®¾ç½®
-            uilabel(app.FaultTolerantPanel, 'Text', 'è®¾ç½®å¡èˆµèˆµè§’(Â°):', 'Position', [10 35 120 22]);
+            % ÈÝ´í¿ØÖÆ¿¨¶æ¶æ½ÇÉèÖÃ
+            uilabel(app.FaultTolerantPanel, 'Text', 'ÉèÖÃ¿¨¶æ¶æ½Ç(¡ã):', 'Position', [10 35 120 22]);
 
-            % èˆµ1
+            % ¶æ1
             app.Delta1Label = uilabel(app.FaultTolerantPanel);
             app.Delta1Label.Position = [10 5 25 22];
-            app.Delta1Label.Text = 'èˆµ1:';
+            app.Delta1Label.Text = '¶æ1:';
             app.Delta1Label.HorizontalAlignment = 'center';
             app.Delta1EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Delta1EditField.Position = [35 5 50 22];
             app.Delta1EditField.Value = 0;
             app.Delta1EditField.HorizontalAlignment = 'center';
 
-            % èˆµ2
+            % ¶æ2
             app.Delta2Label = uilabel(app.FaultTolerantPanel);
             app.Delta2Label.Position = [100 5 25 22];
-            app.Delta2Label.Text = 'èˆµ2:';
+            app.Delta2Label.Text = '¶æ2:';
             app.Delta2Label.HorizontalAlignment = 'center';
             app.Delta2EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Delta2EditField.Position = [125 5 50 22];
             app.Delta2EditField.Value = 0;
             app.Delta2EditField.HorizontalAlignment = 'center';
 
-            % èˆµ3
+            % ¶æ3
             app.Delta3Label = uilabel(app.FaultTolerantPanel);
             app.Delta3Label.Position = [190 5 25 22];
-            app.Delta3Label.Text = 'èˆµ3:';
+            app.Delta3Label.Text = '¶æ3:';
             app.Delta3Label.HorizontalAlignment = 'center';
             app.Delta3EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Delta3EditField.Position = [215 5 50 22];
             app.Delta3EditField.Value = 0;
             app.Delta3EditField.HorizontalAlignment = 'center';
 
-            % èˆµ4
+            % ¶æ4
             app.Delta4Label = uilabel(app.FaultTolerantPanel);
             app.Delta4Label.Position = [280 5 25 22];
-            app.Delta4Label.Text = 'èˆµ4:';
+            app.Delta4Label.Text = '¶æ4:';
             app.Delta4Label.HorizontalAlignment = 'center';
             app.Delta4EditField = uieditfield(app.FaultTolerantPanel, 'numeric');
             app.Delta4EditField.Position = [305 5 50 22];
             app.Delta4EditField.Value = 0;
             app.Delta4EditField.HorizontalAlignment = 'center';
 
-            %% 4. TCPè®¾ç½®é¢æ¿
+            %% 4. TCPÉèÖÃÃæ°å
             app.TCPPanel = uipanel(app.UIFigure);
-            app.TCPPanel.Title = ' TCPè®¾ç½®';
+            app.TCPPanel.Title = ' TCPÉèÖÃ';
             app.TCPPanel.Position = [30 195 370 90]; 
             
-            % TCPæŽ§ä»¶å¸ƒå±€
+            % TCP¿Ø¼þ²¼¾Ö
             app.ServerIPLabel = uilabel(app.TCPPanel);
             app.ServerIPLabel.Position = [10 40 60 22];
-            app.ServerIPLabel.Text = 'æœåŠ¡å™¨IP:'; 
+            app.ServerIPLabel.Text = '·þÎñÆ÷IP:'; 
             app.ServerIPEditField = uieditfield(app.TCPPanel);
             app.ServerIPEditField.Position = [65 40 100 22];
             app.ServerIPEditField.Value = '192.168.1.115';
@@ -522,7 +546,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             app.PortLabel = uilabel(app.TCPPanel);
             app.PortLabel.Position = [200 40 80 22];
-            app.PortLabel.Text = 'æœåŠ¡å™¨ç«¯å£:';
+            app.PortLabel.Text = '·þÎñÆ÷¶Ë¿Ú:';
 
             app.PortEditField = uieditfield(app.TCPPanel, 'numeric');
             app.PortEditField.Position = [280 40 60 22];
@@ -531,7 +555,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             app.hostIPLabel = uilabel(app.TCPPanel);
             app.hostIPLabel.Position = [10 10 60 22];
-            app.hostIPLabel.Text = 'æœ¬æœºIP:'; 
+            app.hostIPLabel.Text = '±¾»úIP:'; 
             app.hostIPEditField = uieditfield(app.TCPPanel);
             app.hostIPEditField.Position = [65 10 100 22];
             app.hostIPEditField.Value = '192.168.1.100';
@@ -539,21 +563,21 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             app.hPortLabel = uilabel(app.TCPPanel);
             app.hPortLabel.Position = [200 10 80 22];
-            app.hPortLabel.Text = 'æœ¬æœºç«¯å£:';
+            app.hPortLabel.Text = '±¾»ú¶Ë¿Ú:';
 
             app.hPortEditField = uieditfield(app.TCPPanel, 'numeric');
             app.hPortEditField.Position = [280 10 60 22];
             app.hPortEditField.Value = 8888;
             app.hPortEditField.HorizontalAlignment = 'center';
 
-            %% 5. Dubins é¢æ¿
+            %% 5. Dubins Ãæ°å
             app.dubinsPanel = uipanel(app.UIFigure);
-            app.dubinsPanel.Title = ' Dubins è·¯å¾„è§„åˆ’è®¾ç½®(å‘¨æœŸ:åœ†å¼§-ç›´çº¿-åœ†å¼§)';
-            app.dubinsPanel.Position = [30 100 370 90]; % è°ƒæ•´ä½ç½®
+            app.dubinsPanel.Title = ' Dubins Â·¾¶¹æ»®ÉèÖÃ(ÖÜÆÚ:Ô²»¡-Ö±Ïß-Ô²»¡)';
+            app.dubinsPanel.Position = [30 100 370 90]; % µ÷ÕûÎ»ÖÃ
             
             app.dubinsnsLabel = uilabel(app.dubinsPanel);
             app.dubinsnsLabel.Position = [10 40 120 22];
-            app.dubinsnsLabel.Text = 'å‰æ®µè·¯å¾„ç‚¹ä¸ªæ•°(åœ†å¼§):';
+            app.dubinsnsLabel.Text = 'Ç°¶ÎÂ·¾¶µã¸öÊý(Ô²»¡):';
             
             app.dubinsnsEditField = uieditfield(app.dubinsPanel, 'numeric');
             app.dubinsnsEditField.Position = [140 40 40 22];
@@ -562,7 +586,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             
             app.dubinsnlLabel = uilabel(app.dubinsPanel);
             app.dubinsnlLabel.Position = [190 40 120 22];
-            app.dubinsnlLabel.Text = 'ä¸­æ®µè·¯å¾„ç‚¹ä¸ªæ•°(ç›´çº¿):';
+            app.dubinsnlLabel.Text = 'ÖÐ¶ÎÂ·¾¶µã¸öÊý(Ö±Ïß):';
             
             app.dubinsnlEditField = uieditfield(app.dubinsPanel, 'numeric');
             app.dubinsnlEditField.Position = [320 40 40 22];
@@ -571,7 +595,7 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             app.dubinsnfLabel = uilabel(app.dubinsPanel);
             app.dubinsnfLabel.Position = [10 10 120 22];
-            app.dubinsnfLabel.Text = 'åŽæ®µè·¯å¾„ç‚¹ä¸ªæ•°(åœ†å¼§):';
+            app.dubinsnfLabel.Text = 'ºó¶ÎÂ·¾¶µã¸öÊý(Ô²»¡):';
 
             app.dubinsnfEditField = uieditfield(app.dubinsPanel, 'numeric');
             app.dubinsnfEditField.Position = [140 10 40 22];
@@ -580,217 +604,217 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
 
             app.dubinsradiusLabel = uilabel(app.dubinsPanel);
             app.dubinsradiusLabel.Position = [190 10 120 22];
-            app.dubinsradiusLabel.Text = 'Dubins è½¬å¼¯åŠå¾„:';
+            app.dubinsradiusLabel.Text = 'Dubins ×ªÍä°ë¾¶:';
 
             app.dubinsradiusEditField = uieditfield(app.dubinsPanel, 'numeric');
             app.dubinsradiusEditField.Position = [320 10 40 22];
             app.dubinsradiusEditField.Value = 0;
             app.dubinsradiusEditField.HorizontalAlignment = 'center';
 
-            %% 6. UUVæ“ä½œæ€§è®¾ç½®é¢æ¿
+            %% 6. UUV²Ù×÷ÐÔÉèÖÃÃæ°å
             app.OperabilityPanel = uipanel(app.UIFigure);
-            app.OperabilityPanel.Title = ' UUVæ“ä½œæ€§è®¾ç½®';
-            app.OperabilityPanel.Position = [480 720 340 90]; % ä½äºŽæŒ‰é’®ç»„ä¸Šæ–¹
+            app.OperabilityPanel.Title = ' UUV²Ù×÷ÐÔÉèÖÃ';
+            app.OperabilityPanel.Position = [480 720 340 90]; % Î»ÓÚ°´Å¥×éÉÏ·½
 
-            % èˆµè§’1
-            uilabel(app.OperabilityPanel, 'Text', 'èˆµè§’1:', 'Position', [10 40 40 22]); % æ ‡ç­¾
+            % ¶æ½Ç1
+            uilabel(app.OperabilityPanel, 'Text', '¶æ½Ç1:', 'Position', [10 40 40 22]); % ±êÇ©
             app.Rudder1EditField = uieditfield(app.OperabilityPanel, 'numeric');
-            app.Rudder1EditField.Position = [50 40 30 22]; % è¾“å…¥æ¡†
+            app.Rudder1EditField.Position = [50 40 30 22]; % ÊäÈë¿ò
             app.Rudder1EditField.Value = 0;
             app.Rudder1EditField.HorizontalAlignment = 'center';
 
-            % èˆµè§’2
-            uilabel(app.OperabilityPanel, 'Text', 'èˆµè§’2:', 'Position', [85 40 40 22]); % æ ‡ç­¾
+            % ¶æ½Ç2
+            uilabel(app.OperabilityPanel, 'Text', '¶æ½Ç2:', 'Position', [85 40 40 22]); % ±êÇ©
             app.Rudder2EditField = uieditfield(app.OperabilityPanel, 'numeric');
-            app.Rudder2EditField.Position = [125 40 30 22]; % è¾“å…¥æ¡†
+            app.Rudder2EditField.Position = [125 40 30 22]; % ÊäÈë¿ò
             app.Rudder2EditField.Value = 0;
             app.Rudder2EditField.HorizontalAlignment = 'center';
 
-            % èˆµè§’3
-            uilabel(app.OperabilityPanel, 'Text', 'èˆµè§’3:', 'Position', [165 40 40 22]); % æ ‡ç­¾
+            % ¶æ½Ç3
+            uilabel(app.OperabilityPanel, 'Text', '¶æ½Ç3:', 'Position', [165 40 40 22]); % ±êÇ©
             app.Rudder3EditField = uieditfield(app.OperabilityPanel, 'numeric');
-            app.Rudder3EditField.Position = [205 40 30 22]; % è¾“å…¥æ¡†
+            app.Rudder3EditField.Position = [205 40 30 22]; % ÊäÈë¿ò
             app.Rudder3EditField.Value = 0;
             app.Rudder3EditField.HorizontalAlignment = 'center';
 
-            % èˆµè§’4
-            uilabel(app.OperabilityPanel, 'Text', 'èˆµè§’4:', 'Position', [245 40 40 22]); % æ ‡ç­¾
+            % ¶æ½Ç4
+            uilabel(app.OperabilityPanel, 'Text', '¶æ½Ç4:', 'Position', [245 40 40 22]); % ±êÇ©
             app.Rudder4EditField = uieditfield(app.OperabilityPanel, 'numeric');
-            app.Rudder4EditField.Position = [285 40 30 22]; % è¾“å…¥æ¡†
+            app.Rudder4EditField.Position = [285 40 30 22]; % ÊäÈë¿ò
             app.Rudder4EditField.Value = 0;
             app.Rudder4EditField.HorizontalAlignment = 'center';
 
-            % æœŸæœ›é€Ÿåº¦
-            uilabel(app.OperabilityPanel, 'Text', 'æœŸæœ›é€Ÿåº¦:', 'Position', [10 5 55 22]);
+            % ÆÚÍûËÙ¶È
+            uilabel(app.OperabilityPanel, 'Text', 'ÆÚÍûËÙ¶È:', 'Position', [10 5 55 22]);
             app.DesiredSpeedEditField = uieditfield(app.OperabilityPanel, 'numeric');
             app.DesiredSpeedEditField.Position = [70 5 40 22];
             app.DesiredSpeedEditField.Value = 0;
             app.DesiredSpeedEditField.HorizontalAlignment = 'center';
 
-            % ä»¿çœŸæ—¶é—´
-            uilabel(app.OperabilityPanel, 'Text', 'ä»¿çœŸæ—¶é—´:', 'Position', [120 5 55 22]);
+            % ·ÂÕæÊ±¼ä
+            uilabel(app.OperabilityPanel, 'Text', '·ÂÕæÊ±¼ä:', 'Position', [120 5 55 22]);
             app.SimulationTimeEditField = uieditfield(app.OperabilityPanel, 'numeric');
             app.SimulationTimeEditField.Position = [180 5 40 22];
             app.SimulationTimeEditField.Value = 0;
             app.SimulationTimeEditField.HorizontalAlignment = 'center';
 
-            % å¼€å§‹æ“ä½œæ€§ä»¿çœŸæŒ‰é’®
+            % ¿ªÊ¼²Ù×÷ÐÔ·ÂÕæ°´Å¥
             app.StartOperabilitySimulationButton = uibutton(app.OperabilityPanel, 'push');
             app.StartOperabilitySimulationButton.ButtonPushedFcn = @(~,~) startOperabilitySimulation(app);
             app.StartOperabilitySimulationButton.Position = [230 5 80 22];
-            app.StartOperabilitySimulationButton.Text = 'æ“çºµæ€§ä»¿çœŸ';
+            app.StartOperabilitySimulationButton.Text = '²Ù×ÝÐÔ·ÂÕæ';
 
-            %% 7. æŒ‰é’®ç»„
+            %% 7. °´Å¥×é
             
-            % åˆ›å»ºæ¢³çŠ¶è·¯å¾„ç”ŸæˆæŒ‰é’® - æ ¹æ®åŒºåŸŸè¾¹ç•Œè‡ªåŠ¨è®¡ç®—æ¢³çŠ¶è¦†ç›–è·¯å¾„
+            % ´´½¨Êá×´Â·¾¶Éú³É°´Å¥ - ¸ù¾ÝÇøÓò±ß½ç×Ô¶¯¼ÆËãÊá×´¸²¸ÇÂ·¾¶
             app.GenerateButton = uibutton(app.UIFigure, 'push');
             app.GenerateButton.ButtonPushedFcn = @(~,~) generatePath(app);
-            app.GenerateButton.Position = [480 680 340 30]; % æ–°ä½ç½®
-            app.GenerateButton.Text = 'ç”Ÿæˆå…¨å±€æ¢³çŠ¶è·¯å¾„';
+            app.GenerateButton.Position = [480 680 340 30]; % ÐÂÎ»ÖÃ
+            app.GenerateButton.Text = 'Éú³ÉÈ«¾ÖÊá×´Â·¾¶';
 
-            % åˆ›å»ºæ¢³çŠ¶è·¯å¾„ç‚¹å¯¼å‡ºæŒ‰é’® - å°†ç”Ÿæˆçš„æ¢³çŠ¶è·¯å¾„ç‚¹ä»¥CSVæ ¼å¼ä¿å­˜åˆ°æœ¬åœ°
+            % ´´½¨Êá×´Â·¾¶µãµ¼³ö°´Å¥ - ½«Éú³ÉµÄÊá×´Â·¾¶µãÒÔCSV¸ñÊ½±£´æµ½±¾µØ
             app.ExportGlobalWaypointsButton = uibutton(app.UIFigure, 'push');
             app.ExportGlobalWaypointsButton.ButtonPushedFcn = @(~,~) exportGlobalWaypoints(app);
-            app.ExportGlobalWaypointsButton.Position = [480 645 340 30]; % æ–°ä½ç½®
-            app.ExportGlobalWaypointsButton.Text = 'å¯¼å‡ºå…¨å±€æ¢³çŠ¶è·¯å¾„æ•°æ®(csv)';
+            app.ExportGlobalWaypointsButton.Position = [480 645 340 30]; % ÐÂÎ»ÖÃ
+            app.ExportGlobalWaypointsButton.Text = 'µ¼³öÈ«¾ÖÊá×´Â·¾¶Êý¾Ý(csv)';
             app.ExportGlobalWaypointsButton.Enable = 'off';
 
-            % åˆ›å»ºæ¢³çŠ¶è·¯å¾„ç‚¹å‘é€æŒ‰é’® - é€šè¿‡TCPåè®®å°†æ¢³çŠ¶è·¯å¾„ç‚¹æ•°æ®å‘é€è‡³AUV
+            % ´´½¨Êá×´Â·¾¶µã·¢ËÍ°´Å¥ - Í¨¹ýTCPÐ­Òé½«Êá×´Â·¾¶µãÊý¾Ý·¢ËÍÖÁAUV
             app.SendGlobalPathsButton = uibutton(app.UIFigure, 'push');
             app.SendGlobalPathsButton.ButtonPushedFcn = @(~,~) sendGlobalData(app);
-            app.SendGlobalPathsButton.Position = [480 610 340 30]; % æ–°ä½ç½®
-            app.SendGlobalPathsButton.Text = 'å‘é€å…¨å±€æ¢³çŠ¶è·¯å¾„æ•°æ®è‡³ AUV ';
+            app.SendGlobalPathsButton.Position = [480 610 340 30]; % ÐÂÎ»ÖÃ
+            app.SendGlobalPathsButton.Text = '·¢ËÍÈ«¾ÖÊá×´Â·¾¶Êý¾ÝÖÁ AUV ';
             app.SendGlobalPathsButton.Enable = 'off';
 
-            % åˆ›å»ºåœ°å›¾æ•°æ®å¯¼å…¥æŒ‰é’® - ä»ŽMATæ–‡ä»¶ä¸­åŠ è½½é¢„è®¾çš„åœ°å›¾æ•°æ®
+            % ´´½¨µØÍ¼Êý¾Ýµ¼Èë°´Å¥ - ´ÓMATÎÄ¼þÖÐ¼ÓÔØÔ¤ÉèµÄµØÍ¼Êý¾Ý
             app.ImportButton = uibutton(app.UIFigure, 'push');
             app.ImportButton.ButtonPushedFcn = @(~,~) importMapData(app);
-            app.ImportButton.Position = [480 575 340 30]; % æ–°ä½ç½®
-            app.ImportButton.Text = 'å¯¼å…¥åœ°å›¾æ•°æ®';
+            app.ImportButton.Position = [480 575 340 30]; % ÐÂÎ»ÖÃ
+            app.ImportButton.Text = 'µ¼ÈëµØÍ¼Êý¾Ý';
 
-            % åˆ›å»ºåœ°å½¢å›¾åŠéšœç¢ç‰©æ ‡æ³¨æŒ‰é’® - æ˜¾ç¤ºåœ°å½¢å¹¶å…è®¸ç”¨æˆ·æ ‡æ³¨éšœç¢ç‰©
+            % ´´½¨µØÐÎÍ¼¼°ÕÏ°­Îï±ê×¢°´Å¥ - ÏÔÊ¾µØÐÎ²¢ÔÊÐíÓÃ»§±ê×¢ÕÏ°­Îï
             app.ObstacleMarkingButton = uibutton(app.UIFigure, 'push');
             app.ObstacleMarkingButton.ButtonPushedFcn = @(~,~)obstacleMarking(app);
-            app.ObstacleMarkingButton.Position = [480 540 340 30]; % æ–°ä½ç½®
-            app.ObstacleMarkingButton.Text = 'åœ°å½¢å›¾åŠéšœç¢ç‰©æ ‡æ³¨';
+            app.ObstacleMarkingButton.Position = [480 540 340 30]; % ÐÂÎ»ÖÃ
+            app.ObstacleMarkingButton.Text = 'µØÐÎÍ¼¼°ÕÏ°­Îï±ê×¢';
             app.ObstacleMarkingButton.Enable = 'off';
 
-            % åˆ›å»ºDubinsè·¯å¾„è§„åˆ’æŒ‰é’®
+            % ´´½¨DubinsÂ·¾¶¹æ»®°´Å¥
             app.PlanLocalPathsButton = uibutton(app.UIFigure, 'push');
             app.PlanLocalPathsButton.ButtonPushedFcn = @(~,~) planUAVPaths(app);
-            app.PlanLocalPathsButton.Position =[480 505 340 30]; % æ–°ä½ç½®
-            app.PlanLocalPathsButton.Text = 'ç”Ÿæˆå±€éƒ¨ Dubins è·¯å¾„è§„åˆ’';
+            app.PlanLocalPathsButton.Position =[480 505 340 30]; % ÐÂÎ»ÖÃ
+            app.PlanLocalPathsButton.Text = 'Éú³É¾Ö²¿ Dubins Â·¾¶¹æ»®';
             app.PlanLocalPathsButton.Enable = 'off';
 
-            % åˆ›å»ºDubinsè·¯å¾„ç‚¹å¯¼å‡ºæŒ‰é’® - å°†è®¡ç®—çš„è·¯å¾„ç‚¹ä»¥CSVæ ¼å¼ä¿å­˜åˆ°æœ¬åœ°æ–‡ä»¶
+            % ´´½¨DubinsÂ·¾¶µãµ¼³ö°´Å¥ - ½«¼ÆËãµÄÂ·¾¶µãÒÔCSV¸ñÊ½±£´æµ½±¾µØÎÄ¼þ
             app.ExportLocalWaypointsButton = uibutton(app.UIFigure, 'push');
             app.ExportLocalWaypointsButton.ButtonPushedFcn = @(~,~) exportLocalWaypoints(app);
-            app.ExportLocalWaypointsButton.Position = [480 470 340 30]; % æ–°ä½ç½®
-            app.ExportLocalWaypointsButton.Text = 'å¯¼å‡º Dubins è·¯å¾„è§„åˆ’æ•°æ®(csv)';
+            app.ExportLocalWaypointsButton.Position = [480 470 340 30]; % ÐÂÎ»ÖÃ
+            app.ExportLocalWaypointsButton.Text = 'µ¼³ö Dubins Â·¾¶¹æ»®Êý¾Ý(csv)';
             app.ExportLocalWaypointsButton.Enable = 'off';
 
-            % åˆ›å»ºDubinsè·¯å¾„ç‚¹å‘é€æŒ‰é’® - é€šè¿‡TCPåè®®å°†è·¯å¾„ç‚¹æ•°æ®å‘é€è‡³AUV
+            % ´´½¨DubinsÂ·¾¶µã·¢ËÍ°´Å¥ - Í¨¹ýTCPÐ­Òé½«Â·¾¶µãÊý¾Ý·¢ËÍÖÁAUV
             app.SendLocalPathsButton = uibutton(app.UIFigure, 'push');
             app.SendLocalPathsButton.ButtonPushedFcn = @(~,~) sendLocalData(app);
-            app.SendLocalPathsButton.Position = [480 435 340 30]; % æœ€ä¸‹æ–¹æŒ‰é’®ä½ç½®ä¿æŒä¸å˜
-            app.SendLocalPathsButton.Text = 'å‘é€ Dubins è·¯å¾„è§„åˆ’æ•°æ®è‡³ AUV ';
+            app.SendLocalPathsButton.Position = [480 435 340 30]; % ×îÏÂ·½°´Å¥Î»ÖÃ±£³Ö²»±ä
+            app.SendLocalPathsButton.Text = '·¢ËÍ Dubins Â·¾¶¹æ»®Êý¾ÝÖÁ AUV ';
             app.SendLocalPathsButton.Enable = 'off';
 
-            % % åˆ›å»ºä»¿çœŸå›¾ç»˜åˆ¶æŒ‰é’® - å¯è§†åŒ–æ˜¾ç¤ºå½“å‰è·¯å¾„è§„åˆ’åŠçŽ¯å¢ƒçš„ä»¿çœŸæ•ˆæžœ
+            % % ´´½¨·ÂÕæÍ¼»æÖÆ°´Å¥ - ¿ÉÊÓ»¯ÏÔÊ¾µ±Ç°Â·¾¶¹æ»®¼°»·¾³µÄ·ÂÕæÐ§¹û
             % app.X1plotTCPButton = uibutton(app.UIFigure, 'push');
             % app.X1plotTCPButton.ButtonPushedFcn = @(~,~) X1plotTCP(app);
             % app.X1plotTCPButton.Position = [480 390 340 30];
-            % app.X1plotTCPButton.Text = 'ç»˜åˆ¶ AUV è¿è¡Œä»¿çœŸå›¾';
+            % app.X1plotTCPButton.Text = '»æÖÆ AUV ÔËÐÐ·ÂÕæÍ¼';
             % app.X1plotTCPButton.Enable = 'off';
 
-            %% 8. çŠ¶æ€æ ‡ç­¾
-            % æ€»è·¯å¾„é•¿åº¦åŠTCPçŠ¶æ€ç‰ˆæœ¬å±•ç¤º
+            %% 8. ×´Ì¬±êÇ©
+            % ×ÜÂ·¾¶³¤¶È¼°TCP×´Ì¬°æ±¾Õ¹Ê¾
             app.TotalLengthLabelandTCP = uilabel(app.UIFigure);
             app.TotalLengthLabelandTCP.Position = [30 60 320 40];
-            app.TotalLengthLabelandTCP.Text = 'æ€»è·¯å¾„é•¿åº¦: 0.0 ç±³';
+            app.TotalLengthLabelandTCP.Text = '×ÜÂ·¾¶³¤¶È: 0.0 Ã×';
             app.TotalLengthLabelandTCP.HorizontalAlignment = 'center';
             
-            % æ€»ä½“çŠ¶æ€æ ‡ç­¾
+            % ×ÜÌå×´Ì¬±êÇ©
             app.StatusLabel = uilabel(app.UIFigure);
             app.StatusLabel.Position = [30 30 320 30];
-            app.StatusLabel.Text = 'è¿˜æœªç”Ÿæˆè§„åˆ’è·¯å¾„æ•°æ®ï¼';
+            app.StatusLabel.Text = '»¹Î´Éú³É¹æ»®Â·¾¶Êý¾Ý£¡';
             app.StatusLabel.HorizontalAlignment = 'center';
             app.StatusLabel.FontColor = [0.8 0 0];
             
-            %% 9. ç»˜å›¾åŒºåŸŸ
+            %% 9. »æÍ¼ÇøÓò
             
-            % åˆ›å»ºAUVå…¨å±€è·¯å¾„è§„åˆ’æ˜¾ç¤ºåŒºåŸŸ - ç”¨äºŽå±•ç¤ºè¦†ç›–è·¯å¾„è§„åˆ’çš„æ•´ä½“æ•ˆæžœ
-            % ä½äºŽç•Œé¢å³ä¸Šæ–¹ï¼Œæ˜¾ç¤ºAUVåœ¨æ•´ä¸ªåŒºåŸŸçš„æ¢³çŠ¶è¦†ç›–è·¯å¾„
+            % ´´½¨AUVÈ«¾ÖÂ·¾¶¹æ»®ÏÔÊ¾ÇøÓò - ÓÃÓÚÕ¹Ê¾¸²¸ÇÂ·¾¶¹æ»®µÄÕûÌåÐ§¹û
+            % Î»ÓÚ½çÃæÓÒÉÏ·½£¬ÏÔÊ¾AUVÔÚÕû¸öÇøÓòµÄÊá×´¸²¸ÇÂ·¾¶
             app.UIAxes1 = uiaxes(app.UIFigure);
             app.UIAxes1.Position = [860 430 390 390];
-            title(app.UIAxes1, ' å…¨å±€æ¢³çŠ¶è·¯å¾„è§„åˆ’æ•ˆæžœå›¾');
-            xlabel(app.UIAxes1, 'Xè½´ (ç±³)');
-            ylabel(app.UIAxes1, 'Yè½´ (ç±³)');
+            title(app.UIAxes1, ' È«¾ÖÊá×´Â·¾¶¹æ»®Ð§¹ûÍ¼');
+            xlabel(app.UIAxes1, 'XÖá (Ã×)');
+            ylabel(app.UIAxes1, 'YÖá (Ã×)');
             grid(app.UIAxes1, 'on');
 
-            % åˆ›å»ºDubinså±€éƒ¨è·¯å¾„è§„åˆ’æ˜¾ç¤ºåŒºåŸŸ - ç”¨äºŽå±•ç¤ºåŸºäºŽDubinsæ›²çº¿çš„å±€éƒ¨è·¯å¾„è§„åˆ’ç»“æžœ
-            % ä½äºŽç•Œé¢å³ä¸‹æ–¹ï¼Œæ˜¾ç¤ºAUVåœ¨éšœç¢ç‰©çŽ¯å¢ƒä¸­çš„å±€éƒ¨è·¯å¾„è§„åˆ’è½¨è¿¹
+            % ´´½¨Dubins¾Ö²¿Â·¾¶¹æ»®ÏÔÊ¾ÇøÓò - ÓÃÓÚÕ¹Ê¾»ùÓÚDubinsÇúÏßµÄ¾Ö²¿Â·¾¶¹æ»®½á¹û
+            % Î»ÓÚ½çÃæÓÒÏÂ·½£¬ÏÔÊ¾AUVÔÚÕÏ°­Îï»·¾³ÖÐµÄ¾Ö²¿Â·¾¶¹æ»®¹ì¼£
             app.UIAxes2 = uiaxes(app.UIFigure);
             app.UIAxes2.Position = [860 40 390 390];
-            title(app.UIAxes2, 'å±€éƒ¨ Dubins è·¯å¾„è§„åˆ’æ•ˆæžœå›¾');
-            xlabel(app.UIAxes2, 'Xè½´ (ç±³)');
-            ylabel(app.UIAxes2, 'Yè½´ (ç±³)');
+            title(app.UIAxes2, '¾Ö²¿ Dubins Â·¾¶¹æ»®Ð§¹ûÍ¼');
+            xlabel(app.UIAxes2, 'XÖá (Ã×)');
+            ylabel(app.UIAxes2, 'YÖá (Ã×)');
             grid(app.UIAxes2, 'on');
 
-            % åˆ›å»ºåœ°å½¢ä¸Žéšœç¢ç‰©æ˜¾ç¤ºåŒºåŸŸ - ç”¨äºŽæ˜¾ç¤ºçŽ¯å¢ƒåœ°å½¢å’Œç”¨æˆ·æ ‡æ³¨çš„éšœç¢ç‰©
-            % ä½äºŽç•Œé¢ä¸­ä¸‹æ–¹ï¼Œå…è®¸ç”¨æˆ·äº¤äº’å¼åœ°æ ‡æ³¨å’ŒæŸ¥çœ‹åœ°å½¢éšœç¢ç‰©ä¿¡æ¯
+            % ´´½¨µØÐÎÓëÕÏ°­ÎïÏÔÊ¾ÇøÓò - ÓÃÓÚÏÔÊ¾»·¾³µØÐÎºÍÓÃ»§±ê×¢µÄÕÏ°­Îï
+            % Î»ÓÚ½çÃæÖÐÏÂ·½£¬ÔÊÐíÓÃ»§½»»¥Ê½µØ±ê×¢ºÍ²é¿´µØÐÎÕÏ°­ÎïÐÅÏ¢
             app.UIAxes3 = uiaxes(app.UIFigure);
             app.UIAxes3.Position = [440 40 390 390];
-            title(app.UIAxes3, 'åœ°å½¢åŠéšœç¢ç‰©æ ‡æ³¨å›¾');
-            xlabel(app.UIAxes3, 'Xè½´ (ç±³)');
-            ylabel(app.UIAxes3, 'Yè½´ (ç±³)');
+            title(app.UIAxes3, 'µØÐÎ¼°ÕÏ°­Îï±ê×¢Í¼');
+            xlabel(app.UIAxes3, 'XÖá (Ã×)');
+            ylabel(app.UIAxes3, 'YÖá (Ã×)');
             grid(app.UIAxes3, 'on');
 
         end
 
-        %% é¡¹ç›®è·¯å¾„è®¾ç½®è„šæœ¬
+        %% ÏîÄ¿Â·¾¶ÉèÖÃ½Å±¾
         function [projectRoot,currentDir]= setupAppPaths(app)
-            % èŽ·å–å½“å‰è„šæœ¬æ‰€åœ¨çš„ç›®å½•
+            % »ñÈ¡µ±Ç°½Å±¾ËùÔÚµÄÄ¿Â¼
             currentDir = fileparts(mfilename('fullpath'));
             
-            % æ ¹æ®æ˜¯å¦å·²éƒ¨ç½²è®¾ç½®é¡¹ç›®æ ¹ç›®å½•
+            % ¸ù¾ÝÊÇ·ñÒÑ²¿ÊðÉèÖÃÏîÄ¿¸ùÄ¿Â¼
             if isdeployed
-                % åœ¨å·²éƒ¨ç½²çŽ¯å¢ƒä¸­ï¼Œä½¿ç”¨ç³»ç»Ÿä¸´æ—¶ç›®å½•ä½œä¸ºåŸºç¡€
+                % ÔÚÒÑ²¿Êð»·¾³ÖÐ£¬Ê¹ÓÃÏµÍ³ÁÙÊ±Ä¿Â¼×÷Îª»ù´¡
                 [status, tempPath] = system('echo %TEMP%');
                 if status == 0
                     basePath = strtrim(tempPath);
                     appFolder = fullfile(basePath, 'CoveragePathPlannerApp');
                     
-                    % ç¡®ä¿åº”ç”¨ç¨‹åºæ–‡ä»¶å¤¹å­˜åœ¨
+                    % È·±£Ó¦ÓÃ³ÌÐòÎÄ¼þ¼Ð´æÔÚ
                     if ~exist(appFolder, 'dir')
                         mkdir(appFolder);
-                        fprintf('å·²åˆ›å»ºåº”ç”¨ç¨‹åºæ–‡ä»¶å¤¹: %s\n', appFolder);
+                        fprintf('ÒÑ´´½¨Ó¦ÓÃ³ÌÐòÎÄ¼þ¼Ð: %s\n', appFolder);
                     end
                     projectRoot = appFolder;
                 else
-                    % å¦‚æžœæ— æ³•èŽ·å–ç³»ç»Ÿä¸´æ—¶ç›®å½•ï¼Œä½¿ç”¨å½“å‰ç›®å½•
+                    % Èç¹ûÎÞ·¨»ñÈ¡ÏµÍ³ÁÙÊ±Ä¿Â¼£¬Ê¹ÓÃµ±Ç°Ä¿Â¼
                     projectRoot = pwd;
-                    fprintf('æ— æ³•èŽ·å–ç³»ç»Ÿä¸´æ—¶ç›®å½•ï¼Œä½¿ç”¨å½“å‰ç›®å½•: %s\n', projectRoot);
+                    fprintf('ÎÞ·¨»ñÈ¡ÏµÍ³ÁÙÊ±Ä¿Â¼£¬Ê¹ÓÃµ±Ç°Ä¿Â¼: %s\n', projectRoot);
                 end
             else
-                % å¼€å‘çŽ¯å¢ƒï¼Œä½¿ç”¨ç›¸å¯¹è·¯å¾„
+                % ¿ª·¢»·¾³£¬Ê¹ÓÃÏà¶ÔÂ·¾¶
                 projectRoot = fullfile(currentDir, '..');
             end
             
-            % å®šä¹‰éœ€è¦æ·»åŠ çš„æ ¸å¿ƒæ–‡ä»¶å¤¹è·¯å¾„
+            % ¶¨ÒåÐèÒªÌí¼ÓµÄºËÐÄÎÄ¼þ¼ÐÂ·¾¶
             pathsToAdd = {
-%                 fullfile(currentDir, 'utils'),            ... å·¥å…·å‡½æ•°ä¸»ç›®å½•
-%                 fullfile(currentDir, 'utils', 'dubins'),  ... Dubinsè·¯å¾„è§„åˆ’
-%                 fullfile(currentDir, 'utils', 'main'),    ... ä¸»è¦åŠŸèƒ½å‡½æ•°
-%                 fullfile(currentDir, 'utils', 'plot'),    ... ç»˜å›¾ç›¸å…³å‡½æ•°
-%                 fullfile(currentDir, 'utils', 'trajectory'), ... è½¨è¿¹ç”Ÿæˆå‡½æ•°
-                fullfile(projectRoot, 'data'),            ... æ•°æ®æ–‡ä»¶å¤¹
-                fullfile(projectRoot, 'picture')          ... å›¾ç‰‡æ–‡ä»¶å¤¹
+%                 fullfile(currentDir, 'utils'),            ... ¹¤¾ßº¯ÊýÖ÷Ä¿Â¼
+%                 fullfile(currentDir, 'utils', 'dubins'),  ... DubinsÂ·¾¶¹æ»®
+%                 fullfile(currentDir, 'utils', 'main'),    ... Ö÷Òª¹¦ÄÜº¯Êý
+%                 fullfile(currentDir, 'utils', 'plot'),    ... »æÍ¼Ïà¹Øº¯Êý
+%                 fullfile(currentDir, 'utils', 'trajectory'), ... ¹ì¼£Éú³Éº¯Êý
+                fullfile(projectRoot, 'data'),            ... Êý¾ÝÎÄ¼þ¼Ð
+                fullfile(projectRoot, 'picture')          ... Í¼Æ¬ÎÄ¼þ¼Ð
             };
             
-            % ç¡®ä¿æ–‡ä»¶å¤¹å­˜åœ¨
+            % È·±£ÎÄ¼þ¼Ð´æÔÚ
             if isdeployed
-                % å·²ç¼–è¯‘çŽ¯å¢ƒï¼Œåªåˆ›å»ºæ•°æ®å’Œè¾“å‡ºæ–‡ä»¶å¤¹
+                % ÒÑ±àÒë»·¾³£¬Ö»´´½¨Êý¾ÝºÍÊä³öÎÄ¼þ¼Ð
                 dataPaths = {
                     fullfile(projectRoot, 'data'),
                     fullfile(projectRoot, 'picture')
@@ -800,61 +824,61 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
                     if ~exist(dataPaths{i}, 'dir')
                         try
                             mkdir(dataPaths{i});
-                            fprintf('å·²éƒ¨ç½²çŽ¯å¢ƒ: åˆ›å»ºæ–‡ä»¶å¤¹ %s\n', dataPaths{i});
+                            fprintf('ÒÑ²¿Êð»·¾³: ´´½¨ÎÄ¼þ¼Ð %s\n', dataPaths{i});
                         catch ME
-                            warning('æ— æ³•åˆ›å»ºæ–‡ä»¶å¤¹ %s: %s', dataPaths{i}, ME.message);
+                            warning('ÎÞ·¨´´½¨ÎÄ¼þ¼Ð %s: %s', dataPaths{i}, ME.message);
                         end
                     end
                 end
             else
-                % å¼€å‘çŽ¯å¢ƒï¼Œåˆ›å»ºæ‰€æœ‰æ–‡ä»¶å¤¹å¹¶æ·»åŠ åˆ°æœç´¢è·¯å¾„
+                % ¿ª·¢»·¾³£¬´´½¨ËùÓÐÎÄ¼þ¼Ð²¢Ìí¼Óµ½ËÑË÷Â·¾¶
                 for i = 1:length(pathsToAdd)
                     if ~exist(pathsToAdd{i}, 'dir')
                         try
                             mkdir(pathsToAdd{i});
-                            fprintf('å¼€å‘çŽ¯å¢ƒ: åˆ›å»ºæ–‡ä»¶å¤¹ %s\n', pathsToAdd{i});
+                            fprintf('¿ª·¢»·¾³: ´´½¨ÎÄ¼þ¼Ð %s\n', pathsToAdd{i});
                         catch ME
-                            warning('æ— æ³•åˆ›å»ºæ–‡ä»¶å¤¹ %s: %s', pathsToAdd{i}, ME.message);
+                            warning('ÎÞ·¨´´½¨ÎÄ¼þ¼Ð %s: %s', pathsToAdd{i}, ME.message);
                         end
                     end
                     
-                    % æ·»åŠ åˆ°æœç´¢è·¯å¾„
+                    % Ìí¼Óµ½ËÑË÷Â·¾¶
                     addpath(pathsToAdd{i});
-                    fprintf('å·²æ·»åŠ è·¯å¾„: %s\n', pathsToAdd{i});
+                    fprintf('ÒÑÌí¼ÓÂ·¾¶: %s\n', pathsToAdd{i});
                 end
             end
             
-            % éªŒè¯çŽ¯å¢ƒè®¾ç½®
+            % ÑéÖ¤»·¾³ÉèÖÃ
             app.checkEnvironment();
             
-            fprintf('è·¯å¾„è®¾ç½®å®Œæˆï¼é¡¹ç›®æ ¹ç›®å½•: %s\n', projectRoot);
+            fprintf('Â·¾¶ÉèÖÃÍê³É£¡ÏîÄ¿¸ùÄ¿Â¼: %s\n', projectRoot);
         end
 
-        %% æ£€æŸ¥å¿…è¦çš„å·¥å…·ç®±æ˜¯å¦å®‰è£…
+        %% ¼ì²é±ØÒªµÄ¹¤¾ßÏäÊÇ·ñ°²×°
         function checkEnvironment(~)
             requiredToolboxes = {'MATLAB', 'Simulink'};
             installedToolboxes = ver;
             installedToolboxNames = {installedToolboxes.Name};
             
-            fprintf('\nçŽ¯å¢ƒæ£€æŸ¥:\n');
+            fprintf('\n»·¾³¼ì²é:\n');
             for i = 1:length(requiredToolboxes)
                 if any(contains(installedToolboxNames, requiredToolboxes{i}))
-                    fprintf('âœ“ %s å·²å®‰è£…\n', requiredToolboxes{i});
+                    fprintf('? %s ÒÑ°²×°\n', requiredToolboxes{i});
                 else
-                    warning('â¨¯ %s æœªå®‰è£…\n', requiredToolboxes{i});
+                    warning('? %s Î´°²×°\n', requiredToolboxes{i});
                 end
             end
             
-            % æ£€æŸ¥MATLABç‰ˆæœ¬
+            % ¼ì²éMATLAB°æ±¾
             matlabVersion = version;
-            fprintf('å½“å‰MATLABç‰ˆæœ¬: %s\n', matlabVersion);
+            fprintf('µ±Ç°MATLAB°æ±¾: %s\n', matlabVersion);
         end
 
-        %% æ·»åŠ å¯åŠ¨å’Œå…³é—­æ—¶çš„æ¸…ç†ä»£ç 
+        %% Ìí¼ÓÆô¶¯ºÍ¹Ø±ÕÊ±µÄÇåÀí´úÂë
         function startup(app)
             try
-                % è®¾ç½®é»˜è®¤å·¥ä½œç›®å½•
-                if ~isdeployed % å¦‚æžœä¸æ˜¯å·²ç¼–è¯‘çš„ç‰ˆæœ¬
+                % ÉèÖÃÄ¬ÈÏ¹¤×÷Ä¿Â¼
+                if ~isdeployed % Èç¹û²»ÊÇÒÑ±àÒëµÄ°æ±¾
                     cd(fileparts(mfilename('fullpath')));
                 else
                     [status, result] = system('echo %TEMP%');
@@ -864,23 +888,23 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
                     end
                 end
                 
-                % åˆå§‹åŒ–çŠ¶æ€
-                app.StatusLabel.Text = 'è¿˜æœªç”Ÿæˆè§„åˆ’è·¯å¾„æ•°æ®ï¼';
+                % ³õÊ¼»¯×´Ì¬
+                app.StatusLabel.Text = '»¹Î´Éú³É¹æ»®Â·¾¶Êý¾Ý£¡';
                 app.StatusLabel.FontColor = [0.8 0 0];
                 
             catch ME
-                warning(ME.identifier, 'å¯åŠ¨åˆå§‹åŒ–å¤±è´¥: %s', ME.message);
+                warning(ME.identifier, 'Æô¶¯³õÊ¼»¯Ê§°Ü: %s', ME.message);
             end
         end
         
         function cleanup(app)
             try
-                % æ¸…ç†ä»»ä½•æ‰“å¼€çš„TCPè¿žæŽ¥
+                % ÇåÀíÈÎºÎ´ò¿ªµÄTCPÁ¬½Ó
                 if isfield(app, 'tcpClient') && isvalid(app.tcpClient)
                     clear app.tcpClient;
                 end
             catch
-                % å¿½ç•¥æ¸…ç†é”™è¯¯
+                % ºöÂÔÇåÀí´íÎó
             end
         end
     end 
@@ -891,35 +915,35 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         % Construct app
         function app = CoveragePathPlannerApp()
 
-            % è®¾ç½®è·¯å¾„
+            % ÉèÖÃÂ·¾¶
             [projectRoot,~]=setupAppPaths(app);
             
-            % èŽ·å–å½“å‰æ–‡ä»¶å¤¹è·¯å¾„
+            % »ñÈ¡µ±Ç°ÎÄ¼þ¼ÐÂ·¾¶
             % app.currentProjectRoot = pwd;
             % app.currentProjectRoot = fullfile(fileparts(mfilename('fullpath')), '..');
             % app.currentProjectRoot = fullfile(pwd, '..');
             app.currentProjectRoot = projectRoot;
-            % æ³¨æ„ï¼šåˆ é™¤äº†ä»¥ä¸‹ä½¿ç”¨ genpath å’Œ addpath ä¿®æ”¹æœç´¢è·¯å¾„çš„ä»£ç 
+            % ×¢Òâ£ºÉ¾³ýÁËÒÔÏÂÊ¹ÓÃ genpath ºÍ addpath ÐÞ¸ÄËÑË÷Â·¾¶µÄ´úÂë
             
-            % åˆ›å»ºç»„ä»¶
+            % ´´½¨×é¼þ
             createComponents(app)
             
-            % åˆå§‹åŒ–å±žæ€§
+            % ³õÊ¼»¯ÊôÐÔ
             app.Waypoints = [];
             
-            % è¿è¡Œå¯åŠ¨ä»£ç 
+            % ÔËÐÐÆô¶¯´úÂë
             startup(app)
             
-            % æ˜¾ç¤ºç•Œé¢
+            % ÏÔÊ¾½çÃæ
             app.UIFigure.Visible = 'on';
         end
 
-        % ä¿®æ”¹åˆ é™¤å‡½æ•°ï¼Œæ·»åŠ æ¸…ç†ä»£ç 
+        % ÐÞ¸ÄÉ¾³ýº¯Êý£¬Ìí¼ÓÇåÀí´úÂë
         function delete(app)
-            % è¿è¡Œæ¸…ç†ä»£ç 
+            % ÔËÐÐÇåÀí´úÂë
             cleanup(app)
             
-            % åˆ é™¤ç•Œé¢
+            % É¾³ý½çÃæ
             delete(app.UIFigure)
         end
     end
