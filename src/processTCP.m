@@ -67,13 +67,32 @@ function [statusTCP, errorMessage] = processTCP(app, jsonData)
         app.TotalLengthLabelandTCP.FontColor = [0 0.5 0];
 
         % 发送数据
-        flush(client);
-        write(client, jsonData, 'string');
+        % flush(client);
+        % write(client, jsonData, 'string');
+        % 尝试发送数据 - 处理不同版本的写入方法
+        try
+            % 新版方式
+            write(client, jsonData, 'string');
+        catch writeErr
+            try
+                % 尝试替代写入方法1
+                write(client, uint8(jsonData));
+            catch
+                try
+                    % 尝试替代写入方法2
+                    write(client, char(jsonData));
+                catch
+                    % 所有写入方法都失败
+                    rethrow(writeErr);
+                end
+            end
+        end
         % 更新状态
-        app.statusTCPLabel.Text = '规划路径数据发送成功！';
-        app.statusTCPLabel.FontColor = [0 0.5 0];
+        app.StatusLabel.Text = '规划路径数据发送成功！';
+        app.StatusLabel.FontColor = [0 0.5 0];
         statusTCP = true;
         errorMessage = '';
+        
     catch tcpErr
         % 区分超时和其他错误
         if contains(tcpErr.message, 'Timeout') || contains(tcpErr.message, 'timed out')
@@ -84,5 +103,15 @@ function [statusTCP, errorMessage] = processTCP(app, jsonData)
         app.TotalLengthLabelandTCP.Text = errorMessage;
         app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
         statusTCP = false;
+    end
+    
+    % 操作完成后关闭TCP连接
+    % 使用try-catch防止未定义client时的错误
+    try
+        if exist('client', 'var')
+            clear client;
+        end
+    catch
+        % 忽略清理过程中的错误
     end
 end

@@ -117,6 +117,23 @@ function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
         end
         down = downvector(1); % 初始下潜点索引
 
+        % 锚定点索引
+        anchor = app.anchorEditField.Value;
+        anchorvector = str2num(anchor);
+        z_sorted = sort(anchorvector, 'descend');
+        valid_z = z_sorted(z_sorted <= size(pathData, 1));
+        z_sorted = valid_z;
+
+        for row = z_sorted
+            current_row = pathData(row, :);
+            pathData = [pathData(1:row, :);
+                repmat(current_row, 2, 1);
+                pathData(row+1:end, :)];
+        end
+        % 锚定时长
+        tm=app.TanchorEditField.Value;
+
+        WPNum = size(pathData, 1);
         z = app.ZEditField.Value; % 设置深度
 
         % 保持原有的assignin语句
@@ -132,6 +149,7 @@ function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
         assignin('base', "Tj", Tj);
         assignin('base', 'up', up);
         assignin('base', "down", down);
+        assignin('base', "tm", tm);
 
         % 创建数据结构
         dataStruct = struct('Waypoints', pathData, ...
@@ -147,7 +165,8 @@ function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
                             'down', down, ...
                             'z', z, ...
                             'hostIP', hostIP, ...
-                            'hPort', hPort);
+                            'hPort', hPort, ...
+                            'tm',tm);
         % 转换为JSON
         jsonData = jsonencode(dataStruct);
         statusData = true;

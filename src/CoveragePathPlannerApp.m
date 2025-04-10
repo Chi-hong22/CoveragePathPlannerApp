@@ -564,7 +564,6 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
             app.hPortLabel = uilabel(app.TCPPanel);
             app.hPortLabel.Position = [200 10 80 22];
             app.hPortLabel.Text = '±¾»ú¶Ë¿Ú:';
-
             app.hPortEditField = uieditfield(app.TCPPanel, 'numeric');
             app.hPortEditField.Position = [280 10 60 22];
             app.hPortEditField.Value = 8888;

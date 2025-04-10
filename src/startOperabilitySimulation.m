@@ -85,10 +85,10 @@ function startOperabilitySimulation(app)
     
     
     [statusTCP, ~] = processTCP(app, manoeuvreData);
-    if ~statusTCP
+    % if ~statusTCP
         app.StartOperabilitySimulationButton.Enable = true;
-        return;
-    end
+        % return;
+    % end
     
     
     end

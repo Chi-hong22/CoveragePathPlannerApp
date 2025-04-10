@@ -60,5 +60,7 @@ function sendPathDataViaTCP(app, pathData, buttonName)
         app.(buttonName).Enable = true;
         return;
     end
+    
+    app.(buttonName).Enable = true;
 
 end
