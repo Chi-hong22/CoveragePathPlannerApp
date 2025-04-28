@@ -1,127 +1,127 @@
-%% obstacleMarking - µØĞÎÕÏ°­Îï¼ì²âÓë±ê¼Ç¹¤¾ß
+%% obstacleMarking - åœ°å½¢éšœç¢ç‰©æ£€æµ‹ä¸æ ‡è®°å·¥å…·
 %
-% ¹¦ÄÜÃèÊö£º
-%   ´ÓµØĞÎ¸ß¶ÈÍ¼ÖĞ¼ì²âÕÏ°­Îï£¬²¢¼ÆËãÃ¿¸öÕÏ°­ÎïµÄ×îĞ¡Íâ½ÓÔ²¡£°üÀ¨Êı¾İ¼ÓÔØ¡¢
-%   ÕÏ°­Îï¼ì²â¡¢Íâ½ÓÔ²¼ÆËãºÍ¿ÉÊÓ»¯Õ¹Ê¾µÈ¹¦ÄÜ¡£ÊÊÓÃÓÚAUV±ÜÕÏÂ·¾¶¹æ»®¡£
+% åŠŸèƒ½æè¿°ï¼š
+%   ä»åœ°å½¢é«˜åº¦å›¾ä¸­æ£€æµ‹éšœç¢ç‰©ï¼Œå¹¶è®¡ç®—æ¯ä¸ªéšœç¢ç‰©çš„æœ€å°å¤–æ¥åœ†ã€‚åŒ…æ‹¬æ•°æ®åŠ è½½ã€
+%   éšœç¢ç‰©æ£€æµ‹ã€å¤–æ¥åœ†è®¡ç®—å’Œå¯è§†åŒ–å±•ç¤ºç­‰åŠŸèƒ½ã€‚é€‚ç”¨äºAUVé¿éšœè·¯å¾„è§„åˆ’ã€‚
 %
-% ×÷ÕßĞÅÏ¢£º
-%   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
-%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
-%   ×÷Õß£º¶­ĞÇáí
-%   ÓÊÏä£º1443123118@qq.com
-%   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
+% ä½œè€…ä¿¡æ¯ï¼š
+%   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
+%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
+%   ä½œè€…ï¼šè‘£æ˜ŸçŠ´
+%   é‚®ç®±ï¼š1443123118@qq.com
+%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 %
-% °æ±¾ĞÅÏ¢£º
-%   µ±Ç°°æ±¾£ºv1.1
-%   ´´½¨ÈÕÆÚ£º241101
-%   ×îºóĞŞ¸Ä£º250110
+% ç‰ˆæœ¬ä¿¡æ¯ï¼š
+%   å½“å‰ç‰ˆæœ¬ï¼šv1.1
+%   åˆ›å»ºæ—¥æœŸï¼š241101
+%   æœ€åä¿®æ”¹ï¼š250110
 %
-% °æ±¾ÀúÊ·£º
+% ç‰ˆæœ¬å†å²ï¼š
 %   v1.1 (250110)
-%       + ÓÅ»¯ÕÏ°­Îï¼ì²âËã·¨
-%       + ¸Ä½ø¿ÉÊÓ»¯ÏÔÊ¾Ğ§¹û
-%       + Ìí¼ÓÊı¾İ´æ´¢¹¦ÄÜ
+%       + ä¼˜åŒ–éšœç¢ç‰©æ£€æµ‹ç®—æ³•
+%       + æ”¹è¿›å¯è§†åŒ–æ˜¾ç¤ºæ•ˆæœ
+%       + æ·»åŠ æ•°æ®å­˜å‚¨åŠŸèƒ½
 %   v1.0 (241101)
-%       + Ê×´Î·¢²¼
-%       + ÊµÏÖ»ù´¡ÕÏ°­Îï¼ì²â
-%       + Ìí¼Ó×îĞ¡Íâ½ÓÔ²¼ÆËã
+%       + é¦–æ¬¡å‘å¸ƒ
+%       + å®ç°åŸºç¡€éšœç¢ç‰©æ£€æµ‹
+%       + æ·»åŠ æœ€å°å¤–æ¥åœ†è®¡ç®—
 %
-% ÊäÈë²ÎÊı£º
-%   app - [object] AUVCoveragePathPlannerAppÊµÀı
-%         ±ØÑ¡²ÎÊı£¬°üº¬UI×é¼şºÍÊı¾İ
+% è¾“å…¥å‚æ•°ï¼š
+%   app - [object] AUVCoveragePathPlannerAppå®ä¾‹
+%         å¿…é€‰å‚æ•°ï¼ŒåŒ…å«UIç»„ä»¶å’Œæ•°æ®
 %
-% Êä³ö²ÎÊı£º
-%   ÎŞÖ±½Ó·µ»ØÖµ£¬½á¹û±£´æÖÁcirclesInformation.matÎÄ¼ş
-%   ÎÄ¼ş°üº¬½á¹¹£º
-%   - circlesInfo: [nx3 double] ÕÏ°­ÎïÔ²ĞÎĞÅÏ¢
+% è¾“å‡ºå‚æ•°ï¼š
+%   æ— ç›´æ¥è¿”å›å€¼ï¼Œç»“æœä¿å­˜è‡³circlesInformation.matæ–‡ä»¶
+%   æ–‡ä»¶åŒ…å«ç»“æ„ï¼š
+%   - circlesInfo: [nx3 double] éšœç¢ç‰©åœ†å½¢ä¿¡æ¯
 %     [centerX, centerY, radius]
 %
-% ×¢ÒâÊÂÏî£º
-%   1. Êı¾İÒªÇó£ºĞèÒªterrainHeightMap_feed8_2000.matÎÄ¼ş
-%   2. ÄÚ´æÏûºÄ£ºÓëµØĞÎÍ¼´óĞ¡ºÍÕÏ°­ÎïÊıÁ¿³ÉÕı±È
-%   3. ãĞÖµÉèÖÃ£ºÄ¬ÈÏãĞÖµ3.2Ã×£¬¿É¸ù¾İÊµ¼ÊĞèÇóµ÷Õû
-%   4. ´æ´¢Â·¾¶£º½á¹û±£´æÔÚÏîÄ¿dataÄ¿Â¼ÏÂ
+% æ³¨æ„äº‹é¡¹ï¼š
+%   1. æ•°æ®è¦æ±‚ï¼šéœ€è¦terrainHeightMap_feed8_2000.matæ–‡ä»¶
+%   2. å†…å­˜æ¶ˆè€—ï¼šä¸åœ°å½¢å›¾å¤§å°å’Œéšœç¢ç‰©æ•°é‡æˆæ­£æ¯”
+%   3. é˜ˆå€¼è®¾ç½®ï¼šé»˜è®¤é˜ˆå€¼3.2ç±³ï¼Œå¯æ ¹æ®å®é™…éœ€æ±‚è°ƒæ•´
+%   4. å­˜å‚¨è·¯å¾„ï¼šç»“æœä¿å­˜åœ¨é¡¹ç›®dataç›®å½•ä¸‹
 %
-% µ÷ÓÃÊ¾Àı£º
-%   % ÔÚAPPÖĞµ÷ÓÃ
+% è°ƒç”¨ç¤ºä¾‹ï¼š
+%   % åœ¨APPä¸­è°ƒç”¨
 %   app = AUVCoveragePathPlannerApp;
 %   obstacleMarking(app);
 %
-% ÒÀÀµº¯Êı£º
+% ä¾èµ–å‡½æ•°ï¼š
 %   - bwlabel
 %   - regionprops
 %   - imagesc
 %
-% ²Î¼ûº¯Êı£º
+% å‚è§å‡½æ•°ï¼š
 %   generateCombPath, plotObstacles
 
 function obstacleMarking(app)
 
-    % ¼ÓÔØ.matÎÄ¼şÖĞµÄÊı¾İ
+    % åŠ è½½.matæ–‡ä»¶ä¸­çš„æ•°æ®
     try
         loadedData = load('terrainHeightMap_feed8_2000.mat');
-        % ´Ó½á¹¹ÌåÖĞÌáÈ¡ terrainHeightMap
+        % ä»ç»“æ„ä½“ä¸­æå– terrainHeightMap
         heightData = loadedData.terrainHeightMap;
-        % ½«ÌáÈ¡µÄÊı¾İ±£´æµ½¹¤×÷Çø
+        % å°†æå–çš„æ•°æ®ä¿å­˜åˆ°å·¥ä½œåŒº
         assignin('base', 'terrainHeightMap', heightData);
         
-        % ´´½¨ÓÃÓÚÏÔÊ¾µÄ¸ß¶ÈÊı¾İ£¨ÔÚzÖáÉÏÕûÌå¼õ5£©
+        % åˆ›å»ºç”¨äºæ˜¾ç¤ºçš„é«˜åº¦æ•°æ®ï¼ˆåœ¨zè½´ä¸Šæ•´ä½“å‡5ï¼‰
         heightData_display = heightData - 5;
     catch ME
-        errordlg(['ÎŞ·¨¼ÓÔØ»ò´¦ÀíÊı¾İ: ' ME.message], '´íÎó');
+        errordlg(['æ— æ³•åŠ è½½æˆ–å¤„ç†æ•°æ®: ' ME.message], 'é”™è¯¯');
         return;
     end
 
-    % ¶¨ÒåÕÏ°­ÎïãĞÖµ£¨¸ù¾İÄãµÄ¾ßÌåĞèÇóÉè¶¨£©
-    threshold = 3.2; % Äã¿ÉÒÔµ÷ÕûÕâ¸öÖµ
+    % å®šä¹‰éšœç¢ç‰©é˜ˆå€¼ï¼ˆæ ¹æ®ä½ çš„å…·ä½“éœ€æ±‚è®¾å®šï¼‰
+    threshold = 3.2; % ä½ å¯ä»¥è°ƒæ•´è¿™ä¸ªå€¼
 
-    % ´´½¨ÕÏ°­ÎïµØÍ¼ (Ê¹ÓÃÔ­Ê¼heightData½øĞĞÅĞ¶Ï)
+    % åˆ›å»ºéšœç¢ç‰©åœ°å›¾ (ä½¿ç”¨åŸå§‹heightDataè¿›è¡Œåˆ¤æ–­)
     obstacleMap = heightData > threshold;
 
-    % ½«ÕÏ°­ÎïµØÍ¼×ª»»Îª¶şÖµÍ¼Ïñ
+    % å°†éšœç¢ç‰©åœ°å›¾è½¬æ¢ä¸ºäºŒå€¼å›¾åƒ
     obstacleBW = double(obstacleMap);
 
-    % ±ê¼ÇÁ¬Í¨ÇøÓò£¨Ã¿¸öÕÏ°­Îï£©
+    % æ ‡è®°è¿é€šåŒºåŸŸï¼ˆæ¯ä¸ªéšœç¢ç‰©ï¼‰
     [L, numObstacles] = bwlabel(obstacleBW);
 
-    % ³õÊ¼»¯ÓÃÓÚ´æ´¢ËùÓĞÔ²ĞÄ×ø±êºÍ°ë¾¶µÄÊı×é
+    % åˆå§‹åŒ–ç”¨äºå­˜å‚¨æ‰€æœ‰åœ†å¿ƒåæ ‡å’ŒåŠå¾„çš„æ•°ç»„
     centers = zeros(numObstacles, 2);
     radii = zeros(numObstacles, 1);
 
-    % Çå³ıµ±Ç°Í¼´°
+    % æ¸…é™¤å½“å‰å›¾çª—
     cla(app.UIAxes3);
     
-    % »æÖÆ¸ß¶ÈÊı¾İ (Ê¹ÓÃ´¦ÀíºóµÄheightData_display½øĞĞÏÔÊ¾)
+    % ç»˜åˆ¶é«˜åº¦æ•°æ® (ä½¿ç”¨å¤„ç†åçš„heightData_displayè¿›è¡Œæ˜¾ç¤º)
     imagesc(app.UIAxes3, heightData_display);
 
-    % ±£³Öµ±Ç°Í¼ĞÎ£¬ÒÔ±ãÔÚÉÏÃæÌí¼ÓÆäËûÔªËØ
+    % ä¿æŒå½“å‰å›¾å½¢ï¼Œä»¥ä¾¿åœ¨ä¸Šé¢æ·»åŠ å…¶ä»–å…ƒç´ 
     hold(app.UIAxes3, 'on');
 
-    % Ìí¼Ó±êÌâ
-    title(app.UIAxes3, 'µØĞÎÍ¼¼°ÕÏ°­Îï±ê×¢');
+    % æ·»åŠ æ ‡é¢˜
+    title(app.UIAxes3, 'åœ°å½¢å›¾åŠéšœç¢ç‰©æ ‡æ³¨');
 
-    % Ìí¼ÓÑÕÉ«Ìõ²¢µ÷ÕûÎ»ÖÃ
+    % æ·»åŠ é¢œè‰²æ¡å¹¶è°ƒæ•´ä½ç½®
     c = colorbar(app.UIAxes3);
-    c.Position(1) = c.Position(1) + 0.08;  % ÏòÓÒÒÆ¶¯
-    c.Position(3) = 0.02;                 % ÉèÖÃ¿í¶È
-    % c.Limits = [-25 0];                    % ÉèÖÃÑÕÉ«ÌõÏÔÊ¾·¶Î§
+    c.Position(1) = c.Position(1) + 0.08;  % å‘å³ç§»åŠ¨
+    c.Position(3) = 0.02;                 % è®¾ç½®å®½åº¦
+    % c.Limits = [-25 0];                    % è®¾ç½®é¢œè‰²æ¡æ˜¾ç¤ºèŒƒå›´
     colormap(app.UIAxes3, 'parula');
-    caxis(app.UIAxes3, [-30 0]);          % ±£³ÖÊı¾İÏÔÊ¾·¶Î§
+    caxis(app.UIAxes3, [-30 0]);          % ä¿æŒæ•°æ®æ˜¾ç¤ºèŒƒå›´
 
-    % ÉèÖÃ×ø±êÖá±ÈÀıÎªÏàµÈ
+    % è®¾ç½®åæ ‡è½´æ¯”ä¾‹ä¸ºç›¸ç­‰
     axis(app.UIAxes3, 'equal');
 
 
     for i = 1:numObstacles
-        % ÌáÈ¡µ±Ç°ÕÏ°­ÎïÇøÓòµÄËùÓĞµã
+        % æå–å½“å‰éšœç¢ç‰©åŒºåŸŸçš„æ‰€æœ‰ç‚¹
         [rows, cols] = find(L == i);
         
-        % ¼ÆËã×îĞ¡Íâ½ÓÔ² (³õÊ¼¹ÀËã)
+        % è®¡ç®—æœ€å°å¤–æ¥åœ† (åˆå§‹ä¼°ç®—)
         stats = regionprops(L == i, 'Centroid', 'MajorAxisLength');
         center = stats.Centroid;
-        radius = stats.MajorAxisLength / 2; % Ê¹ÓÃÖ÷Öá³¤¶ÈµÄÒ»°ë×÷Îª°ë¾¶¹À¼Æ
+        radius = stats.MajorAxisLength / 2; % ä½¿ç”¨ä¸»è½´é•¿åº¦çš„ä¸€åŠä½œä¸ºåŠå¾„ä¼°è®¡
         
-        % ¼ì²é²¢µ÷Õû°ë¾¶£¬È·±£ËùÓĞµã¶¼ÔÚÔ²ÄÚ
+        % æ£€æŸ¥å¹¶è°ƒæ•´åŠå¾„ï¼Œç¡®ä¿æ‰€æœ‰ç‚¹éƒ½åœ¨åœ†å†…
         for j = 1:length(rows)
             distance = sqrt((cols(j) - center(1))^2 + (rows(j) - center(2))^2);
             if distance > radius
@@ -129,39 +129,39 @@ function obstacleMarking(app)
             end
         end
         
-        % ´æ´¢µ±Ç°Ô²µÄĞÅÏ¢
+        % å­˜å‚¨å½“å‰åœ†çš„ä¿¡æ¯
         centers(i, :) = center;
         radii(i) = radius;
         
-        % »æÖÆµ±Ç°Ô²
+        % ç»˜åˆ¶å½“å‰åœ†
         th = linspace(0, 2*pi, 100);
         x_circle = center(1) + radius * cos(th);
         y_circle = center(2) + radius * sin(th);
-        plot(app.UIAxes3,x_circle, y_circle, 'r-', 'LineWidth', 2); % »æÖÆÔ²ÖÜ
-        plot(app.UIAxes3,center(1), center(2), 'r+', 'MarkerSize', 10, 'LineWidth', 2); % »æÖÆÔ²ĞÄ
+        plot(app.UIAxes3,x_circle, y_circle, 'r-', 'LineWidth', 2); % ç»˜åˆ¶åœ†å‘¨
+        plot(app.UIAxes3,center(1), center(2), 'r+', 'MarkerSize', 10, 'LineWidth', 2); % ç»˜åˆ¶åœ†å¿ƒ
     end
 
     hold(app.UIAxes3,'on');
     for i = 1:numObstacles
-        % ÔÙ´Î»æÖÆËùÓĞÔ²
+        % å†æ¬¡ç»˜åˆ¶æ‰€æœ‰åœ†
         th = linspace(0, 2*pi, 100);
         x_circle = centers(i, 1) + radii(i) * cos(th);
         y_circle = centers(i, 2) + radii(i) * sin(th);
-        plot(app.UIAxes3,x_circle, y_circle, 'r-', 'LineWidth', 2); % »æÖÆÔ²ÖÜ
-        plot(app.UIAxes3,centers(i, 1), centers(i, 2), 'r+', 'MarkerSize', 10, 'LineWidth', 2); % »æÖÆÔ²ĞÄ
+        plot(app.UIAxes3,x_circle, y_circle, 'r-', 'LineWidth', 2); % ç»˜åˆ¶åœ†å‘¨
+        plot(app.UIAxes3,centers(i, 1), centers(i, 2), 'r+', 'MarkerSize', 10, 'LineWidth', 2); % ç»˜åˆ¶åœ†å¿ƒ
     end
 
 
-    % ´´½¨Ò»¸ö¾ØÕóÓÃÓÚ±£´æÃ¿¸öÔ²µÄĞÅÏ¢
-    % Ã¿Ò»ĞĞ±íÊ¾Ò»¸öÔ²£º[CenterX, CenterY, Radius]
+    % åˆ›å»ºä¸€ä¸ªçŸ©é˜µç”¨äºä¿å­˜æ¯ä¸ªåœ†çš„ä¿¡æ¯
+    % æ¯ä¸€è¡Œè¡¨ç¤ºä¸€ä¸ªåœ†ï¼š[CenterX, CenterY, Radius]
     circlesInfo = zeros(numObstacles, 3);
 
     for i = 1:numObstacles
-        % ½«µ±Ç°Ô²µÄĞÅÏ¢Ìí¼Óµ½¾ØÕóÖĞ
+        % å°†å½“å‰åœ†çš„ä¿¡æ¯æ·»åŠ åˆ°çŸ©é˜µä¸­
         circlesInfo(i, :) = [centers(i, 1), centers(i, 2), radii(i)];
     end
 
-    % ½«circlesInfo±äÁ¿±£´æµ½¹¤×÷Çø£¬¹©ÆäËûº¯ÊıÖ±½Óµ÷ÓÃ
+    % å°†circlesInfoå˜é‡ä¿å­˜åˆ°å·¥ä½œåŒºï¼Œä¾›å…¶ä»–å‡½æ•°ç›´æ¥è°ƒç”¨
     assignin('base', 'circlesInfo', circlesInfo);
 
     app.PlanLocalPathsButton.Enable = 'on';  

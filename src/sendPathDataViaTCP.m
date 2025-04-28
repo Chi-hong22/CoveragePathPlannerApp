@@ -1,60 +1,60 @@
-%% sendPathDataViaTCP - Í¨¹ýTCPÐ­Òé·¢ËÍÂ·¾¶Êý¾Ý
+%% sendPathDataViaTCP - é€šè¿‡TCPåè®®å‘é€è·¯å¾„æ•°æ®
 %
-% ¹¦ÄÜÃèÊö£º
-%   ¸Ãº¯ÊýÓÃÓÚ½«Â·¾¶Êý¾ÝÍ¨¹ýTCPÐ­Òé·¢ËÍµ½Ö¸¶¨µÄ·þÎñÆ÷¡£
+% åŠŸèƒ½æè¿°ï¼š
+%   è¯¥å‡½æ•°ç”¨äºŽå°†è·¯å¾„æ•°æ®é€šè¿‡TCPåè®®å‘é€åˆ°æŒ‡å®šçš„æœåŠ¡å™¨ã€‚
 %
-% ×÷ÕßÐÅÏ¢£º
-%   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
-%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
-%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
+% ä½œè€…ä¿¡æ¯ï¼š
+%   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
+%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
+%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 %
-% °æ±¾ÐÅÏ¢£º
-%   µ±Ç°°æ±¾£ºv1.0
-%   ´´½¨ÈÕÆÚ£º250328
-%   ×îºóÐÞ¸Ä£º250329
+% ç‰ˆæœ¬ä¿¡æ¯ï¼š
+%   å½“å‰ç‰ˆæœ¬ï¼šv1.0
+%   åˆ›å»ºæ—¥æœŸï¼š250328
+%   æœ€åŽä¿®æ”¹ï¼š250329
 %
-% °æ±¾ÀúÊ·£º
-%   v1.0 (250329) - Ê×´Î·¢²¼
-%       + ÊµÏÖ»ù´¡µÄTCPÊý¾Ý·¢ËÍ¹¦ÄÜ
-%       + Ìí¼Ó»ù±¾µÄ´íÎó´¦ÀíºÍ×´Ì¬·´À¡
+% ç‰ˆæœ¬åŽ†å²ï¼š
+%   v1.0 (250329) - é¦–æ¬¡å‘å¸ƒ
+%       + å®žçŽ°åŸºç¡€çš„TCPæ•°æ®å‘é€åŠŸèƒ½
+%       + æ·»åŠ åŸºæœ¬çš„é”™è¯¯å¤„ç†å’ŒçŠ¶æ€åé¦ˆ
 %
-% ÊäÈë²ÎÊý£º
-%   app         - [object] MATLAB App¶ÔÏó£¬°üº¬UI¿Ø¼þºÍ×´Ì¬ÐÅÏ¢
-%   pathData    - [double array] Â·¾¶Êý¾Ý¾ØÕó£¬ÐÐÊýÎªÂ·¾¶µãÊýÁ¿£¬ÁÐÊýÎª2»ò4
-%   buttonName  - [string] ´¥·¢·¢ËÍ²Ù×÷µÄ°´Å¥Ãû³Æ
+% è¾“å…¥å‚æ•°ï¼š
+%   app         - [object] MATLAB Appå¯¹è±¡ï¼ŒåŒ…å«UIæŽ§ä»¶å’ŒçŠ¶æ€ä¿¡æ¯
+%   pathData    - [double array] è·¯å¾„æ•°æ®çŸ©é˜µï¼Œè¡Œæ•°ä¸ºè·¯å¾„ç‚¹æ•°é‡ï¼Œåˆ—æ•°ä¸º2æˆ–4
+%   buttonName  - [string] è§¦å‘å‘é€æ“ä½œçš„æŒ‰é’®åç§°
 %
-% Êä³ö²ÎÊý£º
-%   ÎÞÖ±½Ó·µ»ØÖµ£¬´¦Àí½á¹ûÍ¨¹ýTCPÁ¬½Ó·¢ËÍµ½Ä¿±ê·þÎñÆ÷£¬²¢ÔÚUIÖÐÏÔÊ¾×´Ì¬ÐÅÏ¢
+% è¾“å‡ºå‚æ•°ï¼š
+%   æ— ç›´æŽ¥è¿”å›žå€¼ï¼Œå¤„ç†ç»“æžœé€šè¿‡TCPè¿žæŽ¥å‘é€åˆ°ç›®æ ‡æœåŠ¡å™¨ï¼Œå¹¶åœ¨UIä¸­æ˜¾ç¤ºçŠ¶æ€ä¿¡æ¯
 %
-% ×¢ÒâÊÂÏî£º
-%   1. È·±£Ä¿±ê·þÎñÆ÷IPµØÖ·ºÍ¶Ë¿ÚÕýÈ·ÇÒ·þÎñÆ÷´¦ÓÚ¿ªÆô×´Ì¬
-%   2. Â·¾¶Êý¾ÝµÄÁÐÊý±ØÐëÎª2»ò4£¬·ñÔò»áÅ×³ö´íÎó
-%   3. ÉÏ¸¡µãºÍÏÂÇ±µãµÄË÷Òý±ØÐëÔÚÂ·¾¶µãÊýÁ¿·¶Î§ÄÚ
-%   4. º¯Êý»á½ûÓÃ·¢ËÍ°´Å¥£¬Ö±µ½²Ù×÷Íê³É»òÊ§°Ü
+% æ³¨æ„äº‹é¡¹ï¼š
+%   1. ç¡®ä¿ç›®æ ‡æœåŠ¡å™¨IPåœ°å€å’Œç«¯å£æ­£ç¡®ä¸”æœåŠ¡å™¨å¤„äºŽå¼€å¯çŠ¶æ€
+%   2. è·¯å¾„æ•°æ®çš„åˆ—æ•°å¿…é¡»ä¸º2æˆ–4ï¼Œå¦åˆ™ä¼šæŠ›å‡ºé”™è¯¯
+%   3. ä¸Šæµ®ç‚¹å’Œä¸‹æ½œç‚¹çš„ç´¢å¼•å¿…é¡»åœ¨è·¯å¾„ç‚¹æ•°é‡èŒƒå›´å†…
+%   4. å‡½æ•°ä¼šç¦ç”¨å‘é€æŒ‰é’®ï¼Œç›´åˆ°æ“ä½œå®Œæˆæˆ–å¤±è´¥
 %
-% µ÷ÓÃÊ¾Àý£º
-%   % Ê¾Àý1£º»ù´¡µ÷ÓÃ
+% è°ƒç”¨ç¤ºä¾‹ï¼š
+%   % ç¤ºä¾‹1ï¼šåŸºç¡€è°ƒç”¨
 %   sendPathDataViaTCP(app, pathData, 'SendButton');
 %
-% ÒÀÀµ¹¤¾ßÏä£º
+% ä¾èµ–å·¥å…·ç®±ï¼š
 %   - MATLAB App Designer
-%   - Instrument Control Toolbox (tcpclientº¯Êý)
+%   - Instrument Control Toolbox (tcpclientå‡½æ•°)
 %
-% ²Î¼ûº¯Êý£º
+% å‚è§å‡½æ•°ï¼š
 %   processPathData,processTCP
 
 function sendPathDataViaTCP(app, pathData, buttonName)
-    % ½ûÓÃ°´Å¥
+    % ç¦ç”¨æŒ‰é’®
     app.(buttonName).Enable = false;
 
-    % Êý¾Ý´¦Àí
+    % æ•°æ®å¤„ç†
     [jsonData, statusTCP, ~] = processPathData(app, pathData);
     if ~statusTCP
         app.(buttonName).Enable = true;
         return;
     end
 
-    % TCP·¢ËÍ
+    % TCPå‘é€
     [statusData, ~] = processTCP(app, jsonData);
     if ~statusData
         app.(buttonName).Enable = true;

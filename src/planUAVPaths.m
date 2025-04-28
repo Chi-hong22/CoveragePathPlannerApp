@@ -1,164 +1,164 @@
-% ¼Æ»®AUVÂ·¾¶
+% è®¡åˆ’AUVè·¯å¾„
     %
-    % ¹¦ÄÜÃèÊö£º
-    %   ´Ëº¯ÊıÓÃÓÚÉú³ÉAUVµÄÂ·¾¶¹æ»®¡£Ëü¶ÁÈ¡CSVÎÄ¼şÖĞµÄº½µãĞÅÏ¢£¬
-    %   ¼ÓÔØÕÏ°­ÎïĞÅÏ¢£¬²¢¸ù¾İ¸ø¶¨µÄ²ÎÊıÉú³ÉÂ·¾¶¡£
-    %   ´Ëº¯ÊıÓÃÓÚ´ÓCSVÎÄ¼şÖĞ¶ÁÈ¡Â·¾¶Êı¾İ£¬²¢ÔÚUI½çÃæÖĞ»æÖÆÂ·¾¶¡£
-    %   Í¬Ê±£¬Ëü»¹»á¶ÁÈ¡ÕÏ°­ÎïĞÅÏ¢²¢»æÖÆÕÏ°­Îï¡£
+    % åŠŸèƒ½æè¿°ï¼š
+    %   æ­¤å‡½æ•°ç”¨äºç”ŸæˆAUVçš„è·¯å¾„è§„åˆ’ã€‚å®ƒè¯»å–CSVæ–‡ä»¶ä¸­çš„èˆªç‚¹ä¿¡æ¯ï¼Œ
+    %   åŠ è½½éšœç¢ç‰©ä¿¡æ¯ï¼Œå¹¶æ ¹æ®ç»™å®šçš„å‚æ•°ç”Ÿæˆè·¯å¾„ã€‚
+    %   æ­¤å‡½æ•°ç”¨äºä»CSVæ–‡ä»¶ä¸­è¯»å–è·¯å¾„æ•°æ®ï¼Œå¹¶åœ¨UIç•Œé¢ä¸­ç»˜åˆ¶è·¯å¾„ã€‚
+    %   åŒæ—¶ï¼Œå®ƒè¿˜ä¼šè¯»å–éšœç¢ç‰©ä¿¡æ¯å¹¶ç»˜åˆ¶éšœç¢ç‰©ã€‚
     %
-    % ÊäÈë²ÎÊı£º
-    %   app - AUVCoveragePathPlannerAppµÄÊµÀı
+    % è¾“å…¥å‚æ•°ï¼š
+    %   app - AUVCoveragePathPlannerAppçš„å®ä¾‹
     %
-    % Êä³ö²ÎÊı£º 
-    %   pathPlanning - Éú³ÉµÄÂ·¾¶¹æ»®½á¹û
+    % è¾“å‡ºå‚æ•°ï¼š 
+    %   pathPlanning - ç”Ÿæˆçš„è·¯å¾„è§„åˆ’ç»“æœ
     %
-    % ×¢ÒâÊÂÏî£º
-    %   1. È·±£CSVÎÄ¼şºÍÕÏ°­ÎïĞÅÏ¢ÎÄ¼ş´æÔÚÇÒ¸ñÊ½ÕıÈ·¡£
-    %   2. ¸Ãº¯Êı»á¸üĞÂUI½çÃæÖĞµÄ°´Å¥×´Ì¬¡£
+    % æ³¨æ„äº‹é¡¹ï¼š
+    %   1. ç¡®ä¿CSVæ–‡ä»¶å’Œéšœç¢ç‰©ä¿¡æ¯æ–‡ä»¶å­˜åœ¨ä¸”æ ¼å¼æ­£ç¡®ã€‚
+    %   2. è¯¥å‡½æ•°ä¼šæ›´æ–°UIç•Œé¢ä¸­çš„æŒ‰é’®çŠ¶æ€ã€‚
     %
-    % °æ±¾ĞÅÏ¢£º
-    %   °æ±¾£ºv1.1
-    %   ´´½¨ÈÕÆÚ£º241101
-    %   ×îºóĞŞ¸Ä£º250328
+    % ç‰ˆæœ¬ä¿¡æ¯ï¼š
+    %   ç‰ˆæœ¬ï¼šv1.1
+    %   åˆ›å»ºæ—¥æœŸï¼š241101
+    %   æœ€åä¿®æ”¹ï¼š250328
     %
-    % ×÷ÕßĞÅÏ¢£º
-    %   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
-    %   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
-    %   ×÷Õß£º¶­ĞÇáí
-    %   ÓÊÏä£º1443123118@qq.com
-    %   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
+    % ä½œè€…ä¿¡æ¯ï¼š
+    %   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
+    %   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
+    %   ä½œè€…ï¼šè‘£æ˜ŸçŠ´
+    %   é‚®ç®±ï¼š1443123118@qq.com
+    %   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 
 function planUAVPaths(app)
-    % ´Ó¹¤×÷Çø»ñÈ¡Waypoints±äÁ¿
+    % ä»å·¥ä½œåŒºè·å–Waypointså˜é‡
     try
         Waypoints = evalin('base', 'Waypoints');
     catch
-        errordlg('¹¤×÷ÇøÖĞÎ´ÕÒµ½Waypoints±äÁ¿', '´íÎó');
+        errordlg('å·¥ä½œåŒºä¸­æœªæ‰¾åˆ°Waypointså˜é‡', 'é”™è¯¯');
         return;
     end
-    % ´Ó¹¤×÷Çø»ñÈ¡circlesInfo±äÁ¿
+    % ä»å·¥ä½œåŒºè·å–circlesInfoå˜é‡
     try
         circlesInfo = evalin('base', 'circlesInfo');
     catch
-        errordlg('¹¤×÷ÇøÖĞÎ´ÕÒµ½circlesInfo±äÁ¿', '´íÎó');
+        errordlg('å·¥ä½œåŒºä¸­æœªæ‰¾åˆ°circlesInfoå˜é‡', 'é”™è¯¯');
         return;
     end
 
-    %% ³õÊ¼»¯Êı¾İ
-    Property.obs_last=0;                                                % ¼ÇÂ¼µ±Ç°¹ì¼£¹æ»®ÆÚ¼ä±Ü¿ªµÄÕÏ°­Îï
-    Property.invasion=0;                                                % ¼ÇÂ¼¹ì¼£¹æ»®ÆÚ¼äÊÇ·ñÓĞÈÎºÎÇÖÈëÕÏ°­Îï£¨ÍşĞ²ÇøÓò£©
-    Property.mode=1;                                                    % ÉèÖÃ¹ì¼£Éú³ÉÄ£Ê½ 1: ×î¶ÌÂ·¾¶; 2: ³£¹æÂ·¾¶
-    Property.ns=app.dubinsnsEditField.Value;                            % ÉèÖÃÆğÊ¼»¡¶ÎµÄÀëÉ¢µãÊı
-    Property.nl=app.dubinsnlEditField.Value;                            % ÉèÖÃÖ±Ïß¶ÎµÄÀëÉ¢µãÊı
-    Property.nf=app.dubinsnfEditField.Value;                            % ÉèÖÃ½áÊø»¡¶ÎµÄÀëÉ¢µãÊı
-    Property.max_obs_num=5;                                             % ÉèÖÃÃ¿´ÎÂ·¾¶¹æ»®Òª¼ì²âµÄ×î´óÕÏ°­ÎïÊıÁ¿
-    Property.max_info_num=20;                                           % ÉèÖÃÃ¿¸ö¹æ»®²½Öè´æ´¢µÄ×î´óÂ·¾¶¶ÎÊı
-    Property.max_step_num=4;                                            % ÉèÖÃÂ·¾¶µÄ×î´ó¹æ»®²½ÖèÊı
-    Property.Info_length=33;                                            % ÉèÖÃÃ¿¸öÂ·¾¶ĞÅÏ¢µÄ³¤¶È
-    Property.radius=100*1e3;                                            % ÉèÖÃAUVµÄ×ªÍä°ë¾¶£¨ºÁÃ×£©
+    %% åˆå§‹åŒ–æ•°æ®
+    Property.obs_last=0;                                                % è®°å½•å½“å‰è½¨è¿¹è§„åˆ’æœŸé—´é¿å¼€çš„éšœç¢ç‰©
+    Property.invasion=0;                                                % è®°å½•è½¨è¿¹è§„åˆ’æœŸé—´æ˜¯å¦æœ‰ä»»ä½•ä¾µå…¥éšœç¢ç‰©ï¼ˆå¨èƒåŒºåŸŸï¼‰
+    Property.mode=1;                                                    % è®¾ç½®è½¨è¿¹ç”Ÿæˆæ¨¡å¼ 1: æœ€çŸ­è·¯å¾„; 2: å¸¸è§„è·¯å¾„
+    Property.ns=app.dubinsnsEditField.Value;                            % è®¾ç½®èµ·å§‹å¼§æ®µçš„ç¦»æ•£ç‚¹æ•°
+    Property.nl=app.dubinsnlEditField.Value;                            % è®¾ç½®ç›´çº¿æ®µçš„ç¦»æ•£ç‚¹æ•°
+    Property.nf=app.dubinsnfEditField.Value;                            % è®¾ç½®ç»“æŸå¼§æ®µçš„ç¦»æ•£ç‚¹æ•°
+    Property.max_obs_num=5;                                             % è®¾ç½®æ¯æ¬¡è·¯å¾„è§„åˆ’è¦æ£€æµ‹çš„æœ€å¤§éšœç¢ç‰©æ•°é‡
+    Property.max_info_num=20;                                           % è®¾ç½®æ¯ä¸ªè§„åˆ’æ­¥éª¤å­˜å‚¨çš„æœ€å¤§è·¯å¾„æ®µæ•°
+    Property.max_step_num=4;                                            % è®¾ç½®è·¯å¾„çš„æœ€å¤§è§„åˆ’æ­¥éª¤æ•°
+    Property.Info_length=33;                                            % è®¾ç½®æ¯ä¸ªè·¯å¾„ä¿¡æ¯çš„é•¿åº¦
+    Property.radius=100*1e3;                                            % è®¾ç½®AUVçš„è½¬å¼¯åŠå¾„ï¼ˆæ¯«ç±³ï¼‰
     Property.scale=1;
-    Property.increment=20*1e3;                                          % ÉèÖÃÂ·¾¶³¤¶ÈÔöÁ¿µÄµ÷Õû·¶Î§
-    Property.selection1=3;                                              % ÉèÖÃÂ·¾¶¹ıÂËÄ£Ê½1
-    Property.selection2=1;                                              % ÉèÖÃÂ·¾¶¹ıÂËÄ£Ê½2
-                                                                    % =1: Â·¾¶²»ÓëÕÏ°­ÎïÏà½»
-                                                                    % =2: Â·¾¶µÄ×ªÏò½Ç²»³¬¹ı3 * pi/2
-                                                                    % =3: Í¬Ê±Âú×ã1ºÍ2
+    Property.increment=20*1e3;                                          % è®¾ç½®è·¯å¾„é•¿åº¦å¢é‡çš„è°ƒæ•´èŒƒå›´
+    Property.selection1=3;                                              % è®¾ç½®è·¯å¾„è¿‡æ»¤æ¨¡å¼1
+    Property.selection2=1;                                              % è®¾ç½®è·¯å¾„è¿‡æ»¤æ¨¡å¼2
+                                                                    % =1: è·¯å¾„ä¸ä¸éšœç¢ç‰©ç›¸äº¤
+                                                                    % =2: è·¯å¾„çš„è½¬å‘è§’ä¸è¶…è¿‡3 * pi/2
+                                                                    % =3: åŒæ—¶æ»¡è¶³1å’Œ2
                                                                 
-    % ÉèÖÃÆğµãĞÅÏ¢
-    StartInfo=Waypoints(1:2* app.NumLinesEditField.Value-1,:);            % µ¥Î»£¨ºÁÃ×£©
+    % è®¾ç½®èµ·ç‚¹ä¿¡æ¯
+    StartInfo=Waypoints(1:2* app.NumLinesEditField.Value-1,:);            % å•ä½ï¼ˆæ¯«ç±³ï¼‰
 
-    % ÉèÖÃÖÕµãĞÅÏ¢
-    FinishInfo=Waypoints(2:2* app.NumLinesEditField.Value,:);               % µ¥Î»£¨ºÁÃ×£©
+    % è®¾ç½®ç»ˆç‚¹ä¿¡æ¯
+    FinishInfo=Waypoints(2:2* app.NumLinesEditField.Value,:);               % å•ä½ï¼ˆæ¯«ç±³ï¼‰
 
-    % ÉèÖÃÕÏ°­Îï£¨ÍşĞ²Ô²£©ĞÅÏ¢
+    % è®¾ç½®éšœç¢ç‰©ï¼ˆå¨èƒåœ†ï¼‰ä¿¡æ¯
     ObsInfo=circlesInfo;
     ObsInfo(:,3)=ObsInfo(:,3)+2;
-    [uav_num,~]=size(StartInfo);                                        % »ñÈ¡AUVÊıÁ¿
-    [obs_num,~]=size(ObsInfo);                                          % »ñÈ¡ÕÏ°­ÎïÊıÁ¿
+    [uav_num,~]=size(StartInfo);                                        % è·å–AUVæ•°é‡
+    [obs_num,~]=size(ObsInfo);                                          % è·å–éšœç¢ç‰©æ•°é‡
 
-    Coop_State(1:uav_num)=struct(...                                    % AUVÔËĞĞÂ·¾¶ĞÅÏ¢µÄ½á¹¹
-        'traj_length',[],...                                            % ËùÓĞÂ·¾¶³¤¶ÈµÄÊı×é
-        'traj_length_max',0,...                                         % ×î´óÂ·¾¶³¤¶È
-        'traj_length_min',0,...                                         % ×îĞ¡Â·¾¶³¤¶È
-        'TrajSeqCell',[],...                                            % Â·¾¶ĞòÁĞµ¥ÔªÊı×é
-        'ideal_length',0,...                                            % ÆÚÍûÂ·¾¶³¤¶È
-        'optim_length',0,...                                            % ÓÅ»¯ºóµÄÂ·¾¶³¤¶È
-        'traj_index_top',0,...                                          % ³¤¶È´óÓÚÇÒ×î½Ó½üÆÚÍûÂ·¾¶³¤¶ÈµÄÂ·¾¶Ë÷Òı
-        'traj_index_bottom',0,...                                       % ³¤¶ÈĞ¡ÓÚÇÒ×î½Ó½üÆÚÍûÂ·¾¶³¤¶ÈµÄÂ·¾¶Ë÷Òı
-        'TrajSeq_Coop',[]);                                             % Ğ­×÷Â·¾¶ĞòÁĞ¾ØÕó
+    Coop_State(1:uav_num)=struct(...                                    % AUVè¿è¡Œè·¯å¾„ä¿¡æ¯çš„ç»“æ„
+        'traj_length',[],...                                            % æ‰€æœ‰è·¯å¾„é•¿åº¦çš„æ•°ç»„
+        'traj_length_max',0,...                                         % æœ€å¤§è·¯å¾„é•¿åº¦
+        'traj_length_min',0,...                                         % æœ€å°è·¯å¾„é•¿åº¦
+        'TrajSeqCell',[],...                                            % è·¯å¾„åºåˆ—å•å…ƒæ•°ç»„
+        'ideal_length',0,...                                            % æœŸæœ›è·¯å¾„é•¿åº¦
+        'optim_length',0,...                                            % ä¼˜åŒ–åçš„è·¯å¾„é•¿åº¦
+        'traj_index_top',0,...                                          % é•¿åº¦å¤§äºä¸”æœ€æ¥è¿‘æœŸæœ›è·¯å¾„é•¿åº¦çš„è·¯å¾„ç´¢å¼•
+        'traj_index_bottom',0,...                                       % é•¿åº¦å°äºä¸”æœ€æ¥è¿‘æœŸæœ›è·¯å¾„é•¿åº¦çš„è·¯å¾„ç´¢å¼•
+        'TrajSeq_Coop',[]);                                             % åä½œè·¯å¾„åºåˆ—çŸ©é˜µ
 
-    %% °´Ë³Ğò¹æ»®Ã¿¸öAUV´ÓÆğµãµ½ÖÕµãµÄÂ·¾¶
-    for uav_index=1:2*app.NumLinesEditField.Value-1                                        % ±éÀúÃ¿¸öAUV
-        start_info=StartInfo(uav_index,:);                              % »ñÈ¡AUVµÄÆğµãĞÅÏ¢
-        finish_info=FinishInfo(uav_index,:);                            % »ñÈ¡AUVµÄÖÕµãĞÅÏ¢
-        Property.radius=start_info(4);                                  % ¸ù¾İ³õÊ¼ĞÅÏ¢ÉèÖÃAUVµÄ×ªÍä°ë¾¶
-        TrajSeqCell=Traj_Collection...                                  % ¼ÆËãAUVµÄËùÓĞ¿ÉÓÃÔËĞĞÂ·¾¶
+    %% æŒ‰é¡ºåºè§„åˆ’æ¯ä¸ªAUVä»èµ·ç‚¹åˆ°ç»ˆç‚¹çš„è·¯å¾„
+    for uav_index=1:2*app.NumLinesEditField.Value-1                                        % éå†æ¯ä¸ªAUV
+        start_info=StartInfo(uav_index,:);                              % è·å–AUVçš„èµ·ç‚¹ä¿¡æ¯
+        finish_info=FinishInfo(uav_index,:);                            % è·å–AUVçš„ç»ˆç‚¹ä¿¡æ¯
+        Property.radius=start_info(4);                                  % æ ¹æ®åˆå§‹ä¿¡æ¯è®¾ç½®AUVçš„è½¬å¼¯åŠå¾„
+        TrajSeqCell=Traj_Collection...                                  % è®¡ç®—AUVçš„æ‰€æœ‰å¯ç”¨è¿è¡Œè·¯å¾„
             (start_info,finish_info,ObsInfo,Property);                  
-        Coop_State(uav_index)=Coop_State_Update...                      % ´Ó¿ÉÓÃÔËĞĞÂ·¾¶ÖĞÑ¡Ôñ»ù±¾Â·¾¶
-            (TrajSeqCell,Coop_State(uav_index),ObsInfo,Property);       % ²¢ÓÅ»¯»ù±¾Â·¾¶ÒÔÉú³ÉĞ­×÷Â·¾¶
+        Coop_State(uav_index)=Coop_State_Update...                      % ä»å¯ç”¨è¿è¡Œè·¯å¾„ä¸­é€‰æ‹©åŸºæœ¬è·¯å¾„
+            (TrajSeqCell,Coop_State(uav_index),ObsInfo,Property);       % å¹¶ä¼˜åŒ–åŸºæœ¬è·¯å¾„ä»¥ç”Ÿæˆåä½œè·¯å¾„
 
         Plot_Traj_Multi_Modification(TrajSeqCell,ObsInfo,Property);
         hold on;
     end
 
 
-    result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,1);                    % »æÖÆĞ­×÷Â·¾¶¹æ»®½á¹û
+    result_no_duplicates = Plot_Traj_Coop(Coop_State,ObsInfo,Property,1);                    % ç»˜åˆ¶åä½œè·¯å¾„è§„åˆ’ç»“æœ
     assignin('base','result_no_duplicates',result_no_duplicates);
 
     % app.drawPathsButton.Enable = 'on';
     app.ExportLocalWaypointsButton.Enable = 'on';
     app.SendLocalPathsButton.Enable = 'on';
 
-    % Çå³ıUIAxes2ÉÏµÄËùÓĞÍ¼ĞÎÔªËØ
+    % æ¸…é™¤UIAxes2ä¸Šçš„æ‰€æœ‰å›¾å½¢å…ƒç´ 
     cla(app.UIAxes2);
 
-    % ¼ÙÉèCSVÎÄ¼şÖĞµÄÊı¾İÊÇ¶àÁĞ£¬Ã¿Á½ÁĞ´ú±íÒ»ÌõÂ·¾¶µÄxºÍy×ø±ê
-    numPaths = size(result_no_duplicates, 2) / 2; % ¼ÆËãÂ·¾¶ÊıÁ¿
-    hold(app.UIAxes2, 'on'); % ±£³Öµ±Ç°Í¼ĞÎ£¬ÒÔ±ãÔÚÍ¬Ò»Í¼ĞÎÉÏ»æÖÆ¶àÌõÂ·¾¶
+    % å‡è®¾CSVæ–‡ä»¶ä¸­çš„æ•°æ®æ˜¯å¤šåˆ—ï¼Œæ¯ä¸¤åˆ—ä»£è¡¨ä¸€æ¡è·¯å¾„çš„xå’Œyåæ ‡
+    numPaths = size(result_no_duplicates, 2) / 2; % è®¡ç®—è·¯å¾„æ•°é‡
+    hold(app.UIAxes2, 'on'); % ä¿æŒå½“å‰å›¾å½¢ï¼Œä»¥ä¾¿åœ¨åŒä¸€å›¾å½¢ä¸Šç»˜åˆ¶å¤šæ¡è·¯å¾„
 
-    % »æÖÆÂ·¾¶
+    % ç»˜åˆ¶è·¯å¾„
     for i = 1:numPaths
-        % Ñ¡ÔñµÚiÌõÂ·¾¶µÄÊı¾İ
+        % é€‰æ‹©ç¬¬iæ¡è·¯å¾„çš„æ•°æ®
         x = result_no_duplicates(:, 2*i-1);
         y = result_no_duplicates(:, 2*i);
         
-        % »æÖÆÂ·¾¶
+        % ç»˜åˆ¶è·¯å¾„
         plot(app.UIAxes2, x, y, 'b-', 'LineWidth', 2);
         
-        % »æÖÆÂ·¾¶µã
+        % ç»˜åˆ¶è·¯å¾„ç‚¹
         plot(app.UIAxes2, x, y, 'bo', 'MarkerSize', 6);
         
-        % »æÖÆÆğµã£¨ÂÌÉ«·½¿é£©
+        % ç»˜åˆ¶èµ·ç‚¹ï¼ˆç»¿è‰²æ–¹å—ï¼‰
         plot(app.UIAxes2, x(1), y(1), 'gs', 'MarkerSize', 10, 'LineWidth', 2);
         
-        % »æÖÆÖÕµã£¨ºìÉ«·½¿é£©
+        % ç»˜åˆ¶ç»ˆç‚¹ï¼ˆçº¢è‰²æ–¹å—ï¼‰
         plot(app.UIAxes2, x(end), y(end), 'rs', 'MarkerSize', 10, 'LineWidth', 2);
     end
 
 
-    % »æÖÆÕÏ°­Îï
+    % ç»˜åˆ¶éšœç¢ç‰©
     for i = 1:size(circlesInfo, 1)
-        % »ñÈ¡Ô²µÄÖĞĞÄºÍ°ë¾¶
+        % è·å–åœ†çš„ä¸­å¿ƒå’ŒåŠå¾„
         centerX = circlesInfo(i, 1);
         centerY = circlesInfo(i, 2);
         radius = circlesInfo(i, 3);
         
-        % »æÖÆÔ²
+        % ç»˜åˆ¶åœ†
         rectangle(app.UIAxes2, 'Position', [centerX - radius, centerY - radius, 2*radius, 2*radius], ...
                     'Curvature', [1, 1], 'EdgeColor', 'r', 'LineWidth', 2);
     end
 
-    % ÎªÁËÔÚÍ¼ÀıÖĞÏÔÊ¾ÕÏ°­Îï£¬»æÖÆÒ»¸öºìÉ«Ô²È¦
+    % ä¸ºäº†åœ¨å›¾ä¾‹ä¸­æ˜¾ç¤ºéšœç¢ç‰©ï¼Œç»˜åˆ¶ä¸€ä¸ªçº¢è‰²åœ†åœˆ
     plot(app.UIAxes2, NaN, NaN, 'ro', 'MarkerSize', 10, 'LineWidth', 2, 'DisplayName', 'Obstacles');
 
-    % ÉèÖÃ×ø±êÖá±êÇ©ºÍÍø¸ñ
+    % è®¾ç½®åæ ‡è½´æ ‡ç­¾å’Œç½‘æ ¼
     xlabel(app.UIAxes2, 'X/m');
     ylabel(app.UIAxes2, 'Y/m');
     grid(app.UIAxes2, 'on');
 
-    % Ìí¼ÓÍ¼Àı
-    legend(app.UIAxes2, 'Â·¾¶',  'Æğµã', 'ÖÕµã', 'ÕÏ°­Îï');
-    % ±£³ÖÍ¼ĞÎ
+    % æ·»åŠ å›¾ä¾‹
+    legend(app.UIAxes2, 'è·¯å¾„',  'èµ·ç‚¹', 'ç»ˆç‚¹', 'éšœç¢ç‰©');
+    % ä¿æŒå›¾å½¢
     hold(app.UIAxes2, 'off');
 
     % app.X1plotTCPButton.Enable = 'on';

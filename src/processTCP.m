@@ -1,117 +1,117 @@
-%% processTCP - Í¨¹ıTCPĞ­Òé·¢ËÍJSONÊı¾İ
+%% processTCP - é€šè¿‡TCPåè®®å‘é€JSONæ•°æ®
 %
-% ¹¦ÄÜÃèÊö£º
-%   ¸Ãº¯ÊıÓÃÓÚÍ¨¹ıTCPĞ­Òé·¢ËÍ´¦ÀíºóµÄJSONÊı¾İµ½Ö¸¶¨µÄ·şÎñÆ÷¡£
+% åŠŸèƒ½æè¿°ï¼š
+%   è¯¥å‡½æ•°ç”¨äºé€šè¿‡TCPåè®®å‘é€å¤„ç†åçš„JSONæ•°æ®åˆ°æŒ‡å®šçš„æœåŠ¡å™¨ã€‚
 %
-% ×÷ÕßĞÅÏ¢£º
-%   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
-%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
-%   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
+% ä½œè€…ä¿¡æ¯ï¼š
+%   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
+%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
+%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 %
-% °æ±¾ĞÅÏ¢£º
-%   µ±Ç°°æ±¾£ºv1.0
-%   ´´½¨ÈÕÆÚ£º250329
-%   ×îºóĞŞ¸Ä£º250329
+% ç‰ˆæœ¬ä¿¡æ¯ï¼š
+%   å½“å‰ç‰ˆæœ¬ï¼šv1.0
+%   åˆ›å»ºæ—¥æœŸï¼š250329
+%   æœ€åä¿®æ”¹ï¼š250329
 %
-% °æ±¾ÀúÊ·£º
-%   v1.0 (250329) - Ê×´Î·¢²¼
-%       + ÊµÏÖ»ù´¡µÄTCPÊı¾İ·¢ËÍ¹¦ÄÜ
-%       + Ìí¼Ó»ù±¾µÄ´íÎó´¦ÀíºÍ×´Ì¬·´À¡
+% ç‰ˆæœ¬å†å²ï¼š
+%   v1.0 (250329) - é¦–æ¬¡å‘å¸ƒ
+%       + å®ç°åŸºç¡€çš„TCPæ•°æ®å‘é€åŠŸèƒ½
+%       + æ·»åŠ åŸºæœ¬çš„é”™è¯¯å¤„ç†å’ŒçŠ¶æ€åé¦ˆ
 %
-% ÊäÈë²ÎÊı£º
-%   app         - [object] MATLAB App¶ÔÏó£¬°üº¬UI¿Ø¼şºÍ×´Ì¬ĞÅÏ¢
-%   jsonData    - [string] ´¦ÀíºóµÄÂ·¾¶Êı¾İ£¬JSON¸ñÊ½
+% è¾“å…¥å‚æ•°ï¼š
+%   app         - [object] MATLAB Appå¯¹è±¡ï¼ŒåŒ…å«UIæ§ä»¶å’ŒçŠ¶æ€ä¿¡æ¯
+%   jsonData    - [string] å¤„ç†åçš„è·¯å¾„æ•°æ®ï¼ŒJSONæ ¼å¼
 %
-% Êä³ö²ÎÊı£º
-%   statusTCP   - [logical] Êı¾İ·¢ËÍµÄ×´Ì¬£¨true±íÊ¾³É¹¦£¬false±íÊ¾Ê§°Ü£©
-%   errorMessage - [string] Èç¹ûÊı¾İ·¢ËÍÊ§°Ü£¬·µ»Ø´íÎóĞÅÏ¢
+% è¾“å‡ºå‚æ•°ï¼š
+%   statusTCP   - [logical] æ•°æ®å‘é€çš„çŠ¶æ€ï¼ˆtrueè¡¨ç¤ºæˆåŠŸï¼Œfalseè¡¨ç¤ºå¤±è´¥ï¼‰
+%   errorMessage - [string] å¦‚æœæ•°æ®å‘é€å¤±è´¥ï¼Œè¿”å›é”™è¯¯ä¿¡æ¯
 %
-% ×¢ÒâÊÂÏî£º
-%   1. È·±£Ä¿±ê·şÎñÆ÷IPµØÖ·ºÍ¶Ë¿ÚÕıÈ·ÇÒ·şÎñÆ÷´¦ÓÚ¿ªÆô×´Ì¬
-%   2. º¯Êı»á½ûÓÃ·¢ËÍ°´Å¥£¬Ö±µ½²Ù×÷Íê³É»òÊ§°Ü
+% æ³¨æ„äº‹é¡¹ï¼š
+%   1. ç¡®ä¿ç›®æ ‡æœåŠ¡å™¨IPåœ°å€å’Œç«¯å£æ­£ç¡®ä¸”æœåŠ¡å™¨å¤„äºå¼€å¯çŠ¶æ€
+%   2. å‡½æ•°ä¼šç¦ç”¨å‘é€æŒ‰é’®ï¼Œç›´åˆ°æ“ä½œå®Œæˆæˆ–å¤±è´¥
 %
-% µ÷ÓÃÊ¾Àı£º
-%   % Ê¾Àı1£º»ù´¡µ÷ÓÃ
+% è°ƒç”¨ç¤ºä¾‹ï¼š
+%   % ç¤ºä¾‹1ï¼šåŸºç¡€è°ƒç”¨
 %   [statusTCP, errorMessage] = processTCP(app, jsonData);
 %
-% ÒÀÀµ¹¤¾ßÏä£º
+% ä¾èµ–å·¥å…·ç®±ï¼š
 %   - MATLAB App Designer
-%   - Instrument Control Toolbox (tcpclientº¯Êı)
+%   - Instrument Control Toolbox (tcpclientå‡½æ•°)
 %
-% ²Î¼ûº¯Êı£º
+% å‚è§å‡½æ•°ï¼š
 %   tcpclient, flush, write
 
 function [statusTCP, errorMessage] = processTCP(app, jsonData)
 
-    % »ñÈ¡TCPÉèÖÃ
+    % è·å–TCPè®¾ç½®
     serverIP = app.ServerIPEditField.Value;
     port = app.PortEditField.Value;
 
     if isempty(serverIP) || isempty(port)
-        app.TotalLengthLabelandTCP.Text = 'ÇëÊäÈëÓĞĞ§µÄIPµØÖ·ºÍ¶Ë¿Ú';
+        app.TotalLengthLabelandTCP.Text = 'è¯·è¾“å…¥æœ‰æ•ˆçš„IPåœ°å€å’Œç«¯å£';
         app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
         statusTCP = false;
         return;
     end
 
     try
-        % ÏÔÊ¾Á¬½ÓÖĞ×´Ì¬
-        app.TotalLengthLabelandTCP.Text = 'ÕıÔÚ³¢ÊÔÁ¬½Ó...';
+        % æ˜¾ç¤ºè¿æ¥ä¸­çŠ¶æ€
+        app.TotalLengthLabelandTCP.Text = 'æ­£åœ¨å°è¯•è¿æ¥...';
         app.TotalLengthLabelandTCP.FontColor = [0.8 0.8 0];
-        drawnow; % Á¢¼´¸üĞÂUI
+        drawnow; % ç«‹å³æ›´æ–°UI
 
-        % ÉèÖÃ10Ãë³¬Ê±
+        % è®¾ç½®10ç§’è¶…æ—¶
         client = tcpclient(serverIP, port, 'Timeout', 10, 'ConnectTimeout', 10);
-        % Á¬½Ó³É¹¦
-        app.TotalLengthLabelandTCP.Text = 'TCPÁ¬½Ó³É¹¦';
+        % è¿æ¥æˆåŠŸ
+        app.TotalLengthLabelandTCP.Text = 'TCPè¿æ¥æˆåŠŸ';
         app.TotalLengthLabelandTCP.FontColor = [0 0.5 0];
 
-        % ·¢ËÍÊı¾İ
+        % å‘é€æ•°æ®
         % flush(client);
         % write(client, jsonData, 'string');
-        % ³¢ÊÔ·¢ËÍÊı¾İ - ´¦Àí²»Í¬°æ±¾µÄĞ´Èë·½·¨
+        % å°è¯•å‘é€æ•°æ® - å¤„ç†ä¸åŒç‰ˆæœ¬çš„å†™å…¥æ–¹æ³•
         try
-            % ĞÂ°æ·½Ê½
+            % æ–°ç‰ˆæ–¹å¼
             write(client, jsonData, 'string');
         catch writeErr
             try
-                % ³¢ÊÔÌæ´úĞ´Èë·½·¨1
+                % å°è¯•æ›¿ä»£å†™å…¥æ–¹æ³•1
                 write(client, uint8(jsonData));
             catch
                 try
-                    % ³¢ÊÔÌæ´úĞ´Èë·½·¨2
+                    % å°è¯•æ›¿ä»£å†™å…¥æ–¹æ³•2
                     write(client, char(jsonData));
                 catch
-                    % ËùÓĞĞ´Èë·½·¨¶¼Ê§°Ü
+                    % æ‰€æœ‰å†™å…¥æ–¹æ³•éƒ½å¤±è´¥
                     rethrow(writeErr);
                 end
             end
         end
-        % ¸üĞÂ×´Ì¬
-        app.StatusLabel.Text = '¹æ»®Â·¾¶Êı¾İ·¢ËÍ³É¹¦£¡';
+        % æ›´æ–°çŠ¶æ€
+        app.StatusLabel.Text = 'è§„åˆ’è·¯å¾„æ•°æ®å‘é€æˆåŠŸï¼';
         app.StatusLabel.FontColor = [0 0.5 0];
         statusTCP = true;
         errorMessage = '';
         
     catch tcpErr
-        % Çø·Ö³¬Ê±ºÍÆäËû´íÎó
+        % åŒºåˆ†è¶…æ—¶å’Œå…¶ä»–é”™è¯¯
         if contains(tcpErr.message, 'Timeout') || contains(tcpErr.message, 'timed out')
-            errorMessage = 'Á¬½Ó³¬Ê±£¬Çë¼ì²éÄ¿±êÉè±¸ÊÇ·ñ¿ªÆô';
+            errorMessage = 'è¿æ¥è¶…æ—¶ï¼Œè¯·æ£€æŸ¥ç›®æ ‡è®¾å¤‡æ˜¯å¦å¼€å¯';
         else
-            errorMessage = sprintf('TCPÁ¬½ÓÊ§°Ü: %s\nÇë¼ì²éIPµØÖ·ºÍ¶Ë¿ÚÉèÖÃ', tcpErr.message);
+            errorMessage = sprintf('TCPè¿æ¥å¤±è´¥: %s\nè¯·æ£€æŸ¥IPåœ°å€å’Œç«¯å£è®¾ç½®', tcpErr.message);
         end
         app.TotalLengthLabelandTCP.Text = errorMessage;
         app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
         statusTCP = false;
     end
     
-    % ²Ù×÷Íê³Éºó¹Ø±ÕTCPÁ¬½Ó
-    % Ê¹ÓÃtry-catch·ÀÖ¹Î´¶¨ÒåclientÊ±µÄ´íÎó
+    % æ“ä½œå®Œæˆåå…³é—­TCPè¿æ¥
+    % ä½¿ç”¨try-catché˜²æ­¢æœªå®šä¹‰clientæ—¶çš„é”™è¯¯
     try
         if exist('client', 'var')
             clear client;
         end
     catch
-        % ºöÂÔÇåÀí¹ı³ÌÖĞµÄ´íÎó
+        % å¿½ç•¥æ¸…ç†è¿‡ç¨‹ä¸­çš„é”™è¯¯
     end
 end

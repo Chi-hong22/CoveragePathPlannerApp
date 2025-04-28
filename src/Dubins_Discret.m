@@ -1,27 +1,27 @@
-%% dubinsDiscret - ½«DubinsÂ·¾¶ÀëÉ¢»¯Îªº½µãĞòÁĞ
+%% dubinsDiscret - å°†Dubinsè·¯å¾„ç¦»æ•£åŒ–ä¸ºèˆªç‚¹åºåˆ—
 %
-% ¹¦ÄÜÃèÊö£º
-%   ½«ÍêÕûµÄDubinsÂ·¾¶ĞÅÏ¢ÀëÉ¢»¯Îªº½µãĞòÁĞ¡£
+% åŠŸèƒ½æè¿°ï¼š
+%   å°†å®Œæ•´çš„Dubinsè·¯å¾„ä¿¡æ¯ç¦»æ•£åŒ–ä¸ºèˆªç‚¹åºåˆ—ã€‚
 %
-% ÊäÈë²ÎÊı£º
-%   dubins_info - ÍêÕûµÄDubinsÂ·¾¶ĞÅÏ¢
-%   ns          - ÆğÊ¼»¡µÄÀëÉ¢µãÊı
-%   nl          - Ö±Ïß¶ÎµÄÀëÉ¢µãÊı
-%   nf          - ½áÊø»¡µÄÀëÉ¢µãÊı
+% è¾“å…¥å‚æ•°ï¼š
+%   dubins_info - å®Œæ•´çš„Dubinsè·¯å¾„ä¿¡æ¯
+%   ns          - èµ·å§‹å¼§çš„ç¦»æ•£ç‚¹æ•°
+%   nl          - ç›´çº¿æ®µçš„ç¦»æ•£ç‚¹æ•°
+%   nf          - ç»“æŸå¼§çš„ç¦»æ•£ç‚¹æ•°
 %
-% Êä³ö²ÎÊı£º
-%   dubins_x    - º½µãx×ø±êÊı×é
-%   dubins_y    - º½µãy×ø±êÊı×é
+% è¾“å‡ºå‚æ•°ï¼š
+%   dubins_x    - èˆªç‚¹xåæ ‡æ•°ç»„
+%   dubins_y    - èˆªç‚¹yåæ ‡æ•°ç»„
 %
-% °æ±¾ĞÅÏ¢£º
-%   µ±Ç°°æ±¾£ºv1.1
-%   ´´½¨ÈÕÆÚ£º241101
-%   ×îºóĞŞ¸Ä£º250110
+% ç‰ˆæœ¬ä¿¡æ¯ï¼š
+%   å½“å‰ç‰ˆæœ¬ï¼šv1.1
+%   åˆ›å»ºæ—¥æœŸï¼š241101
+%   æœ€åä¿®æ”¹ï¼š250110
 %
-% ×÷ÕßĞÅÏ¢£º
-%   ×÷Õß£º¶­ĞÇáí
-%   ÓÊÏä£º1443123118@qq.com
-%   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
+% ä½œè€…ä¿¡æ¯ï¼š
+%   ä½œè€…ï¼šè‘£æ˜ŸçŠ´
+%   é‚®ç®±ï¼š1443123118@qq.com
+%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 
 function [dubins_x,dubins_y] = Dubins_Discret(dubins_info,ns,nl,nf)
 
@@ -30,8 +30,8 @@ function [dubins_x,dubins_y] = Dubins_Discret(dubins_info,ns,nl,nf)
 % (1) LSL (Left Straight Left),  (2) RSR (Right Straight Right)
 % (3) LSR (Left Straight Right), (4) RSL (Right Straight Left)
 
-circle_centre_start_param = [-1, 1,-1, 1];                  %¡¡-1(L), 1(R)
-circle_centre_finish_param =[-1, 1, 1,-1];                  %¡¡-1(L), 1(R)
+circle_centre_start_param = [-1, 1,-1, 1];                  %ã€€-1(L), 1(R)
+circle_centre_finish_param =[-1, 1, 1,-1];                  %ã€€-1(L), 1(R)
 param_s=circle_centre_start_param(dubins_info.traj.type);   % Starting arc center calculation parameters
 param_f=circle_centre_finish_param(dubins_info.traj.type);  % Ending arc center calculation parameters
 

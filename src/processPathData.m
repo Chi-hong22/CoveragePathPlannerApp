@@ -1,123 +1,123 @@
-%% processPathData - ´¦ÀíÂ·¾¶Êı¾İ²¢×ª»»ÎªJSON¸ñÊ½
+%% processPathData - å¤„ç†è·¯å¾„æ•°æ®å¹¶è½¬æ¢ä¸ºJSONæ ¼å¼
 %
-% ¹¦ÄÜÃèÊö£º
-%   ¸Ãº¯ÊıÓÃÓÚ´¦ÀíÂ·¾¶Êı¾İ£¬²¢½«´¦ÀíºóµÄÊı¾İ×ª»»ÎªJSON¸ñÊ½¡£
+% åŠŸèƒ½æè¿°ï¼š
+%   è¯¥å‡½æ•°ç”¨äºå¤„ç†è·¯å¾„æ•°æ®ï¼Œå¹¶å°†å¤„ç†åçš„æ•°æ®è½¬æ¢ä¸ºJSONæ ¼å¼ã€‚
 %
-% ×÷ÕßĞÅÏ¢£º
-%   ×÷Õß£ºChihong£¨ÓÎ×Ó°º£©
-%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
-%   µ¥Î»£º¹ş¶û±õ¹¤³Ì´óÑ§
+% ä½œè€…ä¿¡æ¯ï¼š
+%   ä½œè€…ï¼šChihongï¼ˆæ¸¸å­æ˜‚ï¼‰
+%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
+%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 %
-% °æ±¾ĞÅÏ¢£º
-%   µ±Ç°°æ±¾£ºv1.0
-%   ´´½¨ÈÕÆÚ£º250329
-%   ×îºóĞŞ¸Ä£º250329
+% ç‰ˆæœ¬ä¿¡æ¯ï¼š
+%   å½“å‰ç‰ˆæœ¬ï¼šv1.0
+%   åˆ›å»ºæ—¥æœŸï¼š250329
+%   æœ€åä¿®æ”¹ï¼š250329
 %
-% °æ±¾ÀúÊ·£º
-%   v1.0 (250329) - Ê×´Î·¢²¼
-%       + ÊµÏÖÂ·¾¶Êı¾İµÄ´¦Àí¹¦ÄÜ
-%       + Ìí¼Ó»ù±¾µÄ´íÎó´¦ÀíºÍ×´Ì¬·´À¡
+% ç‰ˆæœ¬å†å²ï¼š
+%   v1.0 (250329) - é¦–æ¬¡å‘å¸ƒ
+%       + å®ç°è·¯å¾„æ•°æ®çš„å¤„ç†åŠŸèƒ½
+%       + æ·»åŠ åŸºæœ¬çš„é”™è¯¯å¤„ç†å’ŒçŠ¶æ€åé¦ˆ
 %
-% ÊäÈë²ÎÊı£º
-%   app         - [object] MATLAB App¶ÔÏó£¬°üº¬UI¿Ø¼şºÍ×´Ì¬ĞÅÏ¢
-%   pathData    - [double array] Â·¾¶Êı¾İ¾ØÕó£¬ĞĞÊıÎªÂ·¾¶µãÊıÁ¿£¬ÁĞÊıÎª2»ò4
+% è¾“å…¥å‚æ•°ï¼š
+%   app         - [object] MATLAB Appå¯¹è±¡ï¼ŒåŒ…å«UIæ§ä»¶å’ŒçŠ¶æ€ä¿¡æ¯
+%   pathData    - [double array] è·¯å¾„æ•°æ®çŸ©é˜µï¼Œè¡Œæ•°ä¸ºè·¯å¾„ç‚¹æ•°é‡ï¼Œåˆ—æ•°ä¸º2æˆ–4
 %
-% Êä³ö²ÎÊı£º
-%   jsonData    - [string] ´¦ÀíºóµÄÂ·¾¶Êı¾İ£¬JSON¸ñÊ½
-%   statusData  - [logical] Êı¾İ´¦ÀíµÄ×´Ì¬£¨true±íÊ¾³É¹¦£¬false±íÊ¾Ê§°Ü£©
-%   errorMessage - [string] Èç¹ûÊı¾İ´¦ÀíÊ§°Ü£¬·µ»Ø´íÎóĞÅÏ¢
+% è¾“å‡ºå‚æ•°ï¼š
+%   jsonData    - [string] å¤„ç†åçš„è·¯å¾„æ•°æ®ï¼ŒJSONæ ¼å¼
+%   statusData  - [logical] æ•°æ®å¤„ç†çš„çŠ¶æ€ï¼ˆtrueè¡¨ç¤ºæˆåŠŸï¼Œfalseè¡¨ç¤ºå¤±è´¥ï¼‰
+%   errorMessage - [string] å¦‚æœæ•°æ®å¤„ç†å¤±è´¥ï¼Œè¿”å›é”™è¯¯ä¿¡æ¯
 %
-% ×¢ÒâÊÂÏî£º
-%   1. Â·¾¶Êı¾İµÄÁĞÊı±ØĞëÎª2»ò4£¬·ñÔò»áÅ×³ö´íÎó
-%   2. ÉÏ¸¡µãºÍÏÂÇ±µãµÄË÷Òı±ØĞëÔÚÂ·¾¶µãÊıÁ¿·¶Î§ÄÚ
-%   3. º¯Êı»á½ûÓÃ·¢ËÍ°´Å¥£¬Ö±µ½²Ù×÷Íê³É»òÊ§°Ü
+% æ³¨æ„äº‹é¡¹ï¼š
+%   1. è·¯å¾„æ•°æ®çš„åˆ—æ•°å¿…é¡»ä¸º2æˆ–4ï¼Œå¦åˆ™ä¼šæŠ›å‡ºé”™è¯¯
+%   2. ä¸Šæµ®ç‚¹å’Œä¸‹æ½œç‚¹çš„ç´¢å¼•å¿…é¡»åœ¨è·¯å¾„ç‚¹æ•°é‡èŒƒå›´å†…
+%   3. å‡½æ•°ä¼šç¦ç”¨å‘é€æŒ‰é’®ï¼Œç›´åˆ°æ“ä½œå®Œæˆæˆ–å¤±è´¥
 %
-% µ÷ÓÃÊ¾Àı£º
-%   % Ê¾Àı1£º»ù´¡µ÷ÓÃ
+% è°ƒç”¨ç¤ºä¾‹ï¼š
+%   % ç¤ºä¾‹1ï¼šåŸºç¡€è°ƒç”¨
 %   [jsonData, statusData, errorMessage] = processPathData(app, pathData);
 %
-% ÒÀÀµ¹¤¾ßÏä£º
+% ä¾èµ–å·¥å…·ç®±ï¼š
 %   - MATLAB App Designer
 %
-% ²Î¼ûº¯Êı£º
+% å‚è§å‡½æ•°ï¼š
 %   jsonencode, assignin
 function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
     try
-        % »ñÈ¡¿¨¶æĞòºÅºÍ¿¨¶æ×´Ì¬
+        % è·å–å¡èˆµåºå·å’Œå¡èˆµçŠ¶æ€
         Kdelta = [app.Kdelta1EditField.Value, app.Kdelta2EditField.Value, app.Kdelta3EditField.Value, app.Kdelta4EditField.Value];
         Delta = [app.Delta1EditField.Value, app.Delta2EditField.Value, app.Delta3EditField.Value, app.Delta4EditField.Value];
-        % »ñÈ¡ÆÚÍûËÙ¶È£¬µôÉîÊ±¼äºÍ¼±Í£Ê±¼ä
+        % è·å–æœŸæœ›é€Ÿåº¦ï¼Œæ‰æ·±æ—¶é—´å’Œæ€¥åœæ—¶é—´
         ud = app.udEditField.Value;
         Td = app.TdEditField.Value;
         Tj = app.TjEditField.Value;
 
-        % »ñÈ¡³õÊ¼Î»ÖÃºÍ×ËÌ¬½Ç
+        % è·å–åˆå§‹ä½ç½®å’Œå§¿æ€è§’
         P0 = [app.P0XEditField.Value, app.P0YEditField.Value, app.P0ZEditField.Value];
         A0 = [app.A0XEditField.Value, app.A0YEditField.Value, app.A0ZEditField.Value];
 
-        % »ñÈ¡IP
+        % è·å–IP
         hostIP = app.hostIPEditField.Value;
         hPort = app.hPortEditField.Value;
 
-        % »ñÈ¡Â·¾¶µãÊıÁ¿ºÍ´¦ÀíZ×ø±ê
+        % è·å–è·¯å¾„ç‚¹æ•°é‡å’Œå¤„ç†Zåæ ‡
         WPNum = size(pathData, 1);
         numColumns = size(pathData, 2);
 
-        % ¸ù¾İÁĞÊı½øĞĞ²»Í¬µÄ²Ù×÷
+        % æ ¹æ®åˆ—æ•°è¿›è¡Œä¸åŒçš„æ“ä½œ
         if numColumns == 4
-            % Èç¹ûÓĞ 4 ÁĞ£¬É¾³ıµÚ 3 ÁĞºÍµÚ 4 ÁĞ
+            % å¦‚æœæœ‰ 4 åˆ—ï¼Œåˆ é™¤ç¬¬ 3 åˆ—å’Œç¬¬ 4 åˆ—
             pathData(:, 3:4) = [];
-            % ²¹³äÒ»ÁĞ Z ×ø±ê
+            % è¡¥å……ä¸€åˆ— Z åæ ‡
             column_of_z = app.ZEditField.Value * ones(size(pathData, 1), 1);
             pathData = [pathData, column_of_z];
         elseif numColumns == 2
-            % Èç¹ûÓĞ 2 ÁĞ£¬²¹³äÒ»ÁĞ Z ×ø±ê
+            % å¦‚æœæœ‰ 2 åˆ—ï¼Œè¡¥å……ä¸€åˆ— Z åæ ‡
             column_of_z = app.ZEditField.Value * ones(size(pathData, 1), 1);
             pathData = [pathData, column_of_z];
         else
-            % Èç¹ûÁĞÊı²»ÊÇ 2 »ò 4£¬Å×³ö´íÎó»òÌáÊ¾
-            error('Â·¾¶Êı¾İµÄÁĞÊı±ØĞëÊÇ2»ò4');
+            % å¦‚æœåˆ—æ•°ä¸æ˜¯ 2 æˆ– 4ï¼ŒæŠ›å‡ºé”™è¯¯æˆ–æç¤º
+            error('è·¯å¾„æ•°æ®çš„åˆ—æ•°å¿…é¡»æ˜¯2æˆ–4');
         end
 
-        % ÉÏ¸¡Ë÷Òı
+        % ä¸Šæµ®ç´¢å¼•
         upinputStr = app.upEditField.Value;
         try
-            upvector = str2num(upinputStr); % Ê¹ÓÃ str2num ½«×Ö·û´®×ª»»ÎªÊıÖµ
+            upvector = str2num(upinputStr); % ä½¿ç”¨ str2num å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•°å€¼
         catch
-            uialert(app.UIFigure, 'ÊäÈë¸ñÊ½´íÎó£¬ÇëÊäÈë¶ººÅ»ò¿Õ¸ñ·Ö¸ôµÄÊı×Ö¡£', '´íÎó');
+            uialert(app.UIFigure, 'è¾“å…¥æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥é€—å·æˆ–ç©ºæ ¼åˆ†éš”çš„æ•°å­—ã€‚', 'é”™è¯¯');
         end
 
         for i = 1:length(upvector)
-            rowIdx = upvector(i); % »ñÈ¡ĞĞË÷Òı
-            if rowIdx <= size(pathData, 1) % ¼ì²éĞĞË÷ÒıÊÇ·ñÓĞĞ§
-                pathData(rowIdx, 3) = app.DupEditField.Value; % ¸üĞÂµÚÈıÁĞ
+            rowIdx = upvector(i); % è·å–è¡Œç´¢å¼•
+            if rowIdx <= size(pathData, 1) % æ£€æŸ¥è¡Œç´¢å¼•æ˜¯å¦æœ‰æ•ˆ
+                pathData(rowIdx, 3) = app.DupEditField.Value; % æ›´æ–°ç¬¬ä¸‰åˆ—
             else
-                app.TotalLengthLabelandTCP.Text = 'ÉÏ¸¡µã/ÏÂÇ±µãË÷Òı³¬³ö×Üº½³Ì';
+                app.TotalLengthLabelandTCP.Text = 'ä¸Šæµ®ç‚¹/ä¸‹æ½œç‚¹ç´¢å¼•è¶…å‡ºæ€»èˆªç¨‹';
                 app.TotalLengthLabelandTCP.FontColor = [0 0 0.8];
             end
         end
-        up = upvector(1); % ³õÊ¼ÉÏ¸¡µãË÷Òı
+        up = upvector(1); % åˆå§‹ä¸Šæµ®ç‚¹ç´¢å¼•
 
-        % ÏÂÇ±Ë÷Òı
+        % ä¸‹æ½œç´¢å¼•
         downinputStr = app.downEditField.Value;
         try
-            downvector = str2num(downinputStr); % Ê¹ÓÃ str2num ½«×Ö·û´®×ª»»ÎªÊıÖµ
+            downvector = str2num(downinputStr); % ä½¿ç”¨ str2num å°†å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•°å€¼
         catch
-            uialert(app.UIFigure, 'ÊäÈë¸ñÊ½´íÎó£¬ÇëÊäÈë¶ººÅ»ò¿Õ¸ñ·Ö¸ôµÄÊı×Ö¡£', '´íÎó');
+            uialert(app.UIFigure, 'è¾“å…¥æ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥é€—å·æˆ–ç©ºæ ¼åˆ†éš”çš„æ•°å­—ã€‚', 'é”™è¯¯');
         end
 
         for i = 1:length(downvector)
-            rowIdx = downvector(i); % »ñÈ¡ĞĞË÷Òı
-            if rowIdx <= size(pathData, 1) % ¼ì²éĞĞË÷ÒıÊÇ·ñÓĞĞ§
-                pathData(rowIdx, 3) = app.DdownEditField.Value; % ¸üĞÂµÚÈıÁĞ
+            rowIdx = downvector(i); % è·å–è¡Œç´¢å¼•
+            if rowIdx <= size(pathData, 1) % æ£€æŸ¥è¡Œç´¢å¼•æ˜¯å¦æœ‰æ•ˆ
+                pathData(rowIdx, 3) = app.DdownEditField.Value; % æ›´æ–°ç¬¬ä¸‰åˆ—
             else
-                app.TotalLengthLabelandTCP.Text = 'ÉÏ¸¡µã/ÏÂÇ±µãË÷Òı³¬³ö×Üº½³Ì';
+                app.TotalLengthLabelandTCP.Text = 'ä¸Šæµ®ç‚¹/ä¸‹æ½œç‚¹ç´¢å¼•è¶…å‡ºæ€»èˆªç¨‹';
                 app.TotalLengthLabelandTCP.FontColor = [0 0 0.8];
             end
         end
-        down = downvector(1); % ³õÊ¼ÏÂÇ±µãË÷Òı
+        down = downvector(1); % åˆå§‹ä¸‹æ½œç‚¹ç´¢å¼•
 
-        % Ãª¶¨µãË÷Òı
+        % é”šå®šç‚¹ç´¢å¼•
         anchor = app.anchorEditField.Value;
         anchorvector = str2num(anchor);
         z_sorted = sort(anchorvector, 'descend');
@@ -130,13 +130,13 @@ function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
                 repmat(current_row, 2, 1);
                 pathData(row+1:end, :)];
         end
-        % Ãª¶¨Ê±³¤
+        % é”šå®šæ—¶é•¿
         tm=app.TanchorEditField.Value;
 
         WPNum = size(pathData, 1);
-        z = app.ZEditField.Value; % ÉèÖÃÉî¶È
+        z = app.ZEditField.Value; % è®¾ç½®æ·±åº¦
 
-        % ±£³ÖÔ­ÓĞµÄassigninÓï¾ä
+        % ä¿æŒåŸæœ‰çš„assigninè¯­å¥
         assignin('base', 'z', z);
         assignin('base', "Waypoints", pathData);
         assignin('base', 'WPNum', WPNum);
@@ -151,7 +151,7 @@ function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
         assignin('base', "down", down);
         assignin('base', "tm", tm);
 
-        % ´´½¨Êı¾İ½á¹¹
+        % åˆ›å»ºæ•°æ®ç»“æ„
         dataStruct = struct('Waypoints', pathData, ...
                             'WPNum', WPNum, ...
                             'P0', P0, ...
@@ -167,14 +167,14 @@ function [jsonData, statusData, errorMessage] = processPathData(app, pathData)
                             'hostIP', hostIP, ...
                             'hPort', hPort, ...
                             'tm',tm);
-        % ×ª»»ÎªJSON
+        % è½¬æ¢ä¸ºJSON
         jsonData = jsonencode(dataStruct);
         statusData = true;
         errorMessage = '';
     catch dataErr
         jsonData = '';
         statusData = false;
-        errorMessage = ['·¢ËÍÊı¾İ×¼±¸Ê§°Ü: ', dataErr.message];
+        errorMessage = ['å‘é€æ•°æ®å‡†å¤‡å¤±è´¥: ', dataErr.message];
         app.TotalLengthLabelandTCP.Text = errorMessage;
         app.TotalLengthLabelandTCP.FontColor = [0.8 0 0];
     end

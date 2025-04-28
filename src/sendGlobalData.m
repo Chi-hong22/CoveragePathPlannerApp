@@ -1,30 +1,30 @@
-%% sendGlobalData - ·¢ËÍÈ«¾ÖÂ·¾¶¹æ»®Êý¾Ýµ½AUVÉè±¸
+%% sendGlobalData - å‘é€å…¨å±€è·¯å¾„è§„åˆ’æ•°æ®åˆ°AUVè®¾å¤‡
 %
-% ¹¦ÄÜÃèÊö£º
-%   ´Ëº¯ÊýÓÃÓÚ½«È«¾ÖÂ·¾¶¹æ»®Êý¾ÝÍ¨¹ýTCPÁ¬½Ó·¢ËÍµ½AUVÉè±¸¡£
-%   Í¨¹ýµ÷ÓÃsendPathDataViaTCPº¯ÊýÊµÏÖºËÐÄ¹¦ÄÜ£¬ÓÅ»¯ÁË´úÂë½á¹¹¡£
+% åŠŸèƒ½æè¿°ï¼š
+%   æ­¤å‡½æ•°ç”¨äºŽå°†å…¨å±€è·¯å¾„è§„åˆ’æ•°æ®é€šè¿‡TCPè¿žæŽ¥å‘é€åˆ°AUVè®¾å¤‡ã€‚
+%   é€šè¿‡è°ƒç”¨sendPathDataViaTCPå‡½æ•°å®žçŽ°æ ¸å¿ƒåŠŸèƒ½ï¼Œä¼˜åŒ–äº†ä»£ç ç»“æž„ã€‚
 %
-% ÊäÈë²ÎÊý£º
-%   app - AUVCoveragePathPlannerAppµÄÊµÀý£¬°üº¬UI×é¼þºÍÂ·¾¶Êý¾Ý
+% è¾“å…¥å‚æ•°ï¼š
+%   app - AUVCoveragePathPlannerAppçš„å®žä¾‹ï¼ŒåŒ…å«UIç»„ä»¶å’Œè·¯å¾„æ•°æ®
 %
-% Êä³ö²ÎÊý£º
-%   ÎÞÖ±½ÓÊä³ö£¬·¢ËÍ½á¹û»áÔÚUI½çÃæÖÐÏÔÊ¾
+% è¾“å‡ºå‚æ•°ï¼š
+%   æ— ç›´æŽ¥è¾“å‡ºï¼Œå‘é€ç»“æžœä¼šåœ¨UIç•Œé¢ä¸­æ˜¾ç¤º
 %
-% ×¢ÒâÊÂÏî£º
-%   1. È·±£·þÎñÆ÷IPºÍ¶Ë¿ÚÕýÈ·£¬ÇÒAUVÉè±¸ÒÑ¿ªÆô²¢×¼±¸ºÃ½ÓÊÕÊý¾Ý¡£
-%   2. ·¢ËÍ¹ý³ÌÖÐ£¬Ïà¹Ø°´Å¥½«±»½ûÓÃ£¬·¢ËÍÍê³Éºó»Ö¸´¿ÉÓÃ×´Ì¬¡£
+% æ³¨æ„äº‹é¡¹ï¼š
+%   1. ç¡®ä¿æœåŠ¡å™¨IPå’Œç«¯å£æ­£ç¡®ï¼Œä¸”AUVè®¾å¤‡å·²å¼€å¯å¹¶å‡†å¤‡å¥½æŽ¥æ”¶æ•°æ®ã€‚
+%   2. å‘é€è¿‡ç¨‹ä¸­ï¼Œç›¸å…³æŒ‰é’®å°†è¢«ç¦ç”¨ï¼Œå‘é€å®ŒæˆåŽæ¢å¤å¯ç”¨çŠ¶æ€ã€‚
 %
-% °æ±¾ÐÅÏ¢£º
-%   °æ±¾£ºv1.2
-%   ´´½¨ÈÕÆÚ£º241101
-%   ×îºóÐÞ¸Ä£º250328
+% ç‰ˆæœ¬ä¿¡æ¯ï¼š
+%   ç‰ˆæœ¬ï¼šv1.2
+%   åˆ›å»ºæ—¥æœŸï¼š241101
+%   æœ€åŽä¿®æ”¹ï¼š250328
 %
-% ×÷ÕßÐÅÏ¢£º
-%   ×÷Õß£ºÓÎ×Ó°º
-%   ÓÊÏä£ºyou.ziang@hrbeu.edu.cn
-%   µ¥Î»£º¹þ¶û±õ¹¤³Ì´óÑ§
+% ä½œè€…ä¿¡æ¯ï¼š
+%   ä½œè€…ï¼šæ¸¸å­æ˜‚
+%   é‚®ç®±ï¼šyou.ziang@hrbeu.edu.cn
+%   å•ä½ï¼šå“ˆå°”æ»¨å·¥ç¨‹å¤§å­¦
 
 function sendGlobalData(app)
-    % µ÷ÓÃÍ³Ò»º¯Êý·¢ËÍÊý¾Ý
+    % è°ƒç”¨ç»Ÿä¸€å‡½æ•°å‘é€æ•°æ®
     sendPathDataViaTCP(app, app.Waypoints, 'SendGlobalPathsButton');
 end
