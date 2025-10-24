@@ -119,6 +119,10 @@ classdef CoveragePathPlannerApp < matlab.apps.AppBase
         exportDubinsWaypointsButton        matlab.ui.control.Button
         SendLocalTCPButton       matlab.ui.control.Button
         ImportButton       matlab.ui.control.Button
+        
+        % 地图数据相关属性
+        importedMapFile       string        % 导入的地图文件完整路径
+        terrainHeightMap      double        % 地形高度数据
     end
     
     properties (SetAccess = immutable, GetAccess = public)

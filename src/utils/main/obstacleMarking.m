@@ -57,15 +57,26 @@
 
 function obstacleMarking(app)
 
-    % 加载.mat文件中的数据
+    % 使用已导入的地图数据
     try
-        loadedData = load('terrainHeightMap_feed8_2000.mat');
-        % 从结构体中提取 terrainHeightMap
-        heightData = loadedData.terrainHeightMap;
-        % 将提取的数据保存到工作区
+        % 检查是否已导入地图数据
+        if isempty(app.terrainHeightMap)
+            errordlg('请先导入地图数据！', '提示');
+            app.StatusLabel.Text = '请先点击"导入地图数据"按钮';
+            app.StatusLabel.FontColor = [0.8 0 0];
+            return;
+        end
+        
+        % 使用已导入的地形高度数据
+        heightData = app.terrainHeightMap;
+        
+        % 将提取的数据保存到工作区（可选）
         assignin('base', 'terrainHeightMap', heightData);
+        
     catch ME
-        errordlg(['无法加载或处理数据: ' ME.message], '错误');
+        errordlg(['无法处理地图数据: ' ME.message], '错误');
+        app.StatusLabel.Text = '地图数据处理失败';
+        app.StatusLabel.FontColor = [0.8 0 0];
         return;
     end
 
@@ -159,7 +170,11 @@ function obstacleMarking(app)
     % 使用 save 函数保存数据到 .mat 文件
     save(filename, 'circlesInfo');
     disp(['圆的信息已保存至文件: ', filename]);
+    
+    % 更新状态标签
+    app.StatusLabel.Text = sprintf('已标注 %d 个障碍物', numObstacles);
+    app.StatusLabel.FontColor = [0 0.6 0];
 
-    app.PlanPathsButton.Enable = 'on';  ... 之后需要:解耦地形图障碍物与Dubins路径规划
+    app.PlanPathsButton.Enable = 'on';  % 之后需要:解耦地形图障碍物与Dubins路径规划
 
 end
