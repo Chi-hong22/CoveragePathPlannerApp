@@ -1,3 +1,5 @@
+
+
 # 🌊 AUV 全覆盖路径规划器
 
 🚀 基于 MATLAB GUI 的自主水下航行器(AUV)海底探测路径规划应用程序。
@@ -31,7 +33,7 @@
 2. 克隆到本地进行开发
 
     ```bash
-    git clone https://github.com/yourusername/auv-coverage-planner.git
+    git clone https://github.com/yourusername/CoveragePathPlannerApp.git
     cd CoveragePathPlannerApp
     ```
 
